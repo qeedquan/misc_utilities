@@ -1,0 +1,26 @@
+*** Manufacturers
+
+https://jlcpcb.com/
+https://oshpark.com/
+
+*** Part libraries
+https://jlcpcb.com/video/jlcsmt_parts_library.xls
+https://gitee.com/JLC_SMT/JLCSMT_LIB.git
+
+*** Files needed for fabrication
+Gerber:
+	Contains PCB info (layers, legend/silk, solder mask, etc)
+
+Drill/Drill Map Files:
+	PCB drilling and routing info
+
+Use program like gerbv to view the gerber/drill files to verify correctness
+
+If we want SMT assembly, also need
+
+BOM:
+	Bill of materials file, contains all parts
+
+CPL:
+	Specifies position/rotation of all parts
+
