@@ -1,0 +1,23 @@
+*** Resources
+https://github.com/poolpOrg/OpenSMTPD-book
+
+*** Mail directories
+By default, mail is delivered to $USER/Maildir
+
+https://en.wikipedia.org/wiki/Maildir
+The format is Maildir
+MDA such as dovecot is separate from SMTP server so it has to be specified the Maildir to read from in its configuration in order to serve it over IMAP
+
+*** Send mail to localhost
+echo "Email Body" | mail -s "Email Subject" user@localhost
+echo "Email Body" | mail -s "Email Subject" user@hostname
+
+MUA clients such as thunderbird can email using ip directly by specifying user@ip_addr in the to field.
+
+*** Allowing any to send email
+By default, opensmtpd only allows mail from localhost and listens on localhost.
+To make it listen on any interface and accept email from any:
+
+listen on 0.0.0.0
+match from any for local action "local"
+
