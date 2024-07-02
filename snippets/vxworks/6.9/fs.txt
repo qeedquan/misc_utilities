@@ -1,0 +1,21 @@
+*** IOS
+Drivers that has a filesystem interfaces use iosDrvInstall to register the driver.
+iosDrvInstall returns a unique drvnum for the driver to manage, devs shows the drvnum so you can match what device maps to what driver.
+
+The drvnum tells you which order it was assigned since it is monotonically increasing.
+
+bootapp drvnum - (Bootapp is very constrained so the drvnum are usally stable)
+/null   - 0 iosInit inits it first
+/tyCo/* - 1 tty for output
+/ram    - 2 this is ipcom storage location for keys/configuration
+/ram0   - 3 ram disk
+/romfs  - 4 since it usually initalizes after ramfs
+socket  - 5 for networking
+host:   - 6 it is initialized last (netDrv is the driver that handles this)
+
+If netDrv is present on bootup, cwd is set to host: otherwise it is not set to anything, there is no / directory (you can't list /)
+but you can reference files using absolute paths
+
+*** IPCOM
+By default, ipcom uses IPCOM_FILE_NATIVE by default which uses the native APIs for open/read/etc
+IPCOM_FILE_IPCOM uses IPCOM defined functions but these are deprecated in newer versions

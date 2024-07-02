@@ -1,0 +1,97 @@
+*** Links
+
+https://www.rohde-schwarz.com/us/products/test-and-measurement/essentials-test-equipment/digital-oscilloscopes/understanding-bode-plots_254514.html
+https://www.youtube.com/watch?v=0u8aGUK99I8
+https://www.kollmorgen.com/sites/default/files/Using%20Bode%20Plots%20to%20Improve%20Performance.pdf
+https://www3.diism.unisi.it/~control/ctm/extras/PZ.html
+https://sassafras13.github.io/Bode/
+
+*** Overview
+
+The Bode amplitude plot shows the amplitude ratio, the amplitude of the output sinusoidal curve divided by the amplitude of the input sinusoidal curve, as a function of frequency.
+The Bode phase plot shows the ratio between the output and input phase shift as a function of frequency (this can be though of a time lead/lag of when the system response)
+
+Shows frequency response for LTI systems, helps to analyze the stability of the sytsem.
+Used in designing/analyzing things like power supply feedback loops.
+
+The bode plot cannot be the sole source of check to see if the system is stable, it is possible to have a bode plot that looks normal but using other methods such as root locus or nyquist it can be shown that it is unstable
+
+*** Pole Zero cancellation
+
+When an open-loop system has right-half-plane poles (in which case the system is unstable), one idea to alleviate this problem is to add zeros at the same locations as the poles, to cancel the unstable poles.
+Unfortunately, this method is always unreliable. The problem is that when the added zero does not exactly cancel the pole (which is always the case in real life), a part of the root locus will be trapped in the right-half plane.
+This causes the closed-loop response to be unstable.
+
+*** Designing with bode plot
+
+1. Analyze time response
+2. Plot open-loop system frequency response
+3. Add controller to change the shape of the frequency response plot
+
+Use bode plot to get the frequency response
+
+For open loop only system, we have to redesign the plant if the bode plot show poor performance, otherwise we can use closed loop system using feedback (lead/lag compensator, pid controller, etc)
+
+We can use the Bode plot to describe the system response speed.
+If we view the sinusoids input as how fast a system can respond to it, at some point there will be a sinusoid input where the system can't keep up so the magnitude gets attenuated
+
+Parameters of interests are:
+Gain/Phase Margins
+Resonance/Anti-resonance frequency
+Bandwidth
+
+*** Tuning Servos
+
+Bode plots can play a valuable role in tuning a control system. Normally, 60 degrees of phase margin and 18 dB of gain margin should indicate a stable system.
+However, using these numbers as an absolute may result in the design of system that is too conservative. We have seen systems with 35 degrees
+of phase margin and 8 dB gain margin deliver excellent performance over long periods of time. The key proviso is that to operate with a relatively low gain and phase margin the machine must be very repeatable.
+For example, a system with a direct drive from the motor to the load tends to be quite repeatable.
+On the other hand, a belt drive is less repeatable because of the potential for the belt to become looser or tighter with a resulting change in friction. Machines that are not so repeatable need more phase and gain margin.
+
+*** Bandwidth
+
+Bandwidth is the frequency at which the closedloop magnitude response is equal to -3 dB and/or the phase is shifted by -45
+The significance of the bandwidth frequency is that sinusoidal inputs below the bandwidth frequency are tracked reasonably well by the system,
+however, higher frequency inputs are significantly attenuated in amplitude and are also shifted in phase by substantial degree.
+
+*** Phase and Gain Margin
+
+Phase margin is measured at the frequency where gain equals 0 dB.
+This is commonly referred to as the "crossover frequency".
+Phase margin is a measure of the distance from the measured phase to a phase shift of -180°. In other words, how many degrees the phase must be decreased in order to reach -180.
+
+Gain margin, on the other hand, is measured at the frequency where the phase shift equals -180°. Gain margin indicates the distance, in dB, from the measured gain to a gain of 0 dB.
+These values, 0 dB and -180° are important because system instability occurs if these two values meet.
+
+Gain and phase margins represent the distance from the points at which instability could occur. The greater the distance or margin the better, because higher gain and phase margins mean greater stability.
+A loop with a gain margin of zero or even less would only be conditionally stable and could easily become unstable if gain changed.
+A typical goal for phase margin is to have at least 45 degrees, and even higher values might be desirable in more critical applications.
+
+In addition to safety considerations, performance is also affected by values that can be determined from Bode plots. For example, a higher 0 dB crossover frequency usually means a faster response to load changes. And lower gain at higher frequencies means better noise immunity or lower output ripple.
+
+There are other common ways of quantifying or measuring the stability of power supplies, such as load transient or step response tests.
+Although this method is well-understood and widely used, it can be difficult to build a circuit to generate a fast load step, especially if there is inductance between the power supply unit and the load step generator.
+
+Bode plots offer several important advantages not found in this method:
+
+Step response only shows large scale behavior, whereas Bode plots can also show behavior on a smaller scale.
+Bode plots can also easily be made at different load levels or operating points. This is important because loop stability often depends on the operating point.
+A power supply might appear to be stable, but approaches instability under different load conditions.
+
+*** Measuring closed loop stability
+Measuring closed loop stability with bode plots
+To better describe the application of Bode Plots, closed loop stability of a DC/DC power supply is measured by determining the closed loop response. This can be tested using the voltage injection method. This method adds a very small resistor – usually on the order of 10 ohms – into the feedback loop. A point should be chosen such that the impedance looking in the direction of the feedback loop is much larger than the impedance looking back. A small disturbance signal is then injected across the resistor. This is normally done using a so-called injection transformer to avoid influencing the loop. The response is then measured and Bode plots are generated.
+
+Instruments for measuring closed loop response
+Two different categories of instruments can be used when measuring closed loop response. The first of these is a vector network analyzer or VNA. A VNA usually has a very high dynamic range, which allows it to make very precise impedance measurements. One drawback to using a VNA, other than cost and complexity, is that VNA’s are best suited for the characterization of 50 ohm components. Oscilloscopes, on the other hand, are already commonly used in the development of power supplies and allow direct characterization of noise and output ripple. Scopes can now also make stability measurements such as gain and phase margin, power supply rejection ratio, and step response.
+
+Test configuration: How to measure control loop response with an oscilloscope
+To measure the loop response of the DC-DC power supply, a disturbance signal must be injected into the loop. Thus, a point should be chosen where the impedance looking in the direction of the loop is much larger than the impedance looking backwards. A small resistor is placed at the injection point and the disturbance voltage is applied in parallel to the injection resistor using a wideband injection transformer. The disturbance signal is created by the internal generator of the oscilloscope. Two channels of the oscilloscope are connected to either side of the injection point. Based on the measured values, the oscilloscope generates and displays the Bode plots.
+
+When measuring closed loop response, it’s important to use the right probes. The peak to peak amplitudes at the measuring points can be very low at some test frequencies. For this reason, 1x passive probes are recommended over the more common 10x probes. If the signal is increased to noise ratio, this also improves the dynamic range of the frequency response measurements. It is also important to use a ground spring or a very short ground lead in order to reduce switching noise pickup and inductive ground loops.
+
+Testing closed loop response with an oscilloscope:
+
+Inject a disturbance voltage into the loop
+Measure the voltage across the resistor
+Generate and display Bode plots on the oscilloscope

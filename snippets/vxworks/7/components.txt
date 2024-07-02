@@ -1,0 +1,14 @@
+INCLUDE_DISK_UTIL_SHELL_CMD
+    cd, ls, cp, rm, mkdir, etc
+
+INCLUDE_SHL
+	Shared libraries
+
+INCLUDE_RTP_APPL_USER
+	Generates usrRtpAppInit.c for modification in the VIP to spawn new RTPs
+
+INCLUDE_RTP_APPL_INIT_STRING
+	Parses the string defined by RTP_APPL_INIT_STRING to run on startup
+
+INCLUDE_PATCH_STANDALONE_DTB
+	Overwrites the DTB on startup with existing bootline. This is to support old bootloaders/images that passes bootline to the kernel.
