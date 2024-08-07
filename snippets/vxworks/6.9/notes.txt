@@ -1,0 +1,89 @@
+*** wrenv
+
+wrenv.sh -p vxworks-6.9
+
+*** BSP Structure
+BSP are structured as follows:
+
+extensions/
+	eclipse/* - Eclipse documentation for the BSP
+
+target/
+	config/bspname - The custom driver code and library code are placed here (custom BSP code for the board)
+	lib/bspname    - Libraries are built by config/bspFolder and placed here, these are the custom library the BSP makes and uses (VSB like)
+	proj/bspname   - This is the VIP like folder, contains the customizations/options to build the image
+
+*** Building the VxWorks libraries
+cd $WIND_BASE/target
+
+make CPU=PENTIUM4 TOOL=gnu
+make CPU=PENTIUM4 TOOL=diab
+
+make CPU=PPC32 TOOL=gnu
+make CPU=PPC32 TOOL=diab
+
+Change CPU and TOOL based on your settings
+
+These libraries will be linked to the BSP, it acts like the VSB.
+The libraries are placed inside $WIND_BASE/target/lib*
+
+*** Changes when moving to VxWorks 7
+VXB_DEVICE_ID is GEN1, which becomes VXB_DEV_ID in GEN2
+
+vxbDevIterate is replaced by vxbAcquireByMatch
+
+vxbInstByNameFind is deprecated, idea is that each driver will do everything needed to expose itself in attach for the system to use
+
+sysMemTop is not available for use since 7 made it so that physical do not necessarily map one to one with virtual anymore, replace it with sysMemDesc get apis that gives back regions that are contiguous
+
+bootChange do not write to NVRAM anymore if device tree is used, must write to NVRAM manually if changes needed to be saved to NVRAM
+
+Manually device information in hwconf is replaced by device tree
+
+vxprj is mostly the same, -bsp/-cpu for vsb still works, -profile for development/bootapp in vip exists
+wrtool doesn't exist
+
+6.9 does not have VSB layers, but VSB components exist.
+6.9 has VIP components
+The VIP components is in a fixed global location (the install directory, that includes all the cdf etc)
+Can't specify them externally like in 7
+
+RTP exists in 6.9
+
+bootrom is mostly gone from 7, 7 assumes the kernel will be booted using uboot/uefi/system native bootloader
+there are some BSP with bootrom in 7 but it is very minimal, not like 6.9 where components can be added/removed easily
+
+*** Commands
+
+sysvar list                      | list all variables
+sysvar set -c -o <name> <value>  | set variable to value
+
+*** RNG
+RNG needs entropy, functions that generate random bytes can fail if not enough entropy
+There is ipcrypto_rnd_seed process on startup that adds entropy which is done by ipcrypto_create
+
+*** XBD
+Using XBD with ramdisk uses rawfs as a default filesystem, which implements read/write using rawFsLib
+rawFsDevInit is used to initialize a XBD device as rawfs
+
+*** Interrupts
+Interrupt functions are implemented as function pointers, BSP set these to their respective interrupt controller handler functions 
+
+Portable version implemented in os/intLib.c
+
+Usually a dispatcher function is called to call the ISR:
+isrDispatcher
+_func_isrDispatcher
+
+intConnect picks the first one to be set in order:
+_func_isrConnect
+_func_vxbIntConnect
+intArchConnect
+	_func_intConnectRtn
+
+intDisconnect
+_func_isrDisconnect
+_func_vxbIntDisconnect
+intArchDisconnect
+	_func_intDisconnectRtn
+

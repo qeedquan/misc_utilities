@@ -1,0 +1,19 @@
+*** View coredumps from command line
+wrdbg
+target connect vxworks7-coredump -core program.vxcore -logdir logs
+
+*** Syscall Monitoring
+rtp exec test.vxe &
+
+# this will print system calls as it runs
+scm -n
+
+*** Disassemble RTP code
+rtp exec -s program.vxe &
+
+%1 (Change 1 to attachment number shown by rtp exec above)
+
+l <addr> (Dumps disassembly at that location)
+
+lkup <name> (Lookup symbol name)
+
