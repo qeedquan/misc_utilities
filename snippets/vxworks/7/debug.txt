@@ -1,0 +1,40 @@
+*** View coredumps from command line
+wrdbg
+target connect vxworks7-coredump -core program.vxcore -logdir logs
+
+*** Syscall Monitoring
+rtp exec test.vxe &
+
+# this will print system calls as it runs
+scm -n
+
+*** Disassemble RTP code
+rtp exec -s program.vxe &
+
+%1 (Change 1 to attachment number shown by rtp exec above)
+
+l <addr> (Dumps disassembly at that location)
+
+lkup <name> (Lookup symbol name)
+
+*** Call chain
+rtpSp/rtpSpawn -> _rtpSpawnInternal
+    // This sequence runs in a task created
+    rtpLoadAndRun -> rtpUserModeSwitch
+
+RTPs entry is _start which calls into the following code (this is inside the RTP):
+_crtTaskInit()
+__copyArgcArgv
+__copyEnvArr
+__copyAuxvArr
+
+The RTPs uses the VSB definitions so need to recompile the VSB if the source tree is changed
+_crtTaskInit() is shared with the taskLib in user mode changing it affects task management too (kernel mode task management is not affected)
+
+The code is implemented inside crtrtp.c
+
+Upon exit, RTPs will call _exit() which invokes a system call (exit) so the kernel can close the rtp
+_exitSc() -> rtpDelete()
+
+QEMU can set breakpoints on the RTP (use the raw link address of the RTP as a breakpoint), one issue is that the debugging information is not loaded using this method even though the RTP has the info in the binary
+
