@@ -1,0 +1,77 @@
+*** Overview
+BSP for QEMU Pegasos 2
+
+qemu-system-ppc -machine pegasos2 -serial stdio -display none -kernel vxWorks
+
+*** Architecture
+CPU: PPC7447
+SOC: MV64361
+SB:  VT8231
+RAM: 512MB
+
+SOC used as a northbridge (PCI/Interrupts) are controlled by the SOC
+The QEMU implementation does not implement timers/ethernet/watchdog/serial/i2c on the MV64361 and instead uses the southbridge for these functions
+
+VT8231
+ISA southbridge
+Contains serial/floppy disk controller/rtc/etc
+Exposed as a PCI device
+The register locations are a little different than the VT8231 datasheet
+
+The firmware programs the PCI window mappings so the OS does not need to do it
+
+If QEMU is used with -kernel and no -bios, the standard reboot where the code jumps back to the bootrom does not work
+Solve this by using the warm boot option in VxWorks so the code can just jump to sysInit
+
+*** Timers
+The real MV64361 have timers that can be used to implement periodic timer interrupts
+The MV64361 QEMU version does not implement timers, so use the 8254 and DS1385 chip on the VT8231 southbridge for timers
+
+*** PCI
+MV64361 has two PCI controllers, each PCI controller has the standard 4 interrupt pins
+
+*** Interrupts
+The Pegasos 2 has 1 CPU so it has no interprocessor interrupts (IPI)
+It has two interrupt controllers, one for northbridge, and one for southbridge
+
+MV64361 interrupt controller (northbridge) registers:
+CAUSE | Stores which interrupt triggered as a bitmask
+MASK  | Interrupt masking register, enables/disables interrupts
+
+VT8231 I8259 interrupt controller (southbridge)
+The interrupts for RTC/KBD/SIO inside the VT8231 are defined relative to the standard I8259 IRQ lines (0 for clock, 4 for serial, etc)
+The VT8231 deliver interrupts to the MV64361 interrupt controller through the GPP (31) pin
+To figure out which devices generate that interrupt, read the 8259 register
+
+*** IDE
+There are two exposed IDE controllers over PCI
+Each IDE controller has two IDE drives connected to it
+The first controller uses ATA commands (Hard Drives)
+The second controller uses ATAPI commands (CDs)
+
+If there are no drive inserted by QEMU, the status check bits will fail so that can be used to see if a drive is available
+
+*** I2C
+Use the VT8235 south bridge for I2C over PCI (1106:8235)
+Main use is for getting SPD data over SMBUS in a EEPROM
+
+The SMBUS is disabled on startup, need to enable it by writing to the PCI config registers.
+
+*** SIO
+The SIO enable/disable functions can be accessed at IOBASE 0x3f0 of the VT8231.
+However, on startup, the firmware disable this access and maps 0x3f0 to the floppy controller.
+
+To enable access to the Super IO:
+PCI_CFG_WRITE(DEVICE=VT8231, ADDR=0x50, VALUE=BIT(2))
+
+After configuring the VT8231, we need to disable it to use the other devices again: 
+PCI_CFG_WRITE(DEVICE=VT8231, ADDR=0x50, VALUE=~BIT(2))
+
+*** NVRAM
+Use AT24C EEPROM device for NVRAM (Note: This device is not originally in the Pegasos 2).
+The EEPROM interfaces over I2C and can also be written to.
+
+*** Ethernet
+The MV Ethernet controller is not implemented in QEMU, need to add some PCI devices such as e1000 for a network card.
+PPC needs to swap bytes over PCI so need to modify the E1000 driver to do byte swapping on register reads/writes before the driver is usable.
+
