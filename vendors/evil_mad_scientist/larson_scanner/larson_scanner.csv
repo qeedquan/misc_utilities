@@ -1,0 +1,8 @@
+Reference, Quantity, Value, Footprint, Datasheet,Digikey Part
+C1 ,1,0.1uF,,~,BC1148TR-ND
+D1 D2 D3 D4 D5 D6 D7 D8 D9 ,9,"Red LED, up to 10 mm size",,~,"	
+TLHR5400-AS12ZCT-ND"
+R1 R2 R3 R4 R5 R6 R7 R8 R9 ,9,16,,~,16QTR-ND
+SW1 ,1,SW_Push,,~,CKN9102-ND
+U1 ,1,ATtiny2313-20PU,Package_DIP:DIP-20_W7.62mm,http://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-2543-AVR-ATtiny2313_Datasheet.pdf,ATtiny2313A-PU-ND
+"V+,V-",1,2xAA battery holder with switch,,,SBH321AS-ND 
