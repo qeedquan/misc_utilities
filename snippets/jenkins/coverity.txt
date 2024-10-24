@@ -1,0 +1,17 @@
+*** Installation
+https://plugins.jenkins.io/synopsys-coverity/
+
+This is an official Jenkins repository, you can also download the HPI offline install on there
+
+*** Usage
+This plugin adds a coverity config page to Jenkins
+
+Dashboard > Manage Jenkins > Configure System > Synopsys Coverity
+Need credentials to connect to "Coverity Connect" instance
+
+*** Environment Variables
+COVERITY_TOOL_HOME
+
+*** Manual usage
+Use cov-build command
+
