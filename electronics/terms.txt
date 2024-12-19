@@ -1,0 +1,16 @@
+*** Mott Voltage
+Mott voltage is related to the Mott transition, which is the transition between a metallic state and an insulating state in a material.
+The Mott transition can be triggered by a number of factors, including temperature and carrier density.
+
+Mott insulators are a class of materials that are expected to conduct electricity according to conventional band theories, but turn out to be insulators (particularly at low temperatures).
+
+Mott criterion
+The Mott criterion is a measure of whether a material will be conductive or insulating. If the density of electrons is high enough, the material will be conductive, or metallic.
+If the density is not high enough, the material will be insulating.
+
+Mott insulator to metal transition
+The Mott-insulating state occurs when the repulsive Coulomb potential is large enough to open an energy gap.
+The Mott transition occurs when the Mott-insulating state transitions to the metallic state. 
+
+One of the simplest models that can capture Mott transition is the Hubbard model.
+
