@@ -1,0 +1,6 @@
+MIL-STD-810
+U.S. military standard that outlines how to test and design equipment to withstand environmental conditions during its service life
+
+MIL-STD-1540
+Test Requirements for Space Vehicles (Vibration/Shock/etc)
+

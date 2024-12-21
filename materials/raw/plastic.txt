@@ -1,0 +1,36 @@
+*** Process
+
+# Plastic
+https://www.eia.gov/tools/faqs/faq.php?id=34&t=6
+https://www.youtube.com/watch?v=Y7e2yHxZl3A
+https://fibertechplastics.com/custom-rotational-molding/a-simple-guide-to-plastic-molding/
+
+1. Plastics are produced from natural gas, feedstocks derived from natural gas processing, and feedstocks derived from crude oil refining.
+   Crude oil is the raw material, get from drilling
+
+2. Refine the oil by heating it, the liquid form like petroleum can be split using a temperature chamber, each stage has a different temperature.
+
+3. Extracting pure gas substances from the raw oil, each substance in the liquid has a temperature point where it becomes a gas (boiling point),
+   so subject it to different temperatures in each chamber to make it into a gas that dwells in a particular chamber
+
+4. The extracted pure gas substances like Ethane/Propane are the building blocks for plastics
+
+5. Use fracking to break the molecules Ethan/Propane to make Ethlyne and Propylene (monomers)
+
+6. Polymerization to combine the monomers into polymers like PVC/Polyethelyne/Polyester), this makes the standardized plastic pellets (nurdles) which customers can buy in bulk
+
+7. Mold/shape the plastic pelletes using techniques like extrusion/molding/etc
+   Different molding techniques include rotational molding, injection molding, blow molding, compression molding, extrusion molding, and thermoforming
+
+
+8. Cool and then solidify
+
+9. Add additives to make different colors, flame retardation, etc
+
+*** Types of Plastic
+Acrylonitrile Butadiene Styrene (ABS)
+
+Used in:
+SNES cartridges
+Syringe
+
