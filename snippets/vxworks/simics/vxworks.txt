@@ -1,0 +1,13 @@
+*** Building VxWorks for SIMICS
+VxWorks has simics profiles with drivers that are compatible with simics:
+
+qsp_ppc
+qsp_ppc750
+qsp_arm
+
+They are booted using the uVxWorks image running u-boot
+
+In the default VxWorks 6.9 install, there is no profile for simics, but simics ships with a BSP zip file
+wrQspPpc
+wrQspArm
+that you can unzip into the VxWorks 6.9 installation directory

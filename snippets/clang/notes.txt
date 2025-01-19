@@ -1,0 +1,50 @@
+*** Compiler Flags
+
+# Assume 2 complement wrapping
+-fwrapv
+
+# Abort on integer overflow
+-ftrapv
+
+# Don't use specialize builtin functions for C functions (strlen/malloc/etc)
+-fno-builtin
+
+# Don't include C/C++ stdlibs
+-nostdlibinc
+-nostdinc++
+
+# Like -I but for specifying system library directories
+-isystem/path/
+
+# Pass arguments to internal LLVM backend
+-mllvm <args>
+
+*** Linker Flags
+# Specify whether two adjacent PT_LOAD segments are allowed to overlap in pages.
+# noseparate-code (default) allows overlap.
+# separate-code allows overlap between two executable segments, or two non-executable segments.
+
+# Separate-loadable-segments disallows overlap.
+-z noseparate-code
+# Disable some linker optimizations
+-z noseparate-code --no-relax
+
+# Define symbol
+--defsym __base_loc=0x200000
+
+# Force symbol into binary as an undefined symbol
+-u symbol_name
+
+# Specify ldscript to use when linking
+-T/path/to/ldscript.ld
+
+# Static linking
+-static
+
+# Link the following libs in order
+--start-group -lc -lsdl -lnet --end-group
+
+# Don't warn about executable stacks or stack segments being executable
+--no-warn-execstack
+--no-warn-rwx-segments
+
