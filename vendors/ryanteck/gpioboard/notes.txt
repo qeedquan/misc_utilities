@@ -1,0 +1,4 @@
+*** GPIO Expander
+https://github.com/PiSupply/Ryanteck
+
+A breakout board that uses an STM32 underneath to do GPIO and exposes it as a UART to USB interface that can be programmed on a PC.
