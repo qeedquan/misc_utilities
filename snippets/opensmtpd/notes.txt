@@ -1,0 +1,83 @@
+*** Resources
+https://github.com/poolpOrg/OpenSMTPD-book
+
+*** Binaries
+smtpd - The daemon program
+smtpctl - Controls the smtp daemon
+
+*** Configuration and Directories
+# Main configuration file, this includes other files described below
+/etc/smtpd.conf
+
+# Table aliases, virtual user accounts redirecting to an existing user account can be set here
+/etc/aliases
+
+# Spool directory
+/var/spool/smtpd
+
+# Per user forwarding information
+$HOME/.forward
+
+*** Mail directories
+By default, mail is delivered to $USER/Maildir, if the mail cannot be delivered it goes to the root user in a form of a file called dead.letter
+
+https://en.wikipedia.org/wiki/Maildir
+The format is Maildir
+MDA such as dovecot is separate from SMTP server so it has to be specified the Maildir to read from in its configuration in order to serve it over IMAP
+
+*** Send mail to localhost
+echo "Email Body" | mail -s "Email Subject" user@localhost
+echo "Email Body" | mail -s "Email Subject" user@hostname
+
+MUA clients such as thunderbird can email using IP directly by specifying user@ip_addr in the to field.
+
+*** Allowing any to send email
+By default, opensmtpd only allows mail from localhost and listens on localhost.
+To make it listen on any interface and accept email from any:
+
+listen on 0.0.0.0
+match from any for local action "local"
+
+*** Debugging
+Runs smtpd in the foreground and print out messages to terminal
+smtpd -dv -T smtp 
+
+If smtpd is already running use the following command to trace it
+smtpctl trace <subsystem>
+
+Trace both aliases/virtual/forward expansion and user/credentials lookups
+smtpctl trace expand && smtpctl trace lookup
+
+*** Delivery Status Notification
+Delivery Status Notification is a feature when the server couldn't deliver the mail, it will send a notification email to the sender
+To turn it off do:
+
+listen on ... no-dsn (this will remove the DSN from the advertised EHLO)
+
+*** Commands
+# Check configuration file for syntax errors
+smtpd -n
+
+*** Configuration syntax
+# Specify a table in a file, the <name> can be any unique id that can be referred to later in the config
+table <name> file:/file/path/here
+
+# macros, text that expand out to the string
+ipv4 = "192.168.0.1"
+ipv6 = "2001:db8::"
+check = "pki example.com mask-src filter { check_rdns check_fcrdns } hostname example.com"
+authcheck = "pki example.com auth <passwd> mask-src senders <users> filter { dkimsign } hostname example.com"
+
+*** Credential files
+
+The credential files store passwords for authentication, the file format is compatible with the dovecot program so they can share the authentication database
+
+# Add a credential file to the config
+table credentials passwd:/etc/mail/credentials
+
+# Inside credentials, generate passwords using the smtpctl command
+smtpctl encrypt example_password1
+
+# Example entry of the complete output
+john@example.com:$2b$10$_EXAMPLE_PASSWORD1_C3JbO4Ns2jJNZQfTS45MAnKi.IPrkKITyTa6:vmail:2000:2000:/var/vmail/example.com/john::userdb_mail=maildir:/var/vmail/example.com/john
+
