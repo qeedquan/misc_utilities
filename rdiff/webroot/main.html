@@ -1,0 +1,56 @@
+<div class="header">
+
+{{range $i, $v := .V}}
+    <select name="form{{$i}}" onclick="location.href = this.value;">
+    {{range $j, $p := $v}}
+        <option value="#{{.Branch}}/{{.Name}}">{{.Branch}}/{{.Name}}</option>
+    {{end}}
+    </select>
+{{end}}
+
+</div>
+
+<div class="content">
+
+{{range $i, $v := .V}}
+    {{range $j, $p := $v}}
+
+        <a name="{{.Branch}}/{{.Name}}"></a><br /><br />
+        <b>Module {{.Branch}}/{{.Name}} ({{.Tag}})</b><br />
+        
+        <table border="0">
+        {{range $k, $q := .Errs}}
+        <tr>
+           <td>Errors:</td> 
+           <td>{{.Error}}</td>
+        </tr>
+        {{end}}
+        
+        {{range $k, $q := .Files}}
+        <tr>
+            <td>Added file:</td>
+            <td><a href="/view?path={{.Path}}">{{.Rel}}</a></td>
+        </tr>
+        {{end}}
+
+        {{range $k, $q := .Dirs}}
+        <tr>
+            <td>Added dir:</td> 
+            <td><a href="/view?path={{.Path}}">{{.Rel}}</a></td>
+        </tr>
+        {{end}}
+
+        {{range $k, $q := .Mods}}
+        <tr>
+            <td>Modified file:</td>
+            <td><a href="/mod?path={{.Rel}}">{{.Rel}}</a></td>
+            <td>({{revision $q}})</td>
+        </tr>
+        {{end}}
+        </table>
+        <hr />
+
+    {{end}}
+{{end}}
+
+</div>
