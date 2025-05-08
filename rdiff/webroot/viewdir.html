@@ -1,0 +1,7 @@
+<b>Listing of {{.Path}}:</b> <br />
+<a href="/view?path={{.Path}}">.</a> <br />
+<a href="/view?path={{.Dir}}/../">..</a> <br />
+{{ $path := .Path }}
+{{range .Info}}
+    <a href="/view?path={{$path}}/{{.Name}}">{{.Name}}{{if .IsDir}}/{{end}}</a><br />
+{{end}}
