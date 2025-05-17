@@ -1,0 +1,29 @@
+*** Bitbake commands
+
+# Be verbose
+bitbake -vDDD your-recipe
+
+# List recipes
+bitbake -s
+
+# List recipes task
+bitbake -c listtasks recipe
+
+# Run only one task of a recipe
+bitbake -c your-task your-recipe
+
+# Run all tasks for all recipes
+bitbake world
+
+*** Bitbake-layers command
+# Add New Layer
+bitbake-layers add-layer
+
+# Remove Layer
+bitbake-layers remove-layer
+
+# Show Layers
+bitbake-layers show-layers
+
+# Show Recipes
+bitbake-layers show-recipes
