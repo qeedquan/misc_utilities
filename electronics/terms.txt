@@ -1,0 +1,49 @@
+*** Mott Voltage
+Mott voltage is related to the Mott transition, which is the transition between a metallic state and an insulating state in a material.
+The Mott transition can be triggered by a number of factors, including temperature and carrier density.
+
+Mott insulators are a class of materials that are expected to conduct electricity according to conventional band theories, but turn out to be insulators (particularly at low temperatures).
+
+Mott criterion
+The Mott criterion is a measure of whether a material will be conductive or insulating. If the density of electrons is high enough, the material will be conductive, or metallic.
+If the density is not high enough, the material will be insulating.
+
+Mott insulator to metal transition
+The Mott-insulating state occurs when the repulsive Coulomb potential is large enough to open an energy gap.
+The Mott transition occurs when the Mott-insulating state transitions to the metallic state. 
+
+One of the simplest models that can capture Mott transition is the Hubbard model.
+
+*** Filters and Transducers
+If	the	input	and	output	have: a	same unit, the system is categorized as a “filter”
+-	electrical	filter	(V->V,	A->A),
+-	mechanical	filter	(m->m),	optical	filter	(E->E),
+-	digital	filter	(number	->	number)
+
+different	units,	the	system	is	categorized	as	a	“transducer”
+-	force-to-displacement	actuator	(m/s^2->m),
+-	electro-magnetic	actuator	(V->m/s^2),
+-	displacement	sensors	(m->V)
+-	electrostatic	transducer	(C	(charge)	->	N/m^2	(sound))
+-	transimpedance	amplifier	(A->V),	current	driver	(V->A)
+-	gravitational	wave	detector	(“gravito-optic	modulator”)
+
+*** DFM/DFA/DFT/CMM
+
+Design for manufacturing - product made with ease of manufacturing in mind
+Design for assembly - product made with ease of assembly in mind
+Design for testing - design techniques that add testability features to a hardware product design.
+Coordinate Measuring Machines (CMMs) to measure and inspect parts, ensuring accurate and repeatable measurements throughout the manufacturing process. 
+
+*** Ground Potential Rise (GPR)
+A phenomenon that occurs when large amounts of electricity enter the earth.
+This is typically caused when lightning strikes at Cell towers.
+Dangerous for living things near by, one way to mitigate is to install electrodes 
+
+Earth Potential = Soil Resistivity x Current / (2 x PI x Distance)
+
+
+The grounding engineer needs three (3) pieces of information to properly conduct a Ground Potential Rise Study:
+1. Soil resistivity data from a Soil resistivity Test
+2. Site drawings with the proposed construction
+3. Electrical data from the power company

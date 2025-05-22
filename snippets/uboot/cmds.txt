@@ -1,0 +1,74 @@
+# Reset the board
+reset
+
+# Power off the board
+poweroff
+
+# Use DHCP to autoconfigure IP
+dhcp
+
+# Print board info
+bdinfo
+
+# Static IP
+setenv ipaddr 192.168.1.10
+setenv netmask 255.255.255.0
+
+# Boot the board using default image
+boot
+
+# executes the command stored in the environment variable bootcmd, i.e. it does the same thing as run bootcmd.
+# This is usually looping through the boot_targets and executing "run bootcmd_*" on it
+# Example:
+# printenv boot_targets => mmc0; mmc1; usb0;
+# printenv bootcmd
+# Commands would be:
+# run bootcmd_mmc0; run bootcmd_mmc1; run bootcmd_usb0; run bsp_bootcmd
+bootd
+
+# Boot from memory at address
+bootm ${addr}
+
+# Boot ELF image
+load mmc 0:1 ${loadaddr} /kernel.elf
+load mmc 0:1 ${fdt_addr_r} /soc-board.dtb
+bootelf -d ${fdt_addr_r} ${loadaddr} ${loadaddr}
+
+# Boot Linux style kernel image
+booti $loadaddr - $fdt_addr_r
+
+# Dump memory at address of length
+md <address>[<data_size>] [<length>]
+md.b 10000
+
+# List MMC devices
+mmc list
+
+# Switch MMC device
+mmc dev <id>
+
+# Load kernel image from FAT device
+fatload mmc 0:1 $loadaddr /Kernel-Image
+fatload mmc 0:1 $fdt_addr_r /Kernel.dtb
+
+*** Bootargs
+
+This environment variable allows uboot to pass parameters to the loaded kernel.
+setenv bootargs 'options=here'
+
+In Linux, the boot arguments passed are stored in /proc/cmdline
+
+*** TFTP boot
+
+# Run DHCP to get an IP
+dhcp
+
+# Set the TFTP server IP
+setenv serverip 192.168.2.1
+
+# Get the kernel image, place it at loadaddr
+tftp ${loadaddr} uImage-2.6.30
+
+# Load the kernel image
+bootm ${loadaddr}
+

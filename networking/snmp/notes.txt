@@ -1,0 +1,32 @@
+-- List all the oid->text
+snmptranslate -Tl
+
+-- List all variables on snmp server, subagents will update
+-- the list once it's running, change localhost to <server>
+snmpwalk -Os -c public -v 1 localhost .
+
+-- On many distros snmp.conf disables MIBs loading by default
+-- need to modify /etc/snmp/snmp.conf to remove line
+mibs :
+-- to enable loading MIBS, or else MIBS won't be looked up and can't
+-- resolve any variable names
+
+-- By default, snmpd.conf restrict access to variables, as a hammer use
+rocommunity public
+rwcommunity private
+-- to enable setting/seeing all variables, this is for accessing
+-- subagents variables
+
+-- subagents can be compiled and run as standalone programs
+-- to allow custom handlers for variables, run under master agentx provided by snmpd.
+-- to make snmpd listen on a port as a master agent: add "agentXSocket tcp:localhost:705" in snmpd.conf
+
+-- to add local custom MIBS file, put them in $HOME/.snmp/mibs
+-- modify $HOME/.snmp/snmp.conf with
+mibs +MY_MIBS_FILE
+-- to add them to the search path
+
+-- packages needed
+-- need package snmp-mibs-downloader to get a complete mibs info
+
+-- agents can send traps but it cannot recieve them, need a trap daemon running to catch it
