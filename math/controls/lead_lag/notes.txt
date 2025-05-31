@@ -1,0 +1,63 @@
+*** Reference
+Franklin, G., Powell, J.D., Emami-Naeini, A. Feedback Control of Dynamic Systems, 6th ed. Pearson. 2009.
+https://sassafras13.github.io/LeadComp1/
+
+*** Overview
+
+https://en.wikipedia.org/wiki/Ackermann%27s_formula
+
+Crossover frequency - determines the closed loop bandwidth, rise time and settling time
+Phase margin - determines damping and overshoot
+Low frequency gain - determines steady state error
+
+Lead/Lag compensators aims to affect the 3 above characteristics of a system, it is an alternative to PID controllers with the following characteristics:
+
+1. It works on a range of frequencies instead of all frequencies over the breakpoint frequency as a PID controller does
+2. PID controller adjusts the system's inputs based on an error signal that is calculated using the system's output, while lead-lag compensators adjust the system's frequency response to improve its performance.
+3. A lead compensator can increase the stability or speed of reponse of a system; a lag compensator can reduce (but not eliminate) the steady-state error.
+   Depending on the effect desired, one or more lead and lag compensators may be used in various combinations.
+
+The transfer function:
+G(s) = w_p/w_z * (s + w_z)/(s + w_p) where K = w_p/w_z
+w_z < w_p (lead compensator)
+w_z > w_p (lag compensator)
+
+The above lead or lag transfer function can be cascaded to become a lead-lag compensator:
+G(s) = (s-z1)*(s-z2) / ((s-p1)*(s-p2))
+
+The lead compensator provides phase lead at high frequencies.
+This shifts the root locus to the left, which enhances the responsiveness and stability of the system.
+The lag compensator provides phase lag at low frequencies which reduces the steady state error.
+
+The precise locations of the poles and zeros depend on both the desired characteristics of the closed loop response and the characteristics of the system being controlled.
+However, the pole and zero of the lag compensator should be close together so as not to cause the poles to shift right, which could cause instability or slow convergence.
+Since their purpose is to affect the low frequency behaviour, they should be near the origin.
+
+*** Placing poles
+For lead compensator, place the pole and zero of the lead compensator to the left of the plant poles and zeros.
+In other words, we make the compensator faster so that the slower plant poles and zeros still dominate the behavior of the system
+A good rule of thumb is to put the zero near the closed loop natural frequency, and to put the pole 5 to 20X away from the zero
+We do not want to make the lead compensator too fast, however, because this will amplify high frequency noise.
+
+Generally speaking, a lead compensator will contribute about 70 degrees to the phase margin.
+If more phase is required, a double lead compensator can be used.
+This compensator simply has 2 poles in the same location and 2 zeros in the same location.
+
+Design process:
+
+1. Check system type if you have a steady state error requirement using Final Value Theorem. Add a pole as necessary to get finite steady state error.
+2. Determine the open loop gain required to meet the steady state error and bandwidth requirements. Use Final Value Theorem to solve for the gain K.
+3. Evaluate the phase margin of the system with this gain.
+4. Find the max phase that the lead compensator needs to add to the system by comparing the current phase margin with the desired phase margin and adding 10 degrees.
+
+5. Find the ratio, alpha, between the zero and pole frequencies using the equation:
+alpha = (1 - sin(theta_max)) / (1 + sin(theta_max))
+
+6. Calculate the zero and pole frequencies using the following equations:
+w_max = w_c
+w_z = 1/T = w_max*sqrt(a)
+w_p = 1/(a*T) = w_max/sqrt(a)
+
+7. Check the phase margin again to see if it meets the design specification.
+8. Iterate on the design until the specifications are met.
+
