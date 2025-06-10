@@ -1,0 +1,21 @@
+*** SSH key authentication
+
+Git can use SSH private/public key pairs to authenticate a user to a repository instead of user/password
+
+Setup steps:
+
+# Generate a SSH public/private key pair
+ssh-keygen
+
+# Make sure ssh-agent is running
+ssh-agent -s
+
+# Add the private key to the SSH store 
+ssh-add id_private_key
+
+# Add the public key using the repository interface
+# Github/Gitlab has a web interface to add public keys
+
+# Checkout a repo
+git clone git@repo.here
+

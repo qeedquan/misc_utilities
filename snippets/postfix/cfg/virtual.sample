@@ -1,0 +1,3 @@
+# Mail to user1@domain-name.com will be redirected to the local_user of the system
+user1@domain-name.com local_user
+
