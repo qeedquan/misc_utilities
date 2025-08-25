@@ -1,0 +1,8 @@
+# set the DEBUG option in the QEMU script to make QEMU wait for GDB to connect on startup
+file pegasos2_vip/default/vxWorks
+target remote :1234
+layout src
+
+# Set breakpoints in various places like you would debug a normal program and then run it
+#b pgs2pciintassign
+c

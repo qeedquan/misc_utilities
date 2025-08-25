@@ -1,0 +1,71 @@
+*** IOS
+Drivers that has a filesystem interfaces use iosDrvInstall to register the driver.
+iosDrvInstall returns a unique drvnum for the driver to manage, devs shows the drvnum so you can match what device maps to what driver.
+
+The drvnum tells you which order it was assigned since it is monotonically increasing.
+Use iosDrvShow to map drvnum to the IO functions it maps to.
+
+bootapp drvnum - (Bootapp is very constrained so the drvnum are usally stable)
+/null   - 0 iosInit inits it first
+/tyCo/* - 1 tty for output
+/ram    - 2 this is ipcom storage location for keys/configuration
+/ram0   - 3 ram disk
+/romfs  - 4 since it usually initalizes after ramfs
+socket  - 5 for networking
+host:   - 6 it is initialized last (netDrv is the driver that handles this)
+
+If netDrv is present on bootup, cwd is set to host: otherwise it is not set to anything, there is no / directory (you can't list /)
+but you can reference files using absolute paths
+
+*** IPCOM
+By default, IPCOM uses IPCOM_FILE_NATIVE by default which uses the native APIs for open/read/etc
+IPCOM_FILE_IPCOM uses IPCOM defined functions but these are deprecated in newer versions
+
+IPCOM has different socket implementations depending on compilation options:
+iplite2
+ipcom (calls ipnet2)
+ipnet2
+
+By default VxWorks is built to use ipcom (which calls ipnet2 internally)
+
+ipcom_strerror(errno) - returns the error string for the error code
+
+Logging
+IPCOM_LOG1(DEBUG, "DBG MSG")
+IPCOM_LOG2(DEBUG2, "DBG MSG 2")
+IPCOM_LOG4(ERR, "ERR MSG 4")
+ipcom_printf("msg")
+
+IPCOM_SYSLOGD_DEFAULT_PRIORITY is the VIP parameter that enables the ipcom logging
+However, the priority does not apply to all programs, since programs can redefine their own logging priority inside the code
+This implies recompilation is needed to change the logging priority in some programs
+The logging is also affected by the _WRS_CONFIG_DEBUG_FLAG VSB parameter, if this is turned off, then no logging will occur
+
+Programs that redefine the priority redefines these two parameters:
+IPCOM_SYSLOG_PRIORITY
+IPCOM_SYSLOG_FACILITY
+
+*** IPNET2
+IPNET2 is implemented using tasks that communicates using pipes internally
+Socket APIs (socket/setsockopt/etc) sends a message through a pipe and handler will reply (the handler is a task)
+As the messages get processed, it calls into vxcoreip layer to handle it
+
+By default, the socket handler functions are registered to the ipcom_windnet_* functions (in ipcom)
+
+Messages
+IPNET_SIG_SOCKET (socket)
+
+Errors
+ENFILE (23)   - file table overflow
+EMFILE (24)   - too many open files
+ENOTSUP (35)  - unsupported value
+EMSGSIZE (36) - message size
+
+*** VXCOREIP
+Socket handlers can be registered here (sockLib)
+
+sockLibAdd() - add a routine to handle a socket domain
+
+*** RAWFS
+RAWFS usually writes 0 to the device when first formatted as such
+
