@@ -1,0 +1,8 @@
+*** Product
+
+https://www.adafruit.com/product/3583
+
+A SDR device capable of 1 MHZ - 6 GHZ 
+
+Since it can do low frequencies as well as high frequencies, we can listen to the regular AM/FM stations.
+

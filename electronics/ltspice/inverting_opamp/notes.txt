@@ -1,0 +1,8 @@
+https://circuitdigest.com/calculators/op-amp-gain-calculator
+www.electronics123.net/amazon/projects/LM358_op_amp.pdf
+
+A inverting opamp gets a voltage input and amplifies the voltage output
+to be Gain = -Rf/Rin. For Rf/Rin, we can chain them in series/parallel and
+calculate the equivalent resistance for it to be the gain, as shown in
+this example where we change 2 resistor in series to be Rf
+
