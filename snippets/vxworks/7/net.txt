@@ -1,0 +1,10 @@
+*** RNDIS
+
+RNDIS requires a USB TCD driver, and then USB RNDIS support to be compiled on top of it.
+This will make an interface on startup, something like "usbEnd0"
+
+ifconfig "usbEnd0" 172.16.0.1 up
+
+On the host computer (Linux), it will detect a ethernet device
+ifconfig "enx001122335500" 172.16.0.2 up
+
