@@ -1,0 +1,24 @@
+; Example of how to setup a DNS record that responds for lookups on "fakehost"
+
+$TTL 2d    ; default TTL for zone
+$ORIGIN fakehost. ; base domain-name
+; Start of Authority RR defining the key characteristics of the zone (domain)
+@         IN      SOA   ns1.fakehost. fakehost. (
+                                2003080800 ; serial number
+                                12h        ; refresh
+                                15m        ; update retry
+                                3w         ; expiry
+                                2h         ; minimum
+                                )
+; name server RR for the domain
+           IN      NS      ns1.fakehost.
+ 
+; mail server RRs for the zone (domain)
+        3w IN      MX  10  mail.fakehost.
+
+; domain hosts includes NS and MX records defined above
+; plus any others required
+ns1        IN      A       192.168.1.5
+mail       IN      A      192.168.1.5
+
+@       IN      A       192.168.1.5
