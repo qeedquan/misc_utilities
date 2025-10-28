@@ -1,0 +1,25 @@
+*** RNDIS
+
+RNDIS requires a USB TCD driver, and then USB RNDIS support to be compiled on top of it.
+This will make an interface on startup, something like "usbEnd0"
+
+ifconfig "usbEnd0" 172.16.0.1 up
+
+On the host computer (Linux), it will detect a ethernet device
+ifconfig "enx001122335500" 172.16.0.2 up
+
+*** ifconfig
+
+# set ethernet device to be promiscuous
+ifconfig "gei0 inet promisc"
+
+# set the MAC address
+ifconfig "gei0 lladdr 00:11:22:33:44:55"
+
+# set the IP address
+ifconfig "gei0 192.168.1.1"
+
+# restart the ethernet device
+ifconfig "gei0 down"
+ifconfig "gei0 up"
+
