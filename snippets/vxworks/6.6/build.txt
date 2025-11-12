@@ -1,0 +1,11 @@
+*** Create a project to build
+
+There are no VSB/VIP in 6.6, create the BSP directly to build
+
+# create a bsp project inside $VXWORKS/vxworks-6.6/target/proj
+# if a bsp project already exist, it appends a _number to directory name
+vxprj create pcPentium4 diab
+
+# build the bsp project
+vxprj build
+

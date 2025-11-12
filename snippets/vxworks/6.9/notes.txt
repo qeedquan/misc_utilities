@@ -1,0 +1,147 @@
+*** wrenv
+
+wrenv.sh -p vxworks-6.9
+
+*** BSP Structure
+BSP are structured as follows:
+
+extensions/
+	eclipse/* - Eclipse documentation for the BSP
+
+target/
+	config/bspname - The custom driver code and library code are placed here (custom BSP code for the board)
+	lib/bspname    - Libraries are built by config/bspFolder and placed here, these are the custom library the BSP makes and uses (VSB like)
+	proj/bspname   - This is the VIP like folder, contains the customizations/options to build the image
+
+*** Building the VxWorks libraries
+cd $WIND_BASE/target
+
+make CPU=PENTIUM4 TOOL=gnu
+make CPU=PENTIUM4 TOOL=diab
+
+make CPU=PPC32 TOOL=gnu
+make CPU=PPC32 TOOL=diab
+
+Change CPU and TOOL based on your settings
+
+These libraries will be linked to the BSP, it acts like the VSB.
+The libraries are placed inside $WIND_BASE/target/lib*
+
+*** Changes when moving to VxWorks 7
+VXB_DEVICE_ID is GEN1, which becomes VXB_DEV_ID in GEN2
+
+vxbDevIterate is replaced by vxbAcquireByMatch
+
+vxbInstByNameFind is deprecated, idea is that each driver will do everything needed to expose itself in attach for the system to use
+
+sysMemTop is not available for use since 7 made it so that physical do not necessarily map one to one with virtual anymore, replace it with sysMemDesc get apis that gives back regions that are contiguous
+
+bootChange do not write to NVRAM anymore if device tree is used, must write to NVRAM manually if changes needed to be saved to NVRAM
+
+Manually device information in hwconf is replaced by device tree
+
+vxprj is mostly the same, -bsp/-cpu for vsb still works, -profile for development/bootapp in vip exists
+wrtool doesn't exist
+
+6.9 does not have VSB layers, but VSB components exist.
+6.9 has VIP components
+The VIP components is in a fixed global location (the install directory, that includes all the cdf etc)
+Can't specify them externally like in 7
+
+RTP exists in 6.9
+
+bootrom is mostly gone from 7, 7 assumes the kernel will be booted using uboot/uefi/system native bootloader
+there are some BSP with bootrom in 7 but it is very minimal, not like 6.9 where components can be added/removed easily
+
+*** Commands
+
+sysvar list                      | list all variables
+sysvar set -c -o <name> <value>  | set variable to value
+
+vxBusShow         | show the buses on the system
+moduleShow        | show DKM loaded on the system
+
+# These needs pciLib to be initialized before it is usable
+# pciConfigLibInit() and pciIntLibInit() is called inside sysLib.c on startup to initialize pciLib
+
+# sysLib.c also includes the "pciConfigShow.c" code if INCLUDE_SHOW_ROUTINES is defined
+# this can conflict with the stub files described below if not careful
+
+pciDeviceShow(bus)                          | show PCI devices on the system
+pciHeaderShow(bus, device, function)        | show PCI header information
+pciConfigTopoShow(bus, device, function)    | show PCI topology
+pciConfigFuncShow(bus, device, function)    | show topology about a function
+pciConfigCmdWordShow(bus, device, function) | show command word for a device
+
+tffsShowAll | show info about tffs filesystems
+
+ifconfig | show the network interfaces on the system
+
+*** RNG
+RNG needs entropy, functions that generate random bytes can fail if not enough entropy
+There is ipcrypto_rnd_seed process on startup that adds entropy which is done by ipcrypto_create
+
+*** XBD
+XBD exists in 6.9 but 7 extended the XBD layer alot.
+
+Using XBD with ramdisk uses rawfs as a default filesystem, which implements read/write using rawFsLib
+rawFsDevInit(devname, xbd) is used to initialize a XBD device as rawfs
+
+*** Interrupts
+Interrupt functions are implemented as function pointers, BSP set these to their respective interrupt controller handler functions 
+
+Portable version implemented in os/intLib.c
+
+Usually a dispatcher function is called to call the ISR:
+isrDispatcher
+_func_isrDispatcher
+
+intConnect picks the first one to be set in order:
+_func_isrConnect
+_func_vxbIntConnect
+intArchConnect
+	_func_intConnectRtn
+
+intDisconnect
+_func_isrDisconnect
+_func_vxbIntDisconnect
+intArchDisconnect
+	_func_intDisconnectRtn
+
+*** Stubs
+Some functions links to a stub implementation instead of a real implementation depending on how it was built.
+Stubs are located inside config/comps/src/hwif, whenever the stubs get
+modified (driverName.dc or driverName.dr files) , do the following to rebuild:
+
+cd target/config/comps/src/hwif
+make vxbUsrCmdLine.c
+
+These stubs can silently break functionality like PCI (pciDeviceShow/etc) since they can replace the real implementation,
+check with objdump against the VxWorks image to see which implementation was used, usually the stub is included if the VIP option to include the
+configuration option is not defined to use that functionality
+
+Some profiles can enable the usage these stubs rather than the real implementation
+PROFILE_STANDALONE_DEVELOPMENT
+
+*** Defines
+PRJ_BUILD define is used when building the VIP, usually it is used in the following way:
+
+config.h:
+
+#if defined(PRJ_BUILD)
+# include "prjParams.h"
+#endif
+
+*** Executable stack in .so files
+Newer Linux disallows executable stack in shared libs, leading to error
+"cannot enable executable stack as shared object requires: Invalid argument"
+
+To fix, use the tool execstack
+execstack -c *.so
+
+This clears the executable stack bit in the shared files
+
+If the library cannot be modified, we can use an environment variable to allow it
+export GLIBC_TUNABLES=glibc.rtld.execstack=2
+./command
+

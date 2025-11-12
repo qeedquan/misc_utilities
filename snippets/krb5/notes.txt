@@ -1,0 +1,63 @@
+*** Logs
+
+Specified by section inside krb5.conf
+
+[logging]
+	kdc = FILE:/var/log/kerberos/krb5kdc.log
+	admin_server = FILE:/var/log/kerberos/kadmin.log
+	default = FILE:/var/log/kerberos/krb5lib.log
+
+sudo tail -n0 -F /var/log/{*log,dmesg,messages,kerberos/{krb5kdc,kadmin,krb5lib}.log}
+
+*** Host file sample
+192.168.7.12  monarch.example.com monarch krb1.example.com krb1
+
+*** Ports
+
+88  - krb5
+464 - kpasswd5
+749 - krb5-adm
+
+*** Commands
+
+# Systemd services for KRB5
+service krb5-kdc start
+service krb5-admin-server start
+
+# Admin server, will fail if no realms created
+kadmind
+
+# Create a realm, if a realm was already created, it will fail.
+krb5_newrealm
+
+# Connects to and configure a KRB instance
+# Requires principal name and password before letting anyone access the administrative interface.
+kadmin
+
+# Variant of the command that must be run locally on the same machine as the KDC, and with administrator privileges. 
+# without requiring extra privileges and without using the kadmind daemon
+kadmin.local 
+
+# Destroy ticket
+kdestroy
+
+*** KAdmin Commands
+
+# Remove all traditional authentication keys for a principal in the Kerberos database, to easier debug PKINIT-specific issues.
+purgekeys -all jirky
+
+# Creating users with no keys
+addprinc +requires_preauth -nokey quirky
+
+*** Files
+# Directory that stores various krb5 sensitive info
+/etc/krb5kdc
+
+# Configuration file, after a realm is created, it should be added here
+/etc/krb5.conf
+
+[domain_realm]
+        .example.com = EXAMPLE.COM
+        example.com = EXAMPLE.COM
+
+
