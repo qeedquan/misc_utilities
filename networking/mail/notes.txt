@@ -1,0 +1,46 @@
+*** Protocols
+
+SMTP - Protocol for sending mail
+IMAP - Protocol for getting mail where client don't download the mail but just syncs with server to view the mail, better for multiple clients from anywhere to read their email
+POP3 - Protocol for getting mail where client downloads the mails and then server can optionally delete it (configurable)
+
+IMAPS, SMTPS - TLS wrapper to provide encryption for IMAP/SMTP
+
+DNS - DNS is used to route mail through the internet using MX records
+
+*** Programs
+
+MUA - Mail user agent. User Program that get mail from a MDA.
+      Programs: Thunderbird, Outlook, Evolution, etc.
+
+MDA - Mail delivery agent. Server program that serves over IMAP/POP3. Keeps track of read/unread mails, drafts, etc.
+      Programs: Dovecot, etc.
+
+MTA - Mail transfer agent. Server program that sends the mail to other MTA, the MTA will use the MDA to store the messages after sending it.
+      Programs: Sendmail, OpenSMTPD, Postfix, etc.
+
+*** Email Provider Features
+
+Most email providers like Gmail/Yahoo/Outlook provides these features:
+
+Forwarding mail - Forwards a mail received to another account
+IMAP/POP3       - Allows user to download their mail to their computer via IMAP/POP3, need to enable these in the email settings to use it from a MUA program.
+
+Email clients like thunderbird just need the email account and password to access the mail (everything else is handled transparently)
+
+*** SMTP Protocol
+
+SMTP is a text based protocol that has two main parts, the envelope and data part.
+
+The envelope describes the routing information on where to send the mail to.
+The data part is what the mail client displays.
+
+The data part also contains the From/To fields, which can be anything so they don't have to match the envelope part.
+This can lead to spoofing of messages sender used by spammers.
+
+The data can contain multipart messages (mime) where multiple message types are concatenated into a mime (such as a html representation of an ascii message)
+and it is up to the email client to display which one works best for it.
+
+SMTP can utilize DNS to provide things like redundancy and backups, where there are multiple MX records (DNS record that has info on where to route the mail)
+and the client can try multiple SMTP servers if one fails to send the message.
+
