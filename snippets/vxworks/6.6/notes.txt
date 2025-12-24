@@ -1,0 +1,40 @@
+*** Installation
+
+For Linux, installer needs gtk2 and libxtst (i386 libs), no text mode
+The DIAB compiler is optional, it might not be in the install based on what
+install.txt that was provided
+
+*** Environment
+
+wrenv.sh only supports Linux 2.* versions, so either fix the script or use
+wrenv.linux directly
+
+wrenv.linux -p vxworks-6.6
+
+*** Create a project to build
+
+There are no VSB/VIP in 6.6, create the BSP directly to build
+
+If the library for an arch is not built yet, we need to build it or the kernel
+will fail to link against them.
+
+# compile libraries pentium4 architecture
+cd $VXWORKS/vxworks-6.6/target/src
+make -k CPU=PENTIUM4 TOOL=gnu DUAL_BUILD=false COMMON_DIR=false
+
+# create a bsp project inside $VXWORKS/vxworks-6.6/target/proj
+# if a bsp project already exist, it appends a _number to directory name
+vxprj create pcPentium4 diab
+vxprj create pcPentium4 gnu
+
+vxprj create -profile PROFILE_DEVELOPMENT pcPentium4 gnu
+
+# build the bsp project
+vxprj build
+
+*** QEMU
+The VxWorks ELF image is not compatible with QEMU unlike newer versions of VxWorks.
+
+To load x86 ELF images, need to go through the standard BIOS method where you put
+stage1 (vxld.bin) and stage2 (bootrom.bin) in the correct place (inside ATA/floppy/etc).
+
