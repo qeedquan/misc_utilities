@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <sys/auxv.h>
+
+#define P(x) printf("%s: %#lx\n", #x, getauxval(x))
+
+int
+main(void)
+{
+	P(AT_BASE);
+	P(AT_BASE_PLATFORM);
+	P(AT_CLKTCK);
+	P(AT_DCACHEBSIZE);
+	P(AT_EGID);
+	P(AT_ENTRY);
+	P(AT_EUID);
+	P(AT_EXECFD);
+	P(AT_EXECFN);
+	P(AT_FLAGS);
+	P(AT_FPUCW);
+	P(AT_GID);
+	P(AT_HWCAP);
+	P(AT_HWCAP2);
+	P(AT_ICACHEBSIZE);
+	P(AT_L1D_CACHEGEOMETRY);
+	P(AT_L1D_CACHESIZE);
+	P(AT_L1I_CACHEGEOMETRY);
+	P(AT_L1I_CACHESIZE);
+	P(AT_L2_CACHEGEOMETRY);
+	P(AT_L2_CACHESIZE);
+	P(AT_L3_CACHEGEOMETRY);
+	P(AT_L3_CACHESIZE);
+	P(AT_PAGESZ);
+	P(AT_PHDR);
+	P(AT_PHENT);
+	P(AT_PHNUM);
+	P(AT_PLATFORM);
+	P(AT_RANDOM);
+	P(AT_SECURE);
+	P(AT_SYSINFO);
+	P(AT_SYSINFO_EHDR);
+	P(AT_UCACHEBSIZE);
+	P(AT_UID);
+	return 0;
+}
