@@ -1,0 +1,41 @@
+*** Links
+https://www.segger.com/downloads/jlink/
+
+For Windows, need to install a driver (legacy USB driver for some devices)
+For Linux, don't need driver, but need root unless muckery with some permissions
+
+*** Starting a GDB server
+# GUI app
+sudo ./JLinkGDBServerExe
+
+# Command line app
+sudo ./JLinkGDBServerCLExe -if jtag -device AM3352 -speed 4000 -JLinkScriptFile script.JLinkScript -log logfile.txt
+
+# In GDB
+target remote :2331
+b main
+# Reset the CPU
+monitor reset
+# This will implicitly call "monitor go", which runs the CPU
+c
+
+# To run custom code:
+# Specifies a file for GDB to load on startup, it must be a format that GDB can understand (not raw binary)
+# If it is a raw binary, make it into an ELF file using objcopy
+file file.elf
+
+# load the file into memory
+load
+
+# run the code
+r
+
+*** JLink Commander
+
+# Runs a JLink script, the JLink script is a set of commands that are run as a batch file
+# The JLinkScript file is a different script file that can override various functions of JLink on startup for custom boards
+# https://kb.segger.com/J-Link_script_files
+# https://kb.segger.com/J-Link_Commander
+JLinkExe -AutoConnect 1 -device STM32F103ZE -JLinkScriptFile Script.JLinkScript -CommandFile CommandFile.jlink -Log file.log
+
+

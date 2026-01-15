@@ -1,0 +1,24 @@
+Additive manufacturing (AM) post-processing is a critical step in the AM workflow that ensures 3D-printed parts meet the necessary quality standards for their intended use: 
+
+Purpose
+Post-processing removes support structures and excess material, and improves the part's surface finish. It also addresses issues like roughness, dimensional accuracy, porosity, and anisotropy. 
+Steps
+Post-processing can include: 
+Powder removal 
+Stress relieving 
+Removal from the build plate 
+Support structure removal 
+Surface finishing 
+Machining 
+Polishing 
+Blasting 
+Importance
+Post-processing is crucial for ensuring that parts meet the necessary structural, material, and aesthetic requirements. It can also improve the part's performance, such as its resistance to corrosion and wear, and its tensile and fatigue performance. 
+Factors
+The extent of post-processing depends on the print technology used, the print material used, and the intended final use of the part. 
+
+Cost
+Post-processing can account for a significant portion of the total cost of an AM product. 
+Companies
+Companies like AM Solutions are developing post-processing solutions to streamline the finishing of 3D-printed parts. 
+
