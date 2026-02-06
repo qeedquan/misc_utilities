@@ -1,0 +1,17 @@
+Electric Box -
+It's a box where you route electric wires (romex, etc) through the box, connecting to other boxes.
+It serves as a location where the wires are cut and twisted together and connected via switch (one-pole, two-pole, etc)
+
+For some boxes, you need to punch holes in the four corners opening to route the wire; do that first before nailing the box to the wall
+
+The most commonly used screw size for securing electrical outlets is a 6-32 machine screw.
+The “6” refers to the diameter of the screw, and “32” refers to the number of threads per inch.
+This specific size is commonly used across the United States for mounting electrical devices such as outlets, switches, and wall plates to electrical boxes.
+It’s the industry standard and fits most residential and commercial installations.
+
+The length of the screws for an electrical outlet can vary depending on the installation requirements. Generally, 1-inch screws are standard for most applications.
+However, in situations where the electrical box is recessed deeper into the wall, longer screws-
+up to 2 inches—may be necessary to reach the mounting points securely.
+
+The boxes store the wires, but a handy cover is needed to cover the outside (sold separately)
+
