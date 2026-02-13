@@ -1,0 +1,196 @@
+*** Initial Setup
+
+1. Install KRB5, either from distribution packages or compile from source
+2. Run the command krb5_newrealm to create a default database file, ACL file,
+   and stash file. The configuration file krb5.conf can specify different
+   paths for the files generated
+3. If compiled from source, the command will not exist since it is provided by the distribution packager
+   To to do this manually:
+   # The -s creates a stash file that stores the master key, if the stash is
+   # not created, it will be prompted to be entered every time
+   kdb5_util create -s
+   touch /etc/krb5kdc/kadm5.acl
+4. The daemons can now be started:
+   service krb5-kdc start
+   service krb5-admin-server start
+
+*** Logs
+
+Specified by section inside krb5.conf
+
+[logging]
+	kdc = FILE:/var/log/kerberos/krb5kdc.log
+	admin_server = FILE:/var/log/kerberos/kadmin.log
+	default = FILE:/var/log/kerberos/krb5lib.log
+
+sudo tail -n0 -F /var/log/{*log,dmesg,messages,kerberos/{krb5kdc,kadmin,krb5lib}.log}
+
+*** Host file sample
+192.168.7.12  monarch.example.com monarch krb1.example.com krb1
+
+*** Ports
+
+# Initial authentication uses this port
+88  - krb5
+
+# Handles resetting passwords
+464 - kpasswd5
+
+# For managing principals/etc
+749 - krb5-adm
+
+kadmin connects to krb5 first, then the krb5-adm port
+
+Communication to the KRB5-ADM interface uses SUNRPC with XDR format
+The kadmin query is encoded as a RPC message to sent to the server
+
+*** Commands
+
+# Create a database file (needed for initial run; krb5_newrealm will do this too)
+sudo kdb5_util create -s
+
+# Systemd services for KRB5
+# Port 88
+service krb5-kdc start
+
+# Port 464 and 749
+service krb5-admin-server start
+
+# Admin server, will fail if no realms created
+kadmind
+
+# Create a realm, if a realm was already created, it will fail.
+# This will create the database file and acl files, this is the first setup command you need to do
+krb5_newrealm
+
+# Connects to and configure a KRB instance
+# Requires principal name and password before letting anyone access the administrative interface.
+kadmin
+
+# To skip password and prompt use
+kadmin -p username/admin -w password
+
+# Variant of the command that must be run locally on the same machine as the KDC, and with administrator privileges. 
+# without requiring extra privileges and without using the kadmind daemon
+kadmin.local 
+
+# Destroy ticket
+kdestroy
+
+*** KAdmin Commands
+
+# Remove all traditional authentication keys for a principal in the Kerberos database, to easier debug PKINIT-specific issues.
+purgekeys -all jirky
+
+# Creating users with no keys
+addprinc +requires_preauth -nokey quirky
+
+# Create a principal named 'username/admin' with password 'password'
+addprinc -pw password username/admin
+
+# Create a principal and assign a random key
+addprinc -randkey host/server.example.com
+
+# The key can be extracted after the random key is generated above
+ktadd -k /etc/krb5.keytab host/server.example.com
+
+# By default, the principals created will not have permissions to do things like lists
+# Modify the ACL file (kadm5.acl) to add the principal for it to get permission
+
+*** Files
+
+# All modifications to the configuration file require the server to be restarted
+
+# Directory that stores various krb5 sensitive info
+/etc/krb5kdc
+
+# Configuration file, after a realm is created, it should be added here
+# This file might not exist by default, needs to be created manually
+# /etc/krb5kdc/kdc.conf is a template file that this file can be copied from
+/etc/krb5.conf
+
+# The kdc.conf file supplements krb5.conf for programs which are typically only used on a KDC, such as the krb5kdc and kadmind daemons and the kdb5_util program.
+/etc/kdc.conf
+
+# If no DNS server is running, we need to specify it using host files
+# Note that host files doesn't support wildcards so each subdomains must be listed out manually
+# An alternative is using dnsmasq
+/etc/hosts
+
+# Without a default_realm, KRB5 defauls to using athena for the realm
+[libdefaults]
+    default_realm = EXAMPLE.COM
+
+[domain_realm]
+        .example.com = EXAMPLE.COM
+        example.com = EXAMPLE.COM
+
+*** Common Problems
+
+# The realm information needs to be specified like below
+kinit: Cannot find KDC for realm "EXAMPLE.COM" while getting initial credentials
+
+[realms] = 
+    EXAMPLE.COM {
+		...
+		default_domain = example.com
+		kdc = example.com
+		
+		# An IP and port can be used here too, if no port specified, uses default
+		default_domain = 192.168.1.1:88
+		kdc = 192.168.1.1:749
+	}
+
+# Needs admin_server field specified in the realm info
+kadmin: Missing parameters in krb5.conf required for kadmin client while initializing kadmin interface
+
+[realms]
+    EXAMPLE.COM = {
+		admin_server = 192.168.1.1
+	}
+
+*** Debugging
+
+# Verbose logging to stdout, change stdout to a file to output to a file
+KRB5_TRACE=/dev/stdout ./krb_program_here
+
+*** Running Unit Tests
+
+# To run the full test suite:
+Inside src/tests folder:
+
+make check
+
+# To run the python tests
+At the top of the src/ folder:
+
+# Generate environment variable for python unit tests to use while running
+make runenv.py
+
+Inide src/tests folder:
+
+# Run the python unit tests
+make check-pytests
+
+*** Running the RPC unit test
+# Run the rpc test (this requires the `make runenv.py` to be run first
+cd src/lib/rpc/unit-test
+
+# The python script t_rpc.py will be called and the testdir/ directory, it will create all the necessary credential files in testdir/ for testing
+# The script utilizes K5Realm and creates a dummy realm for it to run, the realm runs at port 61000+randint()
+# The script will launch the server, the server returns a random port it listens on so the client can use it to connect
+# This needs root privileges on Linux to run the test or else will get some errors
+make check-pytests
+
+# Environment variables for the client needed to succeed (not get RPC auth error)
+# This is set by the python script executing the client on startup, the files specified has to be readable/writable or else it will fail
+KRB5_CONFIG
+KRB5_KDC_PROFILE
+KRB5CCNAME
+KRB5_KTNAME
+KRB5_CLIENT_KTNAME
+KRB5RCACHEDIR
+KPROPD_PORT
+KPROP_PORT
+GSS_MECH_CONFIG
+

@@ -1,0 +1,106 @@
+*** Technology Generation
+2G: GSM
+3G: CDMA and UTMS
+4G: LTE and WiMax
+5G: OFDM
+
+*** Identification
+IMEI
+	15 digit number unique ID for all phones, industry standard, the serial number is internal to each vendor while this one is agreed on by everyone.
+	Carriers can block IMEI so the phone can't be used to make calls, have to ask carrier to unblock it.
+
+ICCD
+	The ICCID is a globally unique serial number-a one-of-a-kind signature that identifies the SIM card itself. It stands for Integrated Circuit Card ID, a 19- or 20-digit number that's typically printed on the back of a SIM card. The ICCID isn't the only identification number visible on most SIM cards.
+
+FCC ID
+	Every wireless device sold in the United States must have a label with the FCC ID number. The label will show the letters “FCC ID” followed by a series of letters and numbers and sometimes also a bar code. The label is usually not displayed prominently, but may be placed on the side or bottom of the device.
+
+
+*** SD Cards
+SD card slot usually exist on a cell phone so to store data. Different kind of SD cards:
+
+Type  Capacity
+SD    <= 2GB
+SDHC  <= 32GB
+SDXC  <= 2TB
+SDUC  <= 128TB
+
+Type       Capacity
+microSD    <= 2GB
+microSDHC  <= 32GB
+microSDXC  <= 2TB
+microSDUC  <= 128TB
+
+MicroSD cards are a smaller form factor of SD cards but can store equivalent amount of data
+Another name for MicroSD card is a TransFlash card (TF Card)
+
+*** SIM Cards
+
+SIM card design is defined by the ISO-7811 standard (The magnetic layout of the card, the dimensions, etc)
+For the software interface, refer to the GSM documents (11.11/11.14) made by 3GPP
+
+There are different types of SIM cards based on the size of it and the voltage usage
+
+Class A - 5 V
+Class B - 3.3 V
+Class C - 1.8 V
+
+Width, Height, Thickness:
+Full (1FF)  - 85.6 x 53.9 x 0.76 mm
+Mini (2FF)  - 25 x 15 x 0.76 mm
+Micro (3FF) - 15 x 12 x 0.76 mm
+Nano (4FF)  - 12.3 x 8.8 x 0.67 mm
+eSIM (MFF2) - 6 x 0.65 x 0.65 mm
+iSIM        - Same size as eSIM, just implementation difference
+
+Cell phones usually standard (mini), micro, and nano
+
+Usually the white card that the encloses the SIM magnetic chip is made out of Polyvinyl chloride (PVC). PVC is the material used to enclose cards like credit/debit/bank/id etc.
+
+SIM cards store network-specific information used to authenticate and identify subscribers on the network. The most important of these are the ICCID, IMSI, authentication key (Ki), local area identity (LAI) and operator-specific emergency number. The SIM also stores other carrier-specific data such as the SMSC (Short Message service center) number, service provider name (SPN), service dialing numbers (SDN), advice-of-charge parameters and value-added service (VAS) applications.
+
+eSIM are usually built into the phone, so not consumer swappable. It represents a "digital" version of the SIM card in that there are preinstalled vendor software that will program it so you don't need to get new SIM cards for different providers.
+
+*** AT commands
+https://www.sparkfun.com/datasheets/Cellular%20Modules/AT_Commands_Reference_Guide_r0.pdf
+
+Many equipment such as LTE modems accept AT commands as a way of communicating.
+
+*** Protocols
+USSD (Unstructured Supplementary Service Data) is a Global System for Mobile Communications (GSM) protocol that is used to send text messages. USSD is similar to Short Message Service (SMS). USSD uses codes made up of the characters that are available on a mobile phone.
+
+*** Fixed wireless
+Fixed wireless is the operation of wireless communication devices or systems used to connect two fixed locations (e.g., building to building or tower to building) with a radio or other wireless link.
+Mobile wireless is where it can move around.
+
+*** Terminology
+
+PtP / PtMP - Point-to-Point and Point-to-Multi-Point. Wireless access points (including the one in your wireless router at home or the office) are PtMP - multiple client devices connect to one access point device. PtP connections are commonly used for wireless backhauls - one device on one relay will connect directly to one device on another relay. This distinction is important when deciding what types of devices to use in your network.
+Access Point - A PtMP device typically installed on a relay site. Multiple customers can connect to one of these devices.
+CPE - Customer-Premises Equipment. Common name for the client device that goes on a customer’s roof and connects to an access point.
+Backhaul - A high capacity PtP network connection. In this guide backhauls can be assumed to be wireless. Backhaul can refer to either entire link (2 devices) or one side of the link (1 device).
+Relay Site - Any place where access points or backhauls are installed as part of a WISP’s infrastructure. Common types of structures are buildings, water tanks, homes, and cell towers but they can be anywhere.
+Fiber Connection - A WISP’s upstream connection to the Internet. It doesn’t have to be fiber, but for this guide we assume that it is.
+Radio - Common name for any wireless device - access point, CPE or backhaul.
+Mbps / Gbps - Megabits per Second and Gigabits per Second. A measure of the throughput of a network connection and the most commonly used way to compare the speed of Internet connections. 1Gbps = 1000Mbps (usually). More info: https://en.wikipedia.org/wiki/Data_rate_units Commonly falsely stated as mega bytes per second, which is not the same thing. 1 byte = 8 bits.
+
+*** Base station
+Generation	Radio Technology	Base Station Name
+2G	GSM	BTS (Base Transceiver Station)
+3G	UMTS	NodeB
+4G	LTE	eNB, Evolved NodeB
+5G	NR	gNB, G???? NodeB
+
+*** Conformance Testing
+Conformance testing usually tests the following:
+
+Radiation (SAR Evaluation)
+Vibrations
+Temperature
+ROHS (Hazardous materials testing)
+
+*** Texting
+SMS - Short Message Service, standard protocol for mobile
+MMS - Multimedia Messaging Service, allows sending audio/video/images
+OTT - Over-the-top, uses the internet to exchange messages
+
