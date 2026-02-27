@@ -1,0 +1,20 @@
+*** Threads
+
+A screw thread, often shortened to thread, is a helical structure used to convert between rotational and linear movement or force.
+A screw thread is a ridge wrapped around a cylinder or cone in the form of a helix, with the former being called a straight thread and the latter called a tapered thread.
+A screw thread is the essential feature of the screw as a simple machine and also as a threaded fastener. The mechanical advantage of a screw thread depends on its pitch, that is the linear path that the screw covers in one revolution.
+
+In most applications, the pitch of a screw thread is chosen so that there is sufficient friction to prevent the linear motion from being converted into rotary motion, that is so the screw does not slip even with the application of a linear force, as long as there is no external torque.
+
+Different Types of Screw Threads
+
+    British Standard Whitworth (B.S.W.)
+    British Association (B.A.) thread
+    American National Standard thread
+    Unified standard thread
+    Square thread
+    Acme thread
+    Knuckle thread
+    Buttress thread
+    Metric thread
+ 

@@ -1,0 +1,7 @@
+VIN 1 0
+R1 2 0 10k
+R2 3 0 2k
+R3 4 0 1k
+FREQ 10.0 100.0 20  VIN  freq.eps
+TIME 0.0  0.05  0.002 time.eps
+

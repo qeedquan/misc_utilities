@@ -1,0 +1,4 @@
+cheap usb digital microscope with led
+50x to 500x magnification
+
+driver: standard uvc (usb video class)

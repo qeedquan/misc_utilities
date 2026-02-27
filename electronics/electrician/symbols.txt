@@ -1,0 +1,5 @@
+S - Single-Pole
+S3 - Three-way
+S4 - Four-way
+Sp - Single-Pole with pilot light
+

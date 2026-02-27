@@ -1,0 +1,9 @@
+https://www.arcaderenovations.com/rgb-led-panel-for-ultimarc-utrak-trackballs.html
+
+12v DC
+10 5050 RGB LEDs
+RGB remote controller that sends commands over IR
+
+Plug and play for the most part, the remote uses a coin battery (CR2032)
+The LEDs hooks to a power plug, the MCU controlling it is inside the LED controller cable that provides a bridge to the power and the LED.
+

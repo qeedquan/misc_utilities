@@ -1,0 +1,7 @@
+# Normal operation
+python -m dnserver --port 5053 example_zones.toml
+
+# Don't fallback to upstream DNS server if couldn't resolve
+python -m dnserver --port 5053 --no-upstream example_zones.toml
+
+dig @localhost -p 5053 example.com MX

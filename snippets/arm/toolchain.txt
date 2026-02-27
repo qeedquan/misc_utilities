@@ -1,0 +1,17 @@
+*** Prebuilt binaries
+
+ARM provides prebuilt binaries for the GNU toolchain (gcc/gdb/etc)
+
+https://developer.arm.com/Tools%20and%20Software/GNU%20Toolchain
+
+For GDB, python support is provided via gdb-*-py binary but it uses shared libraries.
+Need to compile python manually if distro packages don't have it
+
+cd python-3.x
+./configure --enable-shared --prefix=/path/to/python/install
+make
+make install
+
+# Add it to the LD path so gdb can see it
+export LD_LIBRARY_PATH=$PATH:/path/to/python/install
+

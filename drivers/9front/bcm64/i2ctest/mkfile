@@ -1,0 +1,39 @@
+</$objtype/mkfile
+
+TARG=detect\
+
+OFILES=i2c.$O
+HFILES=
+
+</sys/src/cmd/mkmany
+BIN=/$objtype/bin/games
+
+DIRS=
+
+all:V:	dirall
+install:V:	dirinstall
+clean:V:
+	for (i in $DIRS) @{
+		cd $i
+		mk clean
+	}
+	rm -f *.[$OS] [$OS].* y.tab.? y.debug y.output $TARG
+
+nuke:V:
+	for (i in $DIRS) @{
+		cd $i
+		mk nuke
+	}
+	rm -f *.[$OS] [$OS].* y.tab.? y.debug y.output $TARG
+
+dirinstall:V:
+	for (i in $DIRS) @{
+		cd $i
+		mk install
+	}
+
+dirall:V:
+	for (i in $DIRS) @{
+		cd $i
+		mk all
+	}

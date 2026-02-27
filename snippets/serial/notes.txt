@@ -1,0 +1,38 @@
+*** Virtual Windows serial port
+
+Driver that creates virtual devices, by default it makes 2 virtual device that communicates with each other
+
+https://com0com.sourceforge.net/
+
+*** Terminal programs
+Windows
+https://ttssh2.osdn.jp/index.html.en
+
+Windows, Linux
+https://www.putty.org/
+
+*** Null modem
+Standard USB to DB9 connector work on most equipments but some equipment have a null modem port.
+A null modem adapter attached to a USB to DB9 connector then to the equipment will make it look like a null modem.
+
+Some sample null modem adapters
+https://www.amazon.com/female-slimline-transfer-serial-adapter/dp/B075XHWVSJ/ (DB9 null modem male to female)
+https://www.amazon.com/dp/B0782T2W84/ (KINGDEE INC DB9 Null Modem Female to Female)
+https://www.amazon.com/female-slimline-transfer-serial-adapter/dp/B075XGRLXW/ (DB9 null modem female to female)
+
+*** Pinouts
+Standard pinout for RS232:
+PWR, GND, TXD, RXD
+
+For hardware flow control add 2 more pins
+RTS, CTS
+
+https://www.brainboxes.com/faq/what-is-rts-cts-hardware-flow-control
+
+*** Putty
+Putty has a tool called plink that is pure command line, it can be used to automate things
+
+plink -serial /dev/pts/2 | ./script.sh > /dev/pts/2
+
+The command allows you to read from a serial device and output to a serial device
+

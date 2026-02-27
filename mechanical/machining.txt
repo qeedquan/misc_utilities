@@ -1,0 +1,38 @@
+*** Processes
+Common machining processes offered by vendors:
+
+CNC Machining
+SLA - Stereolithography
+SLS - Selective Laser Sintering
+DLP - Direct Digital Prod
+Cast Urethane
+QuickCast
+DMP - Direct Metal Publishing
+Sheet Metal
+FDM - Fused Deposition Modeling
+Printed Wax
+Low Volume Injection Molding
+
+The processes are basically using machines to cut/round/etc, casting (melting something and putting it into a mold), or printing
+
+For low volume, price starts at around $100 for a simple STL files for the simplest models (like cases/etc) using 3d printing
+CNC machine rentals are around a few hundred an hour.
+Injection molding cost more than 3d printing/CNC because need to make the mold, but the mold can be reused after so good for high volume production
+
+*** Materials
+PC-Like Clear (Accura ClearVue)
+ABS-Like Black
+Ceramic Filled (Accura Bluestone)
+ABS-Like High Temp (Accura 48)
+
+*** Finishes
+Paint Ready
+Painted
+Quick Clear
+Matte (Low gloss, don't reflect alot of light)
+
+*** Formats
+
+Some vendors don't want to use CNC with STL models, STL models are more fitted to 3D printing (STL models are mainly triangle meshes)
+However, vendors can give you an estimate of how much something can cost for manufacturing with only STL models
+

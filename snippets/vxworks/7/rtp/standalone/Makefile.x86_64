@@ -1,0 +1,36 @@
+CC=$(WIND_LLVM_PATH)/$(WIND_LLVM_HOST_TYPE)/bin/clang
+LD=$(WIND_LLVM_PATH)/$(WIND_LLVM_HOST_TYPE)/bin/ldpentium
+
+ARCH=--target=x86_64 -march=core2
+CFLAGS=$(ARCH) \
+	   -nostdlibinc \
+	   -nostdinc++
+DEFS=
+
+INC=-I$(WIND_CC_SYSROOT)/share/h \
+	-isystem$(WIND_CC_SYSROOT)/usr/h/public
+
+LDFLAGS=-m elf_x86_64 \
+		-z noseparate-code --no-relax \
+		--defsym __wrs_rtp_base=0x200000 \
+		-u __wr_need_frame_add \
+		-u __tls__ \
+		-T$(WIND_CC_SYSROOT)/usr/ldscripts/rtp.ld
+
+LDPATH=-L$(WIND_CC_SYSROOT)/usr/lib/common
+
+LIB=-static --start-group -lc -lc_internal --end-group
+
+all: c asm
+
+c:
+	$(CC) $(CFLAGS) $(DEFS) $(INC) -c hello.c -o hello_x86_64.o
+	$(LD) $(LDFLAGS) $(WIND_CC_SYSROOT)/usr/lib/common/crt0.o hello_x86_64.o $(LDPATH) $(LIB) -o hello_x86_64.vxe
+
+asm:
+	$(CC) $(CFLAGS) $(DEFS) $(INC) -c x86_64.s -o x86_64.o
+	$(LD) $(LDFLAGS) x86_64.o $(LDPATH) -o x86_64.vxe
+
+clean:
+	rm -f *.o *.vxe
+

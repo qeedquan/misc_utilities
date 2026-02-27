@@ -1,0 +1,27 @@
+/*
+
+An example layer to build a set of library functions
+
+Add the layer path to environment variable WIND_LAYER_PATHS for vxprj to see it
+
+See if the layer is seen by the VSB
+vxprj vsb listAll
+
+Add the layer to the VSB build
+vxprj vsb add HELLO
+
+The library can be linked in when building DKMs/RTPs (-lhello).
+
+*/
+
+Layer HELLO {
+	SYNOPSIS         Greeting library
+	HELP             Includes library support for greeting functions
+	VERSION          0.0.0.1
+	FEATURE          OPEN_SOURCE
+	VENDOR           None
+	LAYER_REQUIRES   LIBC_STD
+	OPTIONAL         YES
+	DEFAULT          NO
+	DOC_BUILD        NO
+}

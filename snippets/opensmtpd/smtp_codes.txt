@@ -1,0 +1,46 @@
+*** Codes
+
+Code	What it means
+101	Server connection error (wrong server name or connection port)
+211	System status (response to HELP)
+214	Help message (response to HELP)
+220	The server is ready (response to the client’s attempt to establish a TCP connection)
+221	The server closes the transmission channel
+235	Authentication successful (response to AUTH)
+250	The requested command is completed. As a rule, the code is followed by OK
+251	User is not local, but the server will forward the message to <forward-path> 
+252	The server cannot verify the user (response to VRFY). The message will be accepted and attempted for delivery
+334	Response to the AUTH command when the requested security mechanism is accepted
+354	The server confirms mail content transfer (response to DATA). After that, the client starts sending the mail. Terminated with a period ( “.”)
+421	The server is not unavailable because it closes the transmission channel
+422	The recipient’s mailbox has exceeded its storage limit
+431	File overload (too many messages sent to a particular domain)
+441	No response from the recipient’s server
+442	Connection dropped
+446	Internal loop has occurred
+450	Mailbox unavailable (busy or temporarily blocked). Requested action aborted
+451	The server aborted the command due to a local error 
+452	The server aborted the command due to insufficient system storage
+454	TLS not available due to a temporary reason (response to STARTTLS)
+455	Parameters cannot be accommodated
+471	Mail server error due to the local spam filter
+500	Syntax error (also a command line may be too long). The server cannot recognize the command
+501	Syntax error in parameters or arguments
+502	The server has not implemented the command
+503	Improper sequence of commands
+504	The server has not implemented a command parameter
+510	Invalid email address
+512	A DNS error (recheck the address of your recipients)
+523	The total size of your mailing exceeds the recipient server limits
+530	Authentication problem that mostly requires the STARTTLS command to run
+535	Authentication failed
+538	Encryption required for a requested authentication mechanism
+541	Message rejected by spam filter
+550	Mailbox is unavailable. Server aborted the command because the mailbox was not found or for policy reasons. Alternatively: Authentication is required for relay
+551	User not local. The <forward-path> will be specified
+552	The server aborted the command because the mailbox is full
+553	Syntactically incorrect mail address 
+554	The transaction failed due to an unknown error or No SMTP service here as a response to the client’s attempts to establish a connection
+555	Parameters not recognized/ not implemented (response to MAIL FROM or RCPT TO)
+
+

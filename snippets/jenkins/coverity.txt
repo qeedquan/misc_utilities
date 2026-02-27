@@ -1,0 +1,42 @@
+*** Installation
+https://plugins.jenkins.io/synopsys-coverity/
+
+This is an official Jenkins repository, you can also download the HPI offline install on there
+
+*** Usage
+This plugin adds a coverity config page to Jenkins
+
+Dashboard > Manage Jenkins > Configure System > Synopsys Coverity
+Need credentials to connect to "Coverity Connect" instance
+
+*** Environment Variables
+COVERITY_TOOL_HOME
+
+*** Manual usage
+Use cov-build command
+
+*** Authentication
+Jenkins can either use different methods to authenticate coverity.
+
+# Username/Password
+Create a user/password on the Coverity WebUI, then we can use those credentials.
+
+# Auth Keys
+To generate Auth Keys, go to the webui and click on Auth Keys.
+Generate the keys and save it to a text file.
+In Jenkins, choose "Secret File" and specify the Auth Keys
+
+Authentication will fail if certificates are not setup properly
+
+# List certificates
+keytool -list -v -keystore /etc/ssl/certs/java/cacerts
+
+# Store certificates
+keytool -import -alias <alias_name_for_cert> -keystore /etc/ssl/certs/java/cacerts -file cert.crt
+
+Whenever the keystore is updated, need to reload jenkins
+# Reload jenkins
+service jenkins restart
+
+Reloading configuration from disk in the Jenkins webui does not work
+

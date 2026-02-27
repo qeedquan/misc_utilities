@@ -1,0 +1,70 @@
+*** QEMU monitor commands
+
+While running, ctrl-a-c, then inside the qemu monitor use the command:
+
+info tlb
+Dump TLB information (physical/virtual mappings)
+
+info registers
+Dump registers
+
+info mem
+Dump virtual memory translations
+
+info mtree
+Dump memory map of the machine
+
+info pci
+Show PCI tree
+
+info irq
+Show IRQ information
+
+*** Dump the machine memory map
+# Start inside qemu monitor with the machine booted up
+qemu-system-arch -M <machine> -s -S -monitor stdio
+
+# dump the memory map
+info mtree
+
+*** Kernel debugging using GDB
+Launch with options:
+
+qemu_system_xxx -kernel image -s -S
+
+The option "-s -S" will make QEMU wait until GDB connects before continuing
+
+We need a GDB compatible with against the system QEMU is emulating, for example, if we are debugging PowerPC,
+then we need to build a GDB that supports PowerPC and use that to connect.
+
+./configure -target=powerpc-linux --enable-sim-powerpc
+./configure -target=powerpc64-linux --enable-sim-powerpc64
+
+Then after building GDB for that platform, we can connect as follows:
+$ gdb-powerpc-linux
+
+gdb> file kernel_image_with_symbols
+gdb> target remote localhost:1234
+gdb> continue
+
+*** QEMU images
+
+# Resize a disk image
+# After enlarging the disk image, you must use file system and partitioning tools inside the virtual machine to actually begin using the new space.
+qemu-img resize disk_image +10G
+
+# Convert a raw image to qcow2
+qemu-img convert -f raw -O qcow2 input.img output.qcow2
+
+*** Floppy
+
+qemu-system-i386 -fda x1440a.img
+
+Booting floppies on x86 involves creating a floppy.img file that is formatted as a FAT file.
+A FAT formatted file can be created using the following command:
+mformat -C -f 1440 -i x1440a.img
+
+The x1440a.img can be mounted in DOSBOX or in Linux, we need various tools to mark the image as a bootable device.
+When the FAT partition is marked as bootable, there is a default filename embedded into the image to be loaded.
+The filename is usually KERNEL.SYS or BOOTROM.SYS (it is up to the tool that marks the FAT partition as bootable)
+

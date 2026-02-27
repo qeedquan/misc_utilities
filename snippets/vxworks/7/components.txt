@@ -1,0 +1,45 @@
+INCLUDE_DISK_UTIL_SHELL_CMD
+    cd, ls, cp, rm, mkdir, etc
+
+INCLUDE_SHL
+	Shared libraries
+
+INCLUDE_RTP_APPL_USER
+	Generates usrRtpAppInit.c for modification in the VIP to spawn new RTPs
+
+INCLUDE_RTP_APPL_INIT_STRING
+	Parses the string defined by RTP_APPL_INIT_STRING to run on startup
+
+INCLUDE_PATCH_STANDALONE_DTB
+	Overwrites the DTB on startup with existing bootline. This is to support old bootloaders/images that passes bootline to the kernel.
+
+INCLUDE_ISR_DEFER
+	Allow interrupts to defer tasks. For serial drivers without the DISABLE_DEFER flag, this include is needed or else the system will crash.
+
+INCLUDE_NET_SYM_TBL
+	Load the symbol table (vxWorks.sym) over the network so commands like lkup can be used
+
+INCLUDE_STANDALONE_SYM_TBL
+	Build the symbol table into the kernel image so commands like lkup can be used
+
+INCLUDE_RAM_DISK
+	Creates a RAM disk on startup, default format is RAWFS
+
+INCLUDE_RAM_DISK_FORMAT_DOSFS
+	Format the RAM disk created on startup with DOSFS
+
+INCLUDE_IPWRAP_IPPROTO
+	Add backward compatibility functions such as ipAttach()/ipDetach()
+
+INCLUDE_PATHNAME_RESOLUTION_LEGACY
+	Backward compatibility on how path names are resolved, some IOS filesystem implementations do not do full expand/checks on the path name.
+	Those filesystems implementation will be broken, so this enables the old behavior where it does not check/expand symlinks, does not check for existence
+	of the resulting path except the prefix must match some I/O device.
+
+INCLUDE_TFFS_START_SECTOR_ZERO
+	Backward compatibility with old TFFS formats (6.x and below).
+	Old TFFS format store the header information at sector 0 while newer TFFS format store it at sector 1, making older VxWorks unable to read newer TFFS partitions and vice versa.
+	VxWorks 6.9 seems to default to sector 1 though.
+
+CONSOLE_NAME
+	VIP option that specifies which TTY device will be the designated console output (default is usually /ttyS0)

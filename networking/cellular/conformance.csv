@@ -1,0 +1,15 @@
+Region,Regulatory,Conformance,Carrier,Carrier mandatory?
+United States,FCC,GCF,Verizon,Y
+United States,FCC,PTCRB,AT&T,Y
+United States,FCC,PTCRB,T-Mobile,Y
+United States,FCC,PTCRB,Sprint,Y
+United States,FCC,PTCRB,US Cellular,Y
+Canada,IC,PTCRB,Rogers,Y
+Canada,IC,PTCRB,Bell,N
+Canada,IC,PTCRB,Telus,N
+Europe,CE,GCF,"Vodafone Global / Deutsche Telekom / Telefonica / BT/ EE / Swisscom / TIM, etc.",N
+Australia,RCM,GCF,Telstra,N
+Australia,RCM,GCF,Spark,N
+China,CCC/SRRC/NAL,N/A,"China Telecom / China Mobile / China Mobile, etc.",N
+Japan,TELEC/JATE,N/A,"NTT DOCOMO / Softbank / KDDI, etc.",Y
+Korea,KC,N/A,KT / SKT / LGU+,Y

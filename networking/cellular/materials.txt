@@ -1,0 +1,30 @@
+*** Cell phones
+
+# Screens
+Made from glass, common glasses are:
+Gorilla, Dragontrail, Aluminosilicate, High-Alkali, Tempered, Laminated, Sapphire, Plastic
+
+# Sensors
+Common sensors include:
+Accelerator, Gyroscope, Proximity, Compass, Ambient light, GPS
+
+# Battery
+Type of materials used:
+Lithium Ion
+
+# I/O
+Connector slots:
+SD slots (Micro, nano, etc)
+Pogo-pins
+USB
+
+# Cameras
+Resolutions usually are:
+8 - 13 MP
+
+# Modems
+GSM, CDMA, LTE, GPS, GPS-A, GLONASS
+
+# Wifi and Bluetooth
+80211ac
+

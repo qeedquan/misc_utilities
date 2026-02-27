@@ -1,0 +1,27 @@
+*** Description
+https://www.synology.com/en-us/support/nas_selector
+
+A NAS has a bunch of hard drive slots compatible with SATA/NVME drives.
+Usually runs Linux serving the hard disks over the network. Allows a centralized file storage location for various computers.
+
+Upon connecting to the network, it negotiates with the router for an IP, then the user can connect via a web browser on port 5000.
+
+The web interface presents a desktop that has apps to do the following:
+Configure/Format the hard drive
+File services (SFTP/SSH/SMB/NFS/etc)
+Health monitoring
+Backup configuration
+Permissions
+View logs
+Fan Speeds
+View/Modify/Delete/Download files on the hard drive
+
+*** NFS
+The /path location is given through the NFS web interface
+Uses a whitelist to allow IPs
+
+mount -t nfs -O user=user,pass=pass 192.168.1.1:/path /mnt/nas
+
+Add this to /etc/fstab to allow users to mount the folder
+192.168.1.1:/path   /mnt/nas    nfs    rw,relatime,user,noauto   0   0
+

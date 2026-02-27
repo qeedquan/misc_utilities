@@ -1,0 +1,14 @@
+https://www.build-electronic-circuits.com/astable-multivibrator/
+http://www.falstad.com/circuit/e-multivib-a.html
+
+A classic circuit to switch between two states in a fixed duration time with some frequency is
+known as a astable multivibrator, it is made using two transistors coupled with an rc network.
+
+The RC network feeds into the transistor and as the capacitor charges/discharges, it will enable/disable
+one transistor while enabling the other transistor, leading to a two state with some duty cycle.
+
+If we want each transistor to be on for the same amount of time, have the same capacitor/resistor values,
+if we want one to have more duty cycle, change the resistor/capacitor value fed in, ie, less resistance
+means faster charging time, and that leads to more switching and hence more time for the other transistor to run.
+
+

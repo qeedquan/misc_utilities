@@ -1,0 +1,4 @@
+axiom = X
+F --> FF
+X --> F-[[X]+X]+F[+FX]-X
+angle = 22.5

@@ -1,0 +1,64 @@
+*** Commands
+
+# Start in foreground using a custom configuration folder
+postfix -c cfg_dir start-fg
+
+# While postfix is running in foreground, use this to stop it (it ignores SIGINT)
+postfix stop
+
+# Verify configuration file is valid
+postfix check
+
+# Print all postfix configuration parameters, even internal ones like limits
+# For configurations that are not used, the command will warn about it
+postconf -p
+
+# Generate aliases.db given an aliases file
+postalias /etc/aliases
+
+# Generate virtualmaps database
+postmap /etc/postfix/virtual
+postmap /etc/postfix/virtualmaps
+
+# Print the mails in the queue
+postqueue -p
+
+# Show all the supported lookup table types
+postconf -m
+
+# Send log to postfix, user using this command needs proper permissions for writing
+postlog <message>
+
+*** Files
+/etc/postfix is the usual location for configuration files
+
+main.cf - contains the global configuration of Postfix.
+master.cf - specifies Postfix interaction with various processes to accomplish mail delivery.
+access - specifies access rules, for example hosts that are allowed to connect to Postfix.
+transport - maps email addresses to relay hosts.
+aliases - contains a configurable list required by the mail protocol that describes user ID aliases. Note that you can find this file in the /etc/ directory.
+virtual - kind of like aliases but for virtual user mappings
+
+Template files that list common options that postfix supports
+main.cf.proto
+master.cf.proto
+
+*** Authentication
+SMTP servers need to decide whether an SMTP client is authorized to send mail to remote destinations, or only to destinations that the server itself is responsible for.
+Usually, SMTP servers accept mail to remote destinations when the client's IP address is in the "same network" as the server's IP address.
+
+SMTP clients outside the SMTP server's network need a different way to get "same network" privileges. 
+To address this need, Postfix supports SASL authentication (RFC 4954, formerly RFC 2554).
+With this a remote SMTP client can authenticate to the Postfix SMTP server, and the Postfix SMTP client can authenticate to a remote SMTP server.
+Once a client is authenticated, a server can give it "same network" privileges.
+
+You can also use a firewall in front of postfix as another filter
+
+*** Running on different port
+Modify master.cf and change
+
+smtp      inet  n       -       y       -       -       smtpd
+
+to be
+
+<newport> inet  n       -       y       -       -       smtpd

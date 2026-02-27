@@ -1,0 +1,3 @@
+*** Overview
+Knurling is a manufacturing process that creates a pattern of straight, diamond-shaped, or raised ridges on a metal workpiece.
+It's achieved by pressing a knurling tool against the workpiece, causing plastic deformation as the raised elements of the tool depress and deform the surface.

@@ -1,0 +1,38 @@
+*** Product
+
+https://www.korg.com/us/products/synthesizers/wavestate/
+
+A synthesizer with some piano keys.
+Uses 6.3 mm (quarter inch) audio cable so the audio output device needs to suport quarter inch plugs or some converter in between.
+
+Tested with speakers:
+
+CR3-X
+https://mackie.com/products/cr-x-creative-reference-multimedia-monitors
+
+*** Software
+
+The KORG has a text interface on bootup of the keyboard and a USB-B port for computer interface.
+The USB-B has ethernet interface over it, but no audio, so can't use it to play audio through it.
+
+DAWs that can work with KORG
+
+Ableton:
+https://www.ableton.com/en/
+
+*** Get firmware version
+In the KORG UI
+1. Press UTILITY button, then SHIFT and +- to move around the UI tab to show the firmware version.
+
+*** Update firmware
+
+https://www.sweetwater.com/sweetcare/articles/korg-wavestate-firmware-update-instructions/
+
+For Windows 10, plug in the USB-B port to the computer.
+
+1. Open Device Manager
+2. Set the driver used for the KORG to be RNDIS-6 by Microsoft.
+3. Then the wavestate software updater can see it and update it.
+
+If updating from old version to >1.0.6, have to set the device driver to use NCIM to use it with the updated firmware.
+

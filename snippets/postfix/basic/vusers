@@ -1,0 +1,10 @@
+# Email to these addresses go to the other user mailbox
+support@playground john@playground
+
+# This is a catchall account, any email to this domain goes here (valid or invalid)
+@playground catchall@playground
+
+ftp@xlw.dek ubi@xlw.dek
+postmaster@xlw.dek x@xlw.dek
+
+x@xlw.dek sam@playground

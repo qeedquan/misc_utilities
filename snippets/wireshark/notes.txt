@@ -1,0 +1,21 @@
+*** Programs
+tshark is the command line version of wireshark
+
+*** USB in Windows
+USB support is enabled via
+https://desowin.org/usbpcap/
+
+The portable wireshark version does not ask you to install usbpcap but the main installer does ask you if you want to install it (the main installer bundles it with the system)
+
+This shows up as an external capture in wireshark
+
+USB captures at the root hub level, so any devices inside the root hub will output stuff on the interface, need to filter the source address
+
+*** Filters
+not usb.src == "address"
+not usb.dst == "address"
+
+usb.src == "address1" and usb.src == "address2"
+
+USB devices can change their address when plugged/unplugged
+

@@ -1,0 +1,12 @@
+*** Call notification
+On Linux, the ModemManager watches the modem for state changes and notifies via events DBUS.
+The events we can capture is when a call is made/dropped/etc
+
+org.freedesktop.ModemManager1.Call
+
+*** Applications
+Applications utilize the modem to make calls/receive calls
+
+On Linux, the following applications can be used:
+gnome-calls
+

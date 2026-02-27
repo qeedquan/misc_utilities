@@ -1,0 +1,89 @@
+bluetoothctl
+------
+main command line utility to perform various operations like scanning and connecting
+subcommands:
+	show - shows a list of bluetooth controller device on the system
+	list - shows a short list of all bluetooth controller device on the system
+	devices - show connected devices
+	paired-devices - show paired devices
+	discoverable [on/off] - turns on or off whether scanning will show controller
+	disconnect [dev] - disconnect from a device
+
+hcitool
+-----
+command line utility to interface at hci layer (host controller interface level)
+subcommands:
+	dev - shows all controller on system
+	lescan - scan for low energy devices
+
+rfkill
+-----
+command line utility to show bluetooth/wireless settings
+subcommands:
+	list - list all interfaces and if they are blocked or not
+	unblock - unblock an interface
+
+blueman
+-----
+set of gui programs to manage bluetooth
+	# gui app to list bluetooth devices and treats
+	# them as a file service browser
+	blueman-browse
+
+	# gui app for adapters, it can hide the bluetooth adapter
+	# or set it to be visible
+	blueman-adapters
+
+	# gui to search for bluetooth devices
+	blueman-manager
+
+systemd
+-----
+	# list status of bluetooth
+	systemctl status bluetooth
+
+	# start bluetooth service
+	service bluetooth start
+
+lspci
+-----
+	# list what module is used by what devices
+	lspci -k
+
+hcidump
+-----
+	# sniffer for bluetooth, when bluetooth sends packet, this will
+	# intercept it and dump info, use in conjunction with bluetoothctl
+	# scanning to debug
+	echo scan on | bluetoothctl
+	hci-dump
+
+l2ping
+-----
+pings a bluetooth device example
+l2ping 48:02:2C:69:27:2C
+
+l2test
+rctest
+----
+command to test l2cap/rfcomm connections
+test transfer speeds etc.
+
+    # receiving side
+    l2test -r
+	rctest -r
+
+    # sending side
+    l2test -s <bdaddr>
+    rctest -s <bdaddr>
+
+gattool
+-----
+Tool to access GATT services for BLE
+
+busctl
+----
+systemd program to control dbus
+
+# dump json output
+busctl -j call org.bluez / org.freedesktop.DBus.ObjectManager GetManagedObjects

@@ -1,0 +1,26 @@
+*** Commands
+
+# generate a assembly file called blob.S from device.dts and print errors if any occured
+# the blob.S can be assembled and linked into the final binary
+dtc -o blob.S -O asm device.dts
+
+# write the device tree source for the device tree blob device.dtb to the standard output.
+dtc -o - -O dts -I dtb device.dtb
+
+# generate a device.dtb file from the device tree source device.dts with a __symbols__ node included so that overlays may be applied to it.
+dtc -@ -O dtb -I dts -o device.dtb	device.dts
+
+*** File extensions
+
+# Device tree source file (board-level definitions)
+.dts
+
+# Device tree included files, generally containing SoC-level definitions
+.dtsi
+
+# Device tree overlay file (patch applied on top of the source file for customizing stuff)
+.dtso
+
+# Device tree binary file
+.dtb
+

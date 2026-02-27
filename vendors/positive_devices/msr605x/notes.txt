@@ -1,0 +1,16 @@
+*** Card scanner
+https://www.positivedevice.com/pages/download
+
+USB card scanner that can read and write to cards.
+Can read credit cards, game cards, etc
+
+Write to the card by using the provided program to write something, and then swipe the card to write to it.
+
+Supports windows/macs, linux has some reverse engineered libraries for it.
+
+*** Blank cards
+
+Can buy blank cards to program on internet, some examples cards:
+
+SLE4442 Chip Pearl White Cards with Hi-Co Magnetic Stripe PVC Blank Card
+

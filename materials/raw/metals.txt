@@ -1,0 +1,11 @@
+*** Anodizing
+
+Anodizing is an electrochemical process that creates a protective, corrosion-resistant layer on the surface of a metal part.
+The process is often used on aluminum and its alloys, but can also be used on other nonferrous metals like magnesium and titanium.
+
+1. The metal part is immersed in an acid electrolyte bath.
+2. An electric current is passed through the bath.
+3. The metal part acts as the anode, releasing oxygen ions that combine with the metal atoms to form an oxide layer.
+
+Sandblasting is an optional process before anodizing that can cover machine marks.
+

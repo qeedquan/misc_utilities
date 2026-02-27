@@ -1,0 +1,48 @@
+*** MAC address
+
+https://standards-oui.ieee.org/
+
+The first 3 hex number is the OUI (Unique identifier assigned to a manufacturer of the ethernet chip), which is documented in a database
+
+MAC address can be usually be changed in software to help with collisions.
+
+*** Pinouts
+
+https://www.andcorp.com.au/how-to-setup-an-rj45-pinout/
+
+1. Straight-Through
+The wiring on both ends of the cable is the same in this type of standard. Pin 1 to 8 of connector A is connected to Pin 1 to 8 of connector B directly. These types of cables are used for connecting a host to the client. For instance, a straight-through Cat5e patch cable is used to connect printers, computers, and other network devices to hub or router switches. Straight-through cables can be terminated through T568A or T568B wiring standards. The RJ45 pinout for straight-through Ethernet cables is:
+
+Pin 1: Transmit + (White and green)
+Pin 2: Transmit – (Green)
+Pin 3: Receive + (White and orange)
+Pin 4: Blue
+Pin 5: White and blue
+Pin 6: Receive – (Orange)
+Pin 7: White and brown
+Pin 8: Brown
+
+2. Crossover
+Crossover cables are almost similar to straight-through, with the only difference in RX and TX lines. These lines are crossed with each other, which means Pin 1 of connector A is connected to Pin 3 on connector B, while Pin 2 is connected to Pin 6.
+
+Usually, crossover cables are terminated with one end using the T568A standard, and the other end of the cable is terminated with T568B. These cables are used for connecting two similar cables to each other, such as connecting two computers, two hubs or switches with each other. Using crossover cables, one can connect two host devices directly. RJ45 pinout for crossover Ethernet cables:
+
+Pin 1: White and green wire, connected to Pin 3
+Pin 2: Green wire, connected to Pin 6
+Pin 3: White and orange, connected to Pin 1
+Pin 4: Blue, connected to Pin 4
+Pin 5: White and blue, connected to Pin 5
+Pin 6: Orange, connected to Pin 2
+Pin 7: White and brown, connected to Pin 7
+Pin8: Brown, connected to Pin 8
+
+*** Lengths
+Various standard ethernet cable lengths
+
+10 ft
+25 ft
+50 ft
+100 ft
+
+CAT6 is backward compatible with CAT5 cable, but cost more since it is thicker and better shielded
+

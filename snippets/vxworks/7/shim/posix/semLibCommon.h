@@ -1,0 +1,50 @@
+#ifndef _SEMLIB_COMMON_H_
+#define _SEMLIB_COMMON_H_
+
+typedef struct {
+	int u;
+} _Vx_SEMAPHORE;
+
+typedef void *SEM_ID;
+typedef _Vx_SEMAPHORE SEMAPHORE;
+
+#define SEM_ID_NULL NULL
+
+enum {
+	SEM_Q_FIFO = 0x00,
+	SEM_Q_PRIORITY = 0x01,
+	SEM_DELETE_SAFE = 0x04,
+	SEM_INVERSION_SAFE = 0x08,
+	SEM_EVENTSEND_ERR_NOTIFY = 0x10,
+	SEM_INTERRUPTIBLE = 0x20,
+	SEM_NO_EVENT_SEND = 0x100,
+	SEM_NO_SYSTEM_VIEWER = 0x200,
+	SEM_NO_RECURSE = 0x400,
+	SEM_NO_ID_VALIDATE = 0x800,
+	SEM_NO_ERROR_CHECK = 0x1000,
+	SEM_PRIO_INHERIT = SEM_INVERSION_SAFE,
+	SEM_TASK_DELETION_WAKEUP = 0x2000,
+};
+
+typedef enum {
+	SEM_TYPE_BINARY,
+	SEM_TYPE_MUTEX,
+	SEM_TYPE_COUNTING,
+	SEM_TYPE_RW,
+	SEM_TYPE_MAX = 8,
+} SEM_TYPE;
+
+typedef enum {
+	SEM_EMPTY,
+	SEM_FULL,
+} SEM_B_STATE;
+
+#define S_semLib_INVALID_STATE (M_semLib | 101)
+#define S_semLib_INVALID_OPTION (M_semLib | 102)
+#define S_semLib_INVALID_QUEUE_TYPE (M_semLib | 103)
+#define S_semLib_INVALID_OPERATION (M_semLib | 104)
+#define S_semLib_INVALID_INITIAL_COUNT (M_semLib | 105)
+#define S_semLib_COUNT_OVERFLOW (M_semLib | 106)
+#define S_semLib_RECURSE_OVERFLOW (M_semLib | 107)
+
+#endif

@@ -1,0 +1,88 @@
+*** SSH key authentication
+
+Git can use SSH private/public key pairs to authenticate a user to a repository instead of user/password
+
+Setup steps:
+
+# Generate a SSH public/private key pair
+ssh-keygen
+
+# Make sure ssh-agent is running
+ssh-agent -s
+
+# Add the private key to the SSH store 
+ssh-add id_private_key
+
+# Add the public key using the repository interface
+# Github/Gitlab has a web interface to add public keys
+
+# Checkout a repo
+git clone git@repo.here
+
+*** Making releases
+
+# Make a tarball archive with the head revision number in the filename
+git archive --format=tar.gz HEAD > release_$(git rev-parse --short HEAD).tar.gz
+
+*** Status
+
+# List all changes ignoring .gitignore
+git status --ignored
+
+*** Inspect and Compare
+
+# Show the commits on branchA that are not on branchB
+git log branchB..branchA
+
+*** Temporary Commits
+
+# Saved modified and stashed file changes
+git stash
+
+# List stack-order of stashed file changes
+git stash list
+
+# Discard changes from top of stack
+git stash drop
+
+*** Diff
+
+# Generate a diff of the repo:
+git diff
+
+# Apply the diff to different repo
+git apply changes.patch
+
+*** Tags
+
+Release versions are usually tagged
+
+# Show all tags
+git tag -n
+
+# Work on a tag and potentially make changes
+git checkout -b <new_branch_name> <tag_name>
+
+*** Changing commit author
+
+# Specify a new author for a commit, this does not change who the committer is though
+git commit -m "Commit message" --author="Another Author <another.author@example.com>"
+
+# Change who the author for commits that was already made
+git commit --amend --author="New Name <new.email@example.com>" --no-edit
+
+*** Update submodule
+
+# Clone the submodules if we haven't done so
+git submodule init
+git submodule update
+
+cd submodule_dir
+git checkout branch_we_want
+git pull
+
+cd ..
+git add submodule_dir
+git commit -m update submodule
+git push
+

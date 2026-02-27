@@ -1,0 +1,5 @@
+*** Types of barcodes
+
+2D - PDF417, MicroPDF417, Data Matrix, Maxicode, QR Code, MicroQR, Aztec
+1D - UPC, EAN, Code 128, Code 39, Code 93, Code 11, Matrix 2 of 5, Codabar, Interleaved 2 of 5
+

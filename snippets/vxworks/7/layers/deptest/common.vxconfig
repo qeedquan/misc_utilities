@@ -1,0 +1,14 @@
+config DEPTEST_COMMON
+	bool
+	default y
+
+config DEPTEST_A
+	bool
+	default y
+	depends on DEPTEST_COMMON && (ARCH_i86 || ARCH_arm || ARCH_ppc)
+
+config DEPTEST_B
+	bool
+	default y
+	depends on DEPTEST_COMMON
+
