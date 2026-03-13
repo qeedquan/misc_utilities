@@ -1,0 +1,50 @@
+---Conventions
+
+Uses reversed domain name convention to identify resources
+org.freedesktop.PowerManagement
+com.Skype.API
+org.mpris.MediaPlayer2.clementine 
+
+A unique name is of the form, the app can request
+a familiar bus name (domain name above though)
+:1-45
+:2-16
+
+Each app/service can have multiple object paths represent a unique
+object within the application
+
+---File locations
+These are for customizations
+/etc/dbus-1
+system-local.conf
+
+These are for defaults
+/usr/share/dbus-1
+system.conf
+session.conf
+
+After modifying the files, need to reload dbus to take effect
+systemctl reload dbus
+
+---Buses
+System Bus:
+System wide services runs here, meant to allow programs to connect and
+utilize its services, examples include bluetooth daemon, hplip printer
+drivers, and other programs of that nature.
+
+By default, DBUS configuration policy disallows a user creating a service
+on this bus without an opt-in configuration file policy, can create a catch-all
+configuration file though, for development purposes.
+
+Session Bus:
+Local programs per user login session, programs such as audacious
+media player and gnome screensaver are such examples, they are meant to provide
+different customization for each user session
+
+---Debugging tools
+d-feet: GUI tool to view dbus services/attribute
+dbus-monitor: command line tool to sniff dbus traffic
+
+For these tools to look at the services that an object expose, the object
+needs to implement the Introspect method that gives all the metadata on it,
+otherwise it will error out

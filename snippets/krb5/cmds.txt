@@ -1,0 +1,22 @@
+*** Overview
+klist - reads a database file and output info about it
+kadmin - talks to the kadmin server
+
+# Dump the info about the credential cache
+klist tests/testdir/ccache
+
+# List tickets held in a credentials cache.
+klist -c testdir/xx/yy
+
+# Add a principal with password bob and does not expose password setting prompt
+kadmin.local addprinc -pw bob alice
+
+# If there is no domain specified, it uses the default realm and current user id
+# It will asks you to enter your password
+kinit
+
+# If we have a different realm, specify the domain name to the user
+# Requests canonicalization of the principal name, and allows the KDC to reply with a
+# different client principal from the one requested.
+klist -C david@EXAMPLE.COM
+

@@ -1,0 +1,299 @@
+*** Escape characters
+
+This is handled inside the tty library code of VxWorks
+
+Ctrl-H deletes some characters
+Ctrl-U delete a whole line
+
+https://invisible-island.net/xterm/xterm.faq.html#xterm_erase
+Unix shell usually maps Ctrl-? as delete, view this with the command 'stty -a'
+This means that when run under QEMU with this mapping, the shell cannot handle the backspace character and spits out '?' instead of deleting correctly.
+Need to remap the DEL in the terminal
+
+*** Common C/command interpreter commands
+kill - kill a process
+
+*** C shell
+cmd   - switch to command interpreter in C mode
+kill  - kill a process
+rtpSp - spawns an application
+	rtpSp "app.vxe arg1 arg2 arg3"
+
+putenv("LD_LIBRARY_PATH=/romfs/lib;/romfs/other/lib");
+	Set environment variable
+
+checkStack(taskNameOrId)
+	Display stack usage for specific task
+
+bootChange()
+	Changes the bootline (tries to save to nvram at address zero upon completion).
+	If device tree is enabled however, it will not save to nvram as it gets the bootline from "bootargs" inside the device tree.
+
+sethostname("new.host.com", strlen("new.host.com"))
+	Set the hostname, by default it parses bootline field tn= for the name
+
+hostAdd("example.com","192.168.1.1")
+	Map a host name to IP, on Linux you would modify /etc/hosts
+
+sysNvRamSet(sysBootLine, strlen(sysBootLine) + 1, 0)
+	Manually write bootline to NVRAM
+
+tw(taskNameOrId)
+w(taskNameOrId)
+	Show task pending information
+
+devs()
+	List all known devices
+
+printErrno(code) - print errno code string representation
+vmPageSizeGet - gets the virtual memory page size
+sysMemSizeGet - shows the total memory on the system
+memShow - shows memory usage on system (this does not show the total amount of memory on the system, only what has been allocated/freed so far)
+erfShow - shows the event reporting framework log
+edrShow - shows the error log
+arpShow - shows arp entries
+muxShow - shows the network stack
+objShow - shows information about kernel object
+rtpShow - shows information about an RTP
+iosFdShow - shows all file descriptors
+envShow - shows environment of given task
+moduleShow - shows downloadable kernel module loaded
+vmContextShow - shows the entire virtual <-> physical mapping of an RTP context or a global kernel context if not RTP
+adrSpaceShow - shows the address space information for the system
+vxbPinMuxShow - show the pinmux configuration 
+vxbTimerShow - show all the timers connected
+vxbIsrHandlerShow - show all the connected isr handlers
+vxbAuxClkShow - show aux clock info
+tffsDevStatShow - show TFFS device information
+
+usbTgtShow - show all usb target function drivers registered
+usbTgtDevShow - show all usb target devices
+
+usbTgtSerShowDetail <index> - show usb serial target info
+
+vxCpuIdTopology
+vxCpuIdShowTopology
+vxCpuIdMapTopology
+shows the cpu topology
+
+pgMgrMemContextShow - rtpShow calls this to display memory usage info for rtp
+
+syslog - system logger
+	echo Emerg "EMERGENCY" - print message to syslog with emergency priority
+
+show pci devices -
+	vxbPciCtrlShow                                  - shows all the devId which can be used to passed to other pci functions
+	vxbPciDeviceShow devId, busNo                   - shows the pci enumeration
+	vxbPciHeaderShow devId, busNo, deviceNo, funcNo - show the pci header for device
+
+find gei devices -
+	endFindByName "gei", <unit>
+
+show gei device stats -
+	geiHwStatsShow <unit>
+	geiStatsShow <unit>, <erase> - clear stats if erase is set to 1
+	geiStatsShow 0, 0
+
+logShow - show active file descriptors that logMsg* sends messages to
+
+logMsg - write log to file descriptors
+
+boardInfoShow - show board info (board revisions/cpu info/etc)
+acpiTablesShow - show acpi tables
+acpiDevicesShow - show acpi devices
+acpiObjectsShow - show acpi objects
+isrShow - show all interrupt lines connected to their interrupt service routines
+iosDrvShow - shows character device driver usage
+iosDevShow - shows ID of filesystem using drivers listed in iosDrvShow (the function pointers shown can be looked up in the vxWorks image using nm)
+usbShow - show usb devices
+vxbClkLibShow - show all the clock domains on the system, anything in the device tree that doesn't specify a clock domain specified will be given a fake one
+vxbDevShow - show bus device tree
+vxbDevShowPaths - show FDT style path for all devices
+vxbDrvShow - show which driver is used for which device
+vxbIntShow - show interrupt status on vxbus
+vxbFlashChipShow - show flash chips
+mtdChipShow - show MTD chips
+mtdDevShow - show MTD devices
+tffsShowAll - show all TFFS devices
+sysTffsShow - show all the TFFS partitions
+sysTffsFormat - format TTFS partitions based on the default configuration
+vxbPciTopoShow - show PCI topology of device, get the bus id using vxbDevShow
+	<pci bus id>
+
+vxFdtBootargsGet(char *buf, int buflen) - dump bootargs line
+vxFdtDtbDump - dump the DTB as text
+smbiosShow - dump the SMBIOS table
+
+vxTest(char *options) - runs the entire vxworks unit tests (need to build with testing packages included)
+# show help
+vxTest "-h"
+# list all test modules
+vxTest "-lm"
+# test all modules
+vxTest
+# test an individual module, by default test level is all tests
+vxTest "-tm tmPgMgrLib"
+vxTest "-tm tmCacheLib"
+vxTest "-testLevel 0 -tm tmBLib"
+# test an individual test case
+vxTest "-tm tmPgMgrLib -tc pgMgrAllocTest4"
+# test ethernet polling mode
+vxTest "-tm tmEndPoll"
+
+ipAttach(unit, name) - not all network cards are brought up on boot (ifconfig -a doesn't list them), this runs the attach functions for the network cards to bring them up so tools like ifconfig can see them
+ipAttach(0, "gei")
+
+reboot(type) - reboot the system
+powerOff - turn off the system
+
+shConfig - dump shell environment variables
+
+ld < dkm.out - load a DKM
+unld dkm.out - unload a DKM
+
+repeat n, command, args... - repeat the command <n> number of times, 0 for infinite
+
+netDevCreate("/ftp", "host", 1) - create a FTP mount file system at "/host.host" using the hostname "host"
+
+tt taskId - dump stack trace for a task, the task needs to be breakable or else it won't work
+l address - dissassemble cpu instructions at address
+b - display breakpoints
+s taskId - single step a task
+
+tyBackspaceSet 127 - set it so the backspace key emitted by modern terminals work (the default backspace on vxworks is ctrl-h (8))
+
+xpPartShowAll - Show partition information for all devices, devices that don't have a partition table usually means that it reserved the whole device for use as one partition
+
+*** Command interpreter
+C    - switch to C interpreter if in command interpreter
+	<command> runs the command in the C interpreter without switching
+i    - show process information
+h    - show command history
+help - show list of available commands
+
+# spawn a task running a function
+sp printf, "hello\n"
+
+sleep <n> - sleep for n seconds
+
+drv_stats - dump driver stats
+
+expr <exprstring> - evaluate arithmetic expression
+
+version - show the vxworks version
+
+syscalls - show the system call groups
+
+module
+	load <dkm.out> - load a kernel module specified by filename (it's function can be executed with task spawn)
+	list           - list loaded kernel modules
+    show           - same as list
+
+task
+	spawn &function_name arg1 arg2 ... - spawn a executable function, can be used to load a DKM function
+
+ifconfig - modify network configuration
+	"gem0 up"                                      - enable gem0 device
+	"gem0 down"                                    - disable gem0 device
+	"gem0 inet 192.168.1.15 netmask 255.255.255.0" - set ip and netmask for device
+	"gem0 inet 10.0.2.15 netmask 255.255.255.0
+
+show - show various settings
+	bootline - show the bootline
+	devices  - show the devices registered
+	drivers  - show IOS drivers function table
+	fds      - show file descriptors
+
+# Run program in background
+rtp exec program1.vxe &
+
+# Show all RTPs loaded and their state (running/ready/etc)
+rtp info
+
+*** Windows/Linux commands for interacting with VxWorks
+signtool - sign an executable image for secure loading
+	--key=private_key.pem --cert=public_cert.pem --type={ELF or UEFI} image
+
+*** TPM commands
+tpm2_createprimary.vxe -H e -g sha256 -G 0x1 -C /ram0/context.p_B1 --tcti=libtpm20tss.so.1:/tpm0
+
+tpm2_getcap.vxe
+
+tpm2_rc_decode.vxe 0x100
+
+*** RTP commands
+rtp (manipulate RTP processes)
+	info id    - display generatl info about rtp
+	meminfo id - display memory allocated/mapped by rtp (stats will go down if application free some memory)
+	list       - show rtps running on the system, gives the id and name for lookup
+	task id    - show taks running by rtp
+
+secret (use to store secrets in a vault)
+	list   - list secrets identifiable by ids
+	import - import a secret to a vault
+	delete - delete a secret
+	verify - verify an id with a secret to see if the value is valid
+
+*** SSH commands
+# list all connected ssh clients
+ipssh_list
+
+# stop a particular ssh server process or all spawned processes
+ipssh_stop
+
+# sftp client
+sftp
+
+*** DNS commands
+
+# lookup host (by default it tries ipv6 first)
+# without a nameserver specified, it uses the one default defined ipdnsc nameservers
+# if the nameservers are specified as an ip rather than a hostname, nslookup will also
+# try to look up the hostname for the nameserver ip even if we didn't ask for it, so an error from that can be ignored
+nslookup <host> <nameserver>
+
+# specifically use ipv6 or ipv4
+nslookup -v 6 <host> <nameserver>
+nslookup -v 4 <host> <nameserver>
+
+# list all the variables related to DNS
+sysvar list ipdnsc
+
+# use different port for querying DNS server
+sysvar set -o ipdnsc.port 5053
+
+# set domain name
+sysvar set -o ipdnsc.domainname windriver.com
+
+# set IPV4 zone
+sysvar set -o ipdnsc.ip4.zone in-addr.arpa
+
+# one of the following variables need to be set so dns client know what nameserver to connect to
+ipdnsc.primaryns
+ipdnsc.secondaryns
+ipdnsc.tertiaryns
+ipdnsc.quaternaryns
+
+*** Startup Configs
+
+Use netdrv to mount network filesystem like RSH/FTP on startup
+usrNetRemoteCreate()
+
+*** NFS
+
+# VIP options for NFS
+# Set the user id (0 for root) when read/write files 
+NFS_USER_ID=0
+# Set the group id (0 for root when read/write files
+NFS_GROUP_ID=0
+# Debug level, set to 4 for printing debug messages on any filesystem operations
+NFS_DEBUG_LEVEL=4
+
+# Add a host  
+hostAdd("nfs", "10.0.2.2")
+
+# Mount the NFS drive at host
+nfsMount("nfs", "/srv", "/vxsrv")
+# Mount all NFS exported drives
+nfsMountAll("nfs", 0, 1)
+
