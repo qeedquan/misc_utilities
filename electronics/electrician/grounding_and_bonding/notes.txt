@@ -1,0 +1,9 @@
+*** Bonding Jumper
+A bonding jumper is a reliable, low-impedance conductor—typically copper or aluminum—used to ensure electrical continuity between metal parts,
+connecting them to the grounding system to prevent shock and fire hazards
+
+*** Effective Ground-Fault Current Path.
+An intentionally con-structed low-impedance conductive path designed to carry
+fault current from the point of a ground fault on a wiring system
+to the electrical supply source.
+
