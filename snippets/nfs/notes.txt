@@ -1,0 +1,40 @@
+*** Ports
+
+TCP/UDP 111 - RPCBind/Portmapper for connection establishment
+TCP/UDP 2049 - File access operations
+
+*** Linux
+
+# Check to see what NFS versions the kernel supports
+cat /proc/fs/nfsd/versions
+
+# Mount from command line
+sudo mount example.hostname.com:/srv /opt/example
+sudo mount 127.0.0.1:/srv /mnt/nfs
+
+# /etc/fstab
+example.hostname.com:/srv /opt/example nfs
+
+# Apply new configuration change
+sudo exportfs -a
+
+# Reload the daemon for any configuration changes
+sudo systemctl daemon-reload
+
+*** Systemd NFS services
+
+systemctl restart rpcbind.service
+systemctl restart rpcbind.socket
+# This service restarts other services
+systemctl restart nfs-server.service
+systemctl restart nfs-utils.service
+
+systemctl start rpcbind.service
+systemctl start rpcbind.socket
+systemctl start nfs-server.service
+systemctl start nfs-utils.service
+
+*** Common Issues
+
+1. Failure to mount can be due to firewalls, disable firewalls before initial testing
+

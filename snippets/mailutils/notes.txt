@@ -1,0 +1,23 @@
+*** Links
+https://mailutils.org/manual/mailutils.html
+
+*** Commands
+# Usually aliased as mail/mailx, for GNU systems this program provides the POSIX mailx functionality
+# Configuration is stored inside $HOME/.mailrc or globally $SYSCONFDIR/mail.rc
+# Sending mail invokes the program sendmail (which defines the default MTA, usually set to postfix/ssmtp/etc on Linux)
+# By default, the MTA is usually setup so it can only deliver mail to local users
+mail.mailutils
+
+# Send mail given a RFC-822 formatted mail file, host can be DNS or IP
+# The "To" field in the mail fail determines the user to send it to, accepted names to a remote host without DNS are the following:
+# user@localhost, user@hostname_of_system
+# This program will bypass the sendmail program and send the message by itself
+mailutils send <host> <mail.file>
+
+# Generate an example /etc/mailutils.conf
+mail --config-help
+
+# Send mail, the <user> field is based on the configuration of the MTA
+# The mail can go to /var/mail/user in mbox format or $USER/Maildir, whether or not you can send mail to remote servers or localhost only it depends on the MTA configuration.
+echo "my message" | mail <user>
+

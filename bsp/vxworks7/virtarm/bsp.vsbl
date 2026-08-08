@@ -1,0 +1,9 @@
+Layer virtarm {
+    SYNOPSIS            QEMU Virt ARM board support package (BSP)
+    HELP                This layer provides the board support package (BSP) \
+                        for the QEMU Virt ARM.
+    VERSION             1.0.0.0
+    LAYER_REQUIRES      FDT UTILS VXBUS_DRV ARM
+    FEATURE_REQUIRES    {CPU_CORTEX_A9, {ARM ARM_NEW_CPU_TYPES},}
+    DOC_BUILD           DOXYGEN
+}

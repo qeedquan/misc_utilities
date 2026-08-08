@@ -1,0 +1,26 @@
+*** Descriptors
+
+Descriptors are structures that describe the device function and capabilities.
+The descriptors are usually described in the device datasheet,
+there are also overview documents that describe the descriptors for a whole generic group of device like a card reader.
+
+On Linux use lsusb -v to see the descriptor for that device.
+
+The descriptors also describe endpoints that the host can talk to.
+
+A device can have multiple Interface descriptors that serves different functions, ie, a card reader can also serve as a mass device storage.
+
+*** Transfer type
+
+Control. Control pipes are used primarily to send commands and retrieve status. Control pipes are intended for non-periodic, host-initiated request and response communication of small-sized structured data. Control pipes are bidirectional. The default pipe is a control pipe. See The Default Pipe.
+
+Bulk. Bulk pipes are used primarily for data transfer. Bulk pipes offer reliable transportation of large amounts of data. Bulk pipes do not necessarily deliver the data in a timely manner. Bulk pipes are unidirectional.
+
+Interrupt. Interrupt pipes offer timely, reliable communication of small amounts of unstructured data. Periodic polling often is started on interrupt-IN pipes. Interrupt-IN pipes return data to the host when the data becomes present on the device. Some devices have interrupt-OUT pipes. Interrupt-OUT pipes transfer data to the device with the same timely, reliable “interrupt pipe” characteristics of interrupt-IN pipes. Interrupt pipes are unidirectional.
+
+Isochronous. Isochronous pipes offer a channel for transferring constant-rate, time-relevant data, such as for audio devices. Data is not retried on error. Isochronous pipes are unidirectional.
+
+*** Copying ISO to USB mass drive
+
+dd if=/path/to/your/isofile of=/your/usb/disk bs=8M status=progress
+

@@ -1,0 +1,5 @@
+#!/bin/rc
+
+# nc -l $port
+aux/listen1 -t tcp!*!$port command
+

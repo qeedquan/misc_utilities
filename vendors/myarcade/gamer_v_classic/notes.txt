@@ -1,0 +1,19 @@
+https://myarcade.com/collections/retro-gaming/products/gamervclassic
+A portable gaming device with 200 games
+
+The front has stickers you can peel off to expose the screws tightening the case.
+Remove the sticker to be able to unscrew it to open the device
+
+*** Electronics
+Infineon S29GL128P90TFIR10 - 128 MB Flash NOR
+21.47727 MHz crystal clock
+OPA1612 opamp
+6206A voltage regulator
+50 patch transistor 2TY 0.5A/25V PNP SOT23--QHDQ3 Electronic Component New IC S8550
+8 ohm 0.25w speaker
+Standard resistor/capacitor/inductors
+
+The main chip that runs the games is coated as a chip on board.
+The chip on board can be scraped off using a heat gun, but the chip inside doesn't have any marking on it
+
+

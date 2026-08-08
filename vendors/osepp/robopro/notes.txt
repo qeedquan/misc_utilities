@@ -1,0 +1,36 @@
+*** Description
+
+https://www.osepp.com/robotic-kits/258-robo-01-robo-pro-robotic-basics-kit
+
+Kit to make a 2 wheeled robot. Cost ~$100.
+The board is based on Arduino Uno so can use the Arduino IDE to program it.
+Provides a library to control motors and sensors:
+
+https://www.osepp.com/oseppRobot.zip is the Arduino library
+
+No soldering, comes with screwdrivers to screw the parts into place.
+
+*** Parts
+
+Aluminum chassis with holes for placing the Arduino main board, motors, sensors on it.
+Uses screws to hold them together.
+
+CH341 USB-UART converter module to use the USB cable to program it.
+
+USB-UART cable
+
+Contains a battery pack with a wire to hook to the board. Uses a lot of medium size AA batteries.
+The USB cable can be use to power the MCU though not for the motor.
+To use the motor, need to use the battery pack, it enable it with a toggle button.
+Serial or something else on the MCU can just work off the USB power supply though if no battery.
+
+Two motors for the two wheels
+
+A motor driver chip that controls both of them
+
+Ultrasonic range sensor (40 khz)
+
+Line sensor
+
+Arduino compatible MCU.
+

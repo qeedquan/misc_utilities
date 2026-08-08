@@ -1,0 +1,8 @@
+*** Configuration
+/etc/sysctl.conf is the location for user customization to sysctl
+/etc/sysctl.d/ contains various predefined settings
+
+*** Settings
+kernel.unprivileged_userns_clone=1
+Allows users to do namespaces
+

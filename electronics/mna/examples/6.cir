@@ -1,0 +1,6 @@
+Vin 3 0 Symbolic
+R2 3 2 Symbolic
+C1 1 0 Symbolic
+C2 2 1 Symbolic
+L1 1 0 Symbolic
+R1 1 0 Symbolic

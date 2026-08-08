@@ -1,0 +1,37 @@
+*** Product
+https://www.adafruit.com/product/1497
+
+A cheap SDR device that can be hooked via USB to a computer.
+
+Range: 24 - 1850 mhz.
+
+*** Programs
+Windows:
+SDR#
+https://airspy.com/download/
+
+Linux:
+GQRX
+https://gqrx.dk/
+
+librtlsdr: C API to interact with the device
+
+*** Stations
+Can decode Wide FM and Narrow FM.
+
+Narrow FM has a much smaller bandwidth than Wide FM so looks like a small pulse peaking at around -60 DB.
+Wide FM is much easier to see as it's much larger in bandwidth and the peaks at around -70/-80 DB.
+
+NOAA weather broadcast uses Narrow FM, go to
+https://www.weather.gov/nwr/county_coverage for a list of frequencies to listen at.
+
+Wide FM is used by regular radio stations heard in a car radio.
+Look up local radio stations to tune in.
+
+AM range is in the KHZ range so the RTLSDR cannot tune in without a upconverter.
+
+*** Commands
+
+Listen at local radio station 106.1 Mhz and play it:
+rtl_fm -f 106.1e6 -M fm -s 170k -o 4 -A fast -r 48k -l 0 -E deemp | aplay -r 48000
+

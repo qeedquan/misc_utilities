@@ -1,0 +1,25 @@
+https://learn.adafruit.com/adafruit-feather-32u4-radio-with-lora-radio-module/overview
+https://ecsxtal.com/lora-timing
+
+Arduino compatible board with a LoRa radio chip transceiver capable of 433 mhz or 868/915 MHz
+The frequency is not strict, can send a little outside of the range like at 950 mhz.
+
+LoRa operating frequencies (these are license-free bands):
+169 MHz, 433 MHz (Asia), 868 MHz (Europe) and 915 MHz (North America).
+
+*** Using the radio
+Easiest way is to solder an 16 AWG wire to act as a quarter wave whip antenna.
+
+The wire length is derived from the formula:
+468/frequency * (12/2) = wire_length
+frequency is in mhz
+wire length is in inches
+
+433 MHz - 6.5 inches, or 16.5 cm
+868 MHz - 3.25 inches or 8.2 cm
+915 MHz - 3 inches or 7.8 cm
+
+The length does not have to match exactly, just close enough, the chip will set the frequency it wants to transmit on and use it.
+
+*** Capturing output
+Can capture the LoRa transmission using RTLSDR via GQRX when it sends. Tune to the frequency it is sending at and should see a short burst of energy whenever it sends.

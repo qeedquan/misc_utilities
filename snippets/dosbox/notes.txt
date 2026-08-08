@@ -1,0 +1,18 @@
+*** Mount directories as drives
+
+mount c /path/here
+
+*** Floppy
+
+# Create a floppy image for DOSBOX to use
+# The filesystem is formatted to be FAT
+mformat -C -f 1440 -i x1440a.img
+
+# Mount the image inside dosbox
+imgmount a /path/to/1440a.img -t floppy
+
+Any file/directory creation will write to the image file
+
+*** Executing commands on startup
+Modify dosbox.conf in the section [autoexec], and place commands you want to execute
+

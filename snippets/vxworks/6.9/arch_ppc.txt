@@ -1,0 +1,33 @@
+*** Assembly conventions
+There are some common pseudo-register defines for use in the assembly code
+The definitions are inside target/usr/h/arch/ppc/toolPpc.h
+
+// volatile registers that are not saved across subroutine calls
+p0-p7 maps to r3-r10
+
+// for subroutine calls
+glr0, glr1, glr2 - r0, r11, r12
+
+retval0, retval1 - r3, r4
+
+// stack pointer
+sp - r1
+
+// temporary registers
+t0-t17 - r14-r31
+
+// condition register names
+cr0-cr7 - 0-7
+
+*** Functions
+mmuPpcEnable(BOOL enable)
+Enables the MMU
+
+mmuPpcAEnable(UINT mmuType)
+Enable Instruction or Data MMU (Needed to enable BAT)
+Called by mmuPpcEnable
+
+vxMsrGet()
+Get the MSR register
+
+

@@ -1,0 +1,6 @@
+config BSP_CONFIG
+    bool
+    depends on ARM
+    select HAS_CTX_A9
+    default y
+

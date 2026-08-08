@@ -1,0 +1,62 @@
+*** Overview
+By default, a VxWorks installation will have a prebuilt VSB/VIP for vxsim to use
+vxsim boots a VxSim VIP built kernel image to provide a virtual VxWorks environment
+Serves the same functionality as QEMU or Simics but more for application code
+
+*** Keybindings
+Ctrl+\ quits the simulator
+Ctrl+X reboots the simulator
+
+*** Commands
+vxsim:     32 bit
+vxsim-64:  64 bit
+vxsimnetd: a daemon that is needed to be launched to provide vxsim networking
+
+If the simulator is launched in a folder with a vxWorks image, it will automatically use that to boot
+
+vxsim-64 -d simnet_nat -size 268435456 -f <kernel_image>
+
+Waits for telnet connection and then redirect serial output there
+vxsim-64 -add_dev serial0=telnet:5656 <kernel_image>
+
+After vxsimnetd is launched (might need root privileges for this), vxsim can set an IP for the ethernet interface and talk to the host
+The host will have a tap0 device created by vxsimnetd with an assigned IP, that IP will be visible inside the simulator
+We can launch the simulator twice and have them talk to each other by assigning an IP for them
+vxsim-64 -d simnet -e 192.168.200.20
+vxsim-64 -d simnet -e 192.168.200.21 -p 1
+
+-b <backplane_address>
+	specify the backplane address
+
+-e <ip address>
+	assigns the internet address on boot
+
+-d <bootdev>
+	device to boot from (passDev, simnet, or simnet_nat), default is passDev
+
+-f <vxworks kernel image>
+	specifies vxwork kernel image file to load
+
+-list_dev all
+	provides port number used by telnet server for current instance
+
+-size
+	specify memory size in bytes
+
+-l <logfile>
+	output logging to file
+
+-s <script>
+	startup script for the kernel shell
+
+-n <nvram_file>
+	specify NVRAM file
+
+-ncpu <cpus>
+	specify the number of CPUs
+
+-tn <name>
+	specify target name
+
+-v
+	version
