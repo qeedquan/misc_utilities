@@ -1,0 +1,10 @@
+https://www.falstad.com/circuit/e-indmultind.html
+
+Here are three circuits which are identical except for the size of the inductors in them. A larger inductor (higher inductance) has more opposition to changes in current. 
+The inductor on top is the largest, so the current flow is smallest in that circuit; the AC source is constantly trying to change the current,
+and the large inductor is best at opposing those changes.
+
+If we measure in Spice with a constant AC input,
+we can see larger inductance means less current,
+and measuring at various inductor points (Lx) and (Rx),
+we can see that they are 90 degrees apart.

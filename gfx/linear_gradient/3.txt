@@ -1,0 +1,11 @@
+# angle
+180
+
+# stops
+c 0.142 red
+c 0.285 orange
+c 0.428 yellow
+c 0.571 green
+c 0.714 blue
+c 0.857 indigo
+c 1.000 violet

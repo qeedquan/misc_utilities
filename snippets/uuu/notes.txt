@@ -1,0 +1,35 @@
+*** Overview
+https://github.com/nxp-imx/mfgtools
+uuu is a flashing tool for NXP
+
+*** Listing recognized connected devices
+uuu -lsusb
+
+*** Protocol
+The protocol determines how to boot the flash.
+
+SDP stands for serial download protocol.
+It is the protocol used in NXP's i.MX SoCs ROM Serial Downloader and provides means
+to download a program image to the chip over USB and UART serial connection.
+
+SDP (i.MX6/7 i.MX8MM, i.MX8MQ)
+SDPS (IMX95, i.MX8QXP, i.MX8QM)
+
+uuu SDP: boot -f _flash.bin
+uuu SDPS: boot -f _flash.bin
+
+uuu SDPS: boot -f imx-boot-imx95-19x19-verdin-sd.bin-flash_all
+
+*** Commands
+# Verbose mode, -V shows libusb error
+uuu -v -V
+
+# Run builtin script
+uuu -b [script]
+
+# Enter shell mode
+uuu -s
+
+# Run all command in script
+uuu list.uu
+

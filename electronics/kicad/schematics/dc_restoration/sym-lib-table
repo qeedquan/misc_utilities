@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "dc_restoration-rescue")(type "KiCad")(uri "${KIPRJMOD}/dc_restoration-rescue.kicad_sym")(options "")(descr ""))
+)

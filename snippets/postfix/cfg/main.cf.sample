@@ -1,0 +1,81 @@
+# Whether or not to use the local biff service.
+# This service sends "new mail" notifications to users who have requested new mail notification with the UNIX command "biff y".
+# For compatibility reasons this feature is on by default.
+biff = no
+
+# Listen only loopback
+inet_interfaces = 127.0.0.1/32, [::1]/128, 192.0.2.1, [2001:db8:1::1]
+
+# Listen on all interfaces
+inet_interfaces = all
+
+# Custom hostname, if not set it uses the system
+myhostname = <smtp.example.com>
+
+# Custom domain, if not set it uses the one in $myhostname
+mydomain = <example.com>
+
+# Uses the domain name as origin for locally posted mails instead of the hostname
+myorigin = $mydomain
+
+# Customize banner string
+smtpd_banner = "Custom Banner"
+
+# This directive limits the maximum number of connection attempts any client can make to this service per time unit.
+# The default value is 0, which means a client can make as many connections per time unit as Postfix can accept. By default, the directive excludes clients in trusted networks.
+smtpd_client_connection_rate_limit = 0
+
+# This directive defines the maximum number of message deliveries from client to request per time unit (regardless of whether or not Postfix actually accepts those messages).
+smtpd_client_message_rate_limit = 1000
+
+# This directive defines the maximum amount of memory in bytes for storing a message header. If a header is large, it discards the excess header.
+header_size_limit = 102400
+
+# This directive defines the maximum size of a message including the envelope information in bytes.
+message_size_limit = 10240000
+
+# Deliver mail to user home in Maildir/mbox format depending if there is a / at the end of the name
+# This one overrides mail_spool_directory, don't set this if you want the mail to be sent to mail_spool_directory
+home_mailbox = Mailbox
+home_mailbox = Maildir/
+
+# Use this to deliver all mail to a directory instead of the user home directory, add / at the end to use Maildir format
+mail_spool_directory = /var/spool/mail/
+
+# what file to log to, if empty use syslog by default
+maillog_file = /var/log/postfix.log
+
+# The /etc/aliases.db file needs to be regenerated when aliases file described below change
+# specify alias table, this format is compatible with alot of other MTA daemons
+# Lookup tables that are searched only with an email address localpart (no domain) and that apply only to local(8) recipients;
+# this is unlike virtual_alias_maps that are often searched with a full email address (including domain) and that apply to all recipients: local(8), virtual, and remote. 
+alias_maps = hash:/etc/aliases
+# SQL database is also supported
+alias_maps = sqlite:/etc/postfix/sqlite-aliases.cf
+
+# Can point to the same file as alias_maps, but the ability to specify a different file is useful since
+# The alias_maps table may be not under postfix control
+alias_database = hash:/etc/aliases
+
+# Define virtual mailboxes, define the mapping inside virtualmaps with the domain names, then if mail goes to that domain it will be routed following the mapping
+virtual_mailbox_domains = domain-name.com
+virtual_mailbox_base = /var/spool/mail/virtualmailboxes
+virtual_mailbox_maps = hash:/etc/postfix/virtualmaps
+virtual_alias_maps = hash:/etc/postfix/vusers
+
+# Emails that exist in the virtual mappings but not fully qualified gets delivered to the user behind these uid
+virtual_minimum_uid = 1000
+virtual_uid_maps = static:1000
+virtual_gid_maps = static:1000
+
+# blacklist to reject mail from host
+smtpd_recipient_restrictions = check_sender_access lmdb:/etc/postfix/blacklist_incoming
+
+# User rejected message (550) can leak information about users on the system, the code (450) means try again later
+unknown_local_recipient_reject_code = 450
+
+# The maximal size of any local(8) individual mailbox or maildir file, or zero (no limit)
+mailbox_size_limit = 0
+
+# The maximal size in bytes of an individual virtual(8) mailbox or maildir file, or zero (no limit).
+virtual_mailbox_limit = 0

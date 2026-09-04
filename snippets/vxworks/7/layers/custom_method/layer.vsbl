@@ -1,0 +1,20 @@
+/*
+
+An example layer to add custom methods to the VxBus
+
+vxprj vsb add CUSTOM_METHOD
+vxprj vip component add DRV_CUSTOM 
+
+*/
+
+Layer CUSTOM_METHOD {
+	SYNOPSIS         Custom Method
+	HELP             Add some custom methods to VxBus
+	VERSION          0.0.0.1
+	FEATURE          OPEN_SOURCE
+	VENDOR           None
+	LAYER_REQUIRES   LIBC_STD
+	OPTIONAL         YES
+	DEFAULT          NO
+	DOC_BUILD        NO
+}

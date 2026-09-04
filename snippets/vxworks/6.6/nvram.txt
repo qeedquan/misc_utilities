@@ -1,0 +1,2 @@
+gei(0,0)host:vxWorks e=10.0.2.15 h=10.0.2.2 g=10.0.2.2 u=target pw=vxTarget
+

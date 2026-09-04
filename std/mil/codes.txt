@@ -1,0 +1,15 @@
+MIL-STD-810
+U.S. military standard that outlines how to test and design equipment to withstand environmental conditions during its service life
+
+MIL-STD-1540
+Test Requirements for Space Vehicles (Vibration/Shock/etc)
+
+MIL-STD-461
+Electromagnetic interference (EMI) limits and test procedures for military equipment.
+
+MIL-STD-1553
+Defines the mechanical, electrical, and functional characteristics of a serial data bus.
+
+MIL-DTL-5541
+Covers chemical conversion coatings formed by the reaction of chemical conversion materials with the surfaces of aluminum and aluminum alloys.
+

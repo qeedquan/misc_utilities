@@ -1,0 +1,22 @@
+*** Terms
+
+AMF     Access and Mobility Management Function ==> Equivalent to MME in 4G
+ARPF    Authentication credential Repository and Processing Function
+AUSF    Authentication Server Function
+DN      Data Network
+gNB     Base station
+IMS     IP Multimedia Subsystem is the architecture that works with 4G or 5G mobile core networks to deliver voice calls, messages and other potential real-time services. (SIP servers are considered one of these)
+MCC     Mobile country codes
+MNC     Mobile network codes
+NEF     Network Exposure Function
+NRF     Network Repository Function
+NSSF    Network Slice Selection Function
+PCF     Policy Control Function ==> Equivalent to PCRF in 5G
+(R)AN   (Radio) Access Network
+SEAF    SEcurity Anchor Function ==> part of AMF function
+SIDF    Subscription Identifier De-concealing Function
+SMF     Session Management Function
+SMSF    SMS Function
+UDM     Unified Data Management ==> Equivalent to HSS in 4G
+UPF     User Plane Function ==> Equivalent to PGW in 4G
+

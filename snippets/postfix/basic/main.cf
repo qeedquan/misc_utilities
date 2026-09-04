@@ -1,0 +1,36 @@
+# Sample minimal configuration run as
+# postfix -c $(pwd) start-fg
+
+topdir = /path/
+
+mailname = "Postfix"
+
+smtpd_banner = $myhostname ESMTP $mailname
+
+biff = no
+
+mail_spool_directory = /var/mail/
+maillog_file = /dev/stdout
+
+append_dot_mydomain = no
+
+compatibility_level=3.6
+
+# commands like "echo msg | mail user" will have the destination be "user@$myhostname"
+myhostname = test
+myorigin = test
+mydestination = $myhostname, localhost.localdomain, localhost
+mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+
+recipient_delimiter = +
+
+inet_interfaces = all
+inet_protocols = all
+
+virtual_mailbox_domains = playground gox.qnx xlw.dek
+virtual_mailbox_base = /var/mail/vmail
+virtual_mailbox_maps = hash:$topdir/vdomains
+virtual_alias_maps = hash:$topdir/vusers
+virtual_minimum_uid = 1000
+virtual_uid_maps = static:1000
+virtual_gid_maps = static:1000

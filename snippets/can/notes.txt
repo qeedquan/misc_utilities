@@ -1,0 +1,46 @@
+*** Architecture
+
+Serial twisted wire (differential signaling)
+No master device, shared bus
+
+Message arbitration use ID as a priority (lower is higher, 0 bit overpowers 1 bit)
+Each payload has a ID so they can discern who sends what
+
+Dominant voltage (bit 0), high - low > 0
+Recessive voltage (bit 1) high - low ~ 0
+
+Data Link Layer
+64 bit in CAN frame
+11 bit ID (29 bit for extended CAN)
+
+*** Schematics of various cars communication networks
+
+# Need to pay for access
+https://www.autozone.com/lp/alldatadiy
+https://my.alldata.com/
+
+*** Setup a virtual CAN on Linux
+# Load the VCAN driver
+modprobe vcan
+
+# Add a CAN virtual device
+ip link add dev vcan0 type vcan
+ip link ls
+
+# Enable up the CAN virtual device
+ip link set up vcan0
+
+# Generate random data to vcan0 for applications to read from
+cangen vcan0
+
+# Send custom data to vcan0
+cansend vcan0 123#112233445566771122
+
+# Dump the data from vcan0 to stdout
+candump vcan0
+
+# Log to a file
+candump vcan0 -l
+
+# Replay the log and send it to the CAN bus
+cat candump.log | canplayer

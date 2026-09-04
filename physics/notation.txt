@@ -1,0 +1,88 @@
+*** Integral
+
+∫ f(r) dr  and ∫ dr f(r) is equivalent, the first one is more convenient if you have nested integrals
+∫ dr ∫ dθ f(r,θ) shows which integration limit belongs to which integration variable.
+
+The notation d^3r is a shorthand for "integrate over 3D space", for example dx dy dz if r = (x,y,z).
+Depending on the symmetry of the problem, it might be more convenient to use cylindrical coordinates (z,r,θ), in which case d^3r = r dr dz dθ.
+
+The notation d^4r is the same as d^3r except add time component
+
+The integrand f(r) can be a scalar or a vector; the result of the integral will likewise be a scalar or a vector, depend on the context on which f(r) is written.
+
+Line integrals
+∫ v ⋅ dI
+v is a vector function, dI is the infinitesimal displacement vector
+
+In euclidean space:
+dI = dx*x + dy*y + dz*z where (x, y, z) is a vector and (dx, dy, dz) are scalars. 
+This dI would be different in other spaces like spherical/cylindrical/etc, but generally consider all parameters that can change in that space and displace it by an infinitesimal amount
+
+If the integration limits a to b is the same, it forms a closed loop and another symbol can be used:
+This is also known as a contour integral 
+∮ v ⋅ dI
+
+Normally, the value of the line/contour integral depends on the path from a to b, but for some special vector functions, the path taken does not matter and it will give the same value.
+
+Surface Integrals
+∫ v ⋅ da
+s
+
+v is a vector function, da is the infinitesimal patch of area, with direction perpendicular to the surface, though there are more than one perpendicular direction to any surface so the sign of this value is ambiguous and not unqiue.
+If the surface is closed then use the contour integral notation
+∮ v ⋅ da
+s
+
+*** Del operator
+
+This operator has analogies with regular vector operations (multiply by scalar, dot product, cross product) in terms of its notation and its input/outputs.
+It's written this suggestively mirror the regular vector operations (abuse of notation)
+
+Input: Scalar function T
+Output: Vector field
+∇T represents the gradient of T (If T is a vector field, a similar operator is used for it called the Jacobian)
+
+Input: Vector function/field v:
+Output: Scalar field
+∇.v represents the divergence
+
+Input: Vector function/field v:
+Output: Vector field
+∇xv represents the curl
+
+*** Laplace operator
+
+(∇.)(∇f) The divergence of the gradient of f
+∆ or ∇^2 is another notation for it
+
+*** Bra-Ket Notation
+A ket |ϕ⟩ is also a kind of vector, although it is with an unspecified set of basis vectors.
+To get a more traditional vector as a list of numbers (a1,a2,a3), you need to build brackets, such that ai=⟨ei|ϕ⟩.
+
+*** Compton wavelength
+The Compton wavelength is a quantum mechanical property of a particle, defined as the wavelength of a photon
+whose energy is the same as the rest energy of that particle
+
+λ = h / (m*c)
+
+*** Circles/Spheres
+T  - Complex unit circle
+S1 - Unit circle
+S2 - Unit sphere
+S3 - Unit Hypersphere in 4 dimensions
+Sn - Unit Hypersphere of (N + 1) dimensional euclidean space
+
+*** Groups
+SO(n) - Special Orthogonal Group
+Square matrix whose columns and rows are orthonormal vectors (Q^T * Q = I)
+
+SL(n) - Special Linear Group 
+Square matrices with a determinant of 1
+
+SU(n) - Special Unitary Group
+Square unitary matrices with determinant 1
+Subgroup of U(n) which is a subgroup of GL(n)
+
+GL(n) - General Linear Group
+Square matrices that are invertible with matrix multiplication
+

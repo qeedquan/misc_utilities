@@ -1,0 +1,37 @@
+https://www.keysight.com/us/en/cmp/2021/oscilloscope-technical-resources-for-engineering-students.html
+
+*** Cabling
+Usually uses BNC connectors
+
+*** Performance
+Bandwidth is the most oscilloscope specification
+
+All oscilloscopes exhibit a low pass frequency response
+The frequency where an input sine wave is attenuated by 3dB is the scope bandwidth
+-3db is ~30 amplitude error (20*log(Vo/Vi))
+
+Required bandwidth to capture:
+Usually need >= 3x highest sine wave frequency for scope to get a good view
+>= 5x for highest digital clock rate
+
+*** Types of probes
+Analog and digital, digital is more used nowadays
+
+Many different kind of probes (high frequency, high voltage, current, etc)
+
+Most common type of probe is Passive 10:1 voltage divider probe
+
+Passive 10:1 Voltage Divider Probe
+It is a passive probe that reduces the amplitude of the signal delivered to the scope BNC input by 10x, also increase input impedance by 10x
+All measurements performed relative to ground
+Low frequency model/DC model: Can view this probe as a the following circuit:
+Probe input <-> 9 Mohm <-> Scope input (1 Mohm termination resistor inside the scope)
+
+*** Terms
+
+DSO - Digital Storage Oscilloscope
+CRO - Cathode Ray Oscilloscope (Old analog type scopes)
+MSO - Mixed Signal Oscilloscope (includes logic analyzer channels of acquisition)
+
+Passive: No active elements such as transistors or amplifiers
+

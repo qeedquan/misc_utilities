@@ -1,0 +1,94 @@
+// Include configuration from other files
+include "other.config"
+
+// Define options
+option {
+	// Working directory
+	directory "/var/cache/bind";
+
+	// Allow queries from these subnets
+	allow-query { 10.0/16; };
+
+	// Allow query from any address
+	allow-query { any; };
+
+	// Allow query from this specific address
+	allow-query { 192.168.2.1; };
+
+	// allow-recursion defines a address_match_list of IP address(es) which are allowed to issue recursive queries to the server.
+	// When allow-recursion is present allow-query-cache defaults to the same values. If allow-recursion is NOT present the allow-query-cache default is assumed (localnets, localhost only).
+	// Meaning that only localhost (the server's host) and hosts connected to the local LAN (localnets) are permitted to issue recursive queries.
+	allow-recursion { 10.0/16; }
+	allow-recursion-on { 192.168.2.3; };
+
+	// If auth-nxdomain is 'yes' allows the server to answer authoritatively (the AA bit is set) when returning NXDOMAIN (domain does not exist) answers,
+	// if 'no' (the default) the server will not answer authoritatively. 
+	auth-nxdomain yes;
+
+	// blackhole defines a address_match_list of hosts that the server will NOT respond to, or answer queries for.
+	// The default is 'none' (all hosts are responded to).
+	blackhole { none; };
+	
+	// Forward requests to these IPs if we can't handle it
+	forwarders {
+		8.8.8.8;
+		8.8.4.4;
+	};
+
+	// Listen on all interfaces
+	listen-on { any };
+
+	// Listen on specific IP
+	listen-on { 202.54.1.2; };
+
+	// Collect stats on all zones and dump them to a file listed in statistics-file
+	zone-statistics yes;
+	
+	// Where to store the statistics file
+	statistics-file "data/named_stats.txt";
+
+	// turn off recursion
+	recursion no;
+
+	// By default, your server will attempt to notify the other primaries.
+	// In order to do this, it will need to resolve the names pointed to by the NS records.
+	// To prevent these attempted notifications, you can disable notifications entirely in the zone statement
+	notify no;
+}
+
+// serve statistics information over http
+statistics-channels {
+	inet 10.0.0.1 port 80 allow { my_nets; };
+	
+	// serve on 192.168.1.1 and let anyone on the same network view it
+	inet 192.168.1.1 port 8080 allow { any; };
+	
+	// only viewable from localhost
+	inet 127.0.0.1 port 8080 allow { 127.0.0.1; };
+};
+
+// logfiles can be defined in a channel and different categories of log can be redirected to that channel
+logging {
+	channel default_log {
+		file "/var/log/bind/default.log";
+		print-time yes;
+		print-category yes;
+		print-severity yes;
+		severity info;
+	};
+
+	category default { default_log; };
+	category queries { default_log; };
+};
+
+// Define root zone
+zone "example.com" IN {
+	type master;
+	file "db.example.com";
+};
+
+// Define root zone
+zone "fakehost" IN {
+	type master;
+	file "db.fakehost";
+};

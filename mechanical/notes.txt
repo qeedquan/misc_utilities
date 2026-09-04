@@ -1,0 +1,89 @@
+*** 2D
+
+Mainly for drawing schematics, native primitives are the standard lines/circles/ellipses/polygons/splines/etc
+
+Free/Opensource
+https://librecad.org/
+
+Commercial
+https://www.draftsight.com/
+
+*** 3D
+
+Use things like subdivision surfaces/nurbs/constructive solid geometry for modeling
+
+Free/Opensource
+https://www.freecad.org/
+https://openscad.org/
+https://dev.opencascade.org/
+
+Commercial
+https://www.draftsight.com/
+https://www.rhino3d.com/
+https://www.plm.automation.siemens.com/trial/en-us/solid-edge.html
+https://www.autodesk.com/products/autocad/
+https://www.autodesk.com/products/maya/
+https://plm.sw.siemens.com/en-US/nx/
+https://www.solidworks.com/
+
+*** Simulation
+
+Simulate things like torque and truss
+
+https://www.solidworks.com/
+
+*** Running programs
+On Linux systems that use wayland but the old programs are tied to x11, do this to make opengl init not fail
+
+XDG_SESSION_TYPE="" ./program
+
+*** File formats
+
+STP
+The standard format for 3D models, it exports geometry in forms of shape information like place circle here or axis there.
+One issue is that it loses the information of CSG operations if the STP program was generated using something like NX.
+
+AutoCad
+Extension is .dwg/.dxf
+
+Creo
+Extension is .prt/.asm
+
+Collada
+Extension is .dae, XML based format made by Kronos group
+
+*** Middlemen Contract Manufacturers
+There are various companies that act like middle men to find contract manufacturers:
+ThomasNet
+Makers Row
+Fashion Index
+SupplyConnect
+SourceBirds
+MFG
+
+*** On-demand Manufacturing
+Xometry
+
+*** Machining methods
+https://www.metallurgyfordummies.com/
+
+CNC Milling
+Deep Drawing (Sheet metal forming)
+Injection Molding
+Blow Molding
+
+*** Plastic Molding
+The mold can cost anywhere from 100 to 100k to make depending on the design
+The cost of the mold is also referred to as the tooling cost
+
+Low volume: A 3D printed mold for low-volume production can cost as little as $100.
+Simple: A simple mold can cost between $3,000 and $6,000.
+Large or complex: A large, complex mold for high-production or multi-cavity use can cost $25,000 to $100,000 or more.
+Typical: A typical mold for a simple part that's small enough to hold in your hand costs around $12,000.
+
+The cost of a plastic injection mold can vary significantly based on several factors, including:
+Complexity of the Design: More intricate designs require more sophisticated molds, which can increase costs.
+Size of the Mold: Larger molds typically have higher costs due to the amount of material and machining required.
+Material Used: The type of steel or aluminum used for the mold affects the price. Higher quality materials can lead to longer-lasting molds but at a higher cost.
+Production Volume: Molds designed for high-volume production may have higher upfront costs but lower per-unit costs in the long run.
+Location: Labor and manufacturing costs can differ significantly by region. For example, molds made in the U.S. may be more expensive than those made in countries with lower labor costs.

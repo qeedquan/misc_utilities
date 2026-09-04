@@ -1,0 +1,20 @@
+*** Valor
+
+PCB DFM checker
+https://eda.sw.siemens.com/en-US/pcb/valor/valor-npi/
+
+*** Xpedition
+https://eda.sw.siemens.com/en-US/pcb/xpedition-enterprise/
+
+PCB design environment
+
+*** Fablink
+
+CAD/CAM/Estimate visualizer/cost estimator
+https://fablink.com/
+
+*** Altium
+
+PCB Design
+https://www.altium.com/
+

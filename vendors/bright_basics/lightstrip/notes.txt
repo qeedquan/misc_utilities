@@ -1,0 +1,5 @@
+*** Product
+
+LED light strip that comes with USB connector for power.
+Comes with an IR remote that controls the lighting after the LED light strip is powered from USB.
+Effects include fading, color cycling, etc
