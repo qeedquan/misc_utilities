@@ -1,0 +1,12 @@
+# The variables @VAR@ will be expanded by the configure script when generating the Makefile
+CXX=@CXX@
+LD=@CXX@
+CXXFLAGS=@CXXFLAGS@
+
+program: program.o
+	$(LD) -o $@ $^
+
+.PHONY: clean
+clean:
+	rm -f program *.o
+

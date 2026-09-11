@@ -1,0 +1,23 @@
+*** Links
+
+https://www.goldmedalservice.com/about-us/blog/branch-circuits-and-wires-applications-and-types/
+https://www.jadelearning.com/blog/feeders-part-1-what-is-a-feeder/
+
+*** Definition
+A “branch circuit” is the wiring to a group of outlets, a single outlet, or a piece of equipment on a site. The locations may be residential, commercial, or industrial.
+
+*** Types
+
+1. Appliances
+Dedicated appliance circuits can be either 120 or 240-volt. They are often required by code and connect electricity to a single appliance. Your clothes dryer, garbage disposal, air conditioners, and other large appliances with and without motors use these types of branch circuits.
+
+You can also run an appliance branch circuit to an outlet. You will notice that these outlets don’t always look like standard plug-in outlets. This is because the plug has a different shape when it must provide 240-volt power to a large air conditioning unit or other appliance.
+
+2. Lighting
+Lighting circuits power the lights in your home. Most houses have multiple branch circuits for lighting covering one or more rooms each. It is common in modern homes that these circuits are independent. This serves a functional purpose, allowing you to turn off the outlet circuit and still have light.
+
+3. Power Outlets
+These circuits power the common plug-in outlets that are spread throughout your home. Sometimes they are separated by room, but they can also serve multiple rooms per circuit. You will find that in some small houses, entire levels of the home may only have a couple of circuits.
+
+4. Bedroom and Living Room
+This will depend on the wiring in your home, but sometimes all the lights and outlets in a single room use the same branch circuit. This is less common in modern homes, but it all depends on who wired the house and when it was done.

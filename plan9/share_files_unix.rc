@@ -1,0 +1,8 @@
+# Send file on unix
+nc -l -p 1234 > file
+aux/dial tcp!192.168.0.12!1234 < file
+
+# Receiving file from unix
+nc -l -p 1234 < file
+aux/dial tcp!192.168.0.12!1234 > file
+

@@ -1,0 +1,95 @@
+*** Installation
+
+For Linux, installer needs gtk2 and libxtst (i386 libs), no text mode
+The DIAB compiler is optional, it might not be in the install based on what
+install.txt that was provided
+
+Sometimes the installer will hang, in such cases, delete everything and restart, try again
+Choose custom install and then select everything
+
+*** Environment
+
+wrenv.sh only supports Linux 2.* versions, so either fix the script or use
+wrenv.linux directly
+
+wrenv.linux -p vxworks-6.6
+
+For the workbench, it needs the libpangoxft, libgkt-2.0, libpangox libs (32 bit) to run, otherwise it will error out
+with a message something about setEnv
+
+*** Create a project to build
+
+There are no VSB/VIP in 6.6, create the BSP directly to build
+
+If the libraries for an arch is not built yet, we need to build it or the kernel will fail to link against them.
+
+# compile libraries pentium4 architecture
+cd $WIND_BASE/target/src
+make -k CPU=PENTIUM4 TOOL=gnu DUAL_BUILD=false COMMON_DIR=false
+
+# create a bsp project inside $WIND_BASE/target/proj
+# if a bsp project already exist, it appends a _number to directory name
+vxprj create pcPentium4 diab
+vxprj create pcPentium4 gnu
+
+# create a bsp project in specified directory (pcPentium4_bsp)
+vxprj create -profile PROFILE_DEVELOPMENT pcPentium4 gnu pcPentium4_bsp
+
+# build the bsp project
+vxprj build
+
+*** QEMU
+The VxWorks ELF image is not compatible with QEMU unlike newer versions of VxWorks.
+
+To load x86 ELF images, need to go through the standard BIOS method where you put
+stage1 (vxld.bin) and stage2 (bootrom.bin) in the correct place (inside ATA/floppy/etc).
+
+The stage 1 bootloader is 512 bytes in size (fits in the first sector)
+
+vxld.bin has to be copied via fdformat (on Linux) to the floppy.img file
+The floppy.img then can be mounted and the bootrom.bin can be copied as follows:
+cp bootrom.bin /floppy/bootrom.sys
+
+On Windows, there is a script that can do this for us:
+mkboot.bat a: bootrom.bin
+
+The mkboot.bat does the following behind the scenes:
+vxsys a:
+copy bootrom.bin a:bootrom.sys
+
+The vxsys command is provided by VxWorks to mark a bootable sector
+The script assumes that the floppy drive has been formatted already.
+
+Windows might have issues running the batch script above, but it can be run in DOSBOX or other DOS emulators.
+
+Note that DOSBOX does not have tools like chkdsk or format to format the floppy drive, need to create the floppy image using some other way like mtools.
+
+FreeDOS does have the tools like chkdsk and format
+To format a floppy in FreeDOS:
+format a: /v /q
+
+The formatted floppy can be booted from qemu as follows:
+qemu-system-i386 -fda floppy.img -serial stdio -display none
+
+The bootline parameters are stored as a file called nvram.txt inside floppy.img
+
+*** Components
+Various user startup code (usrBanner/usrRomfs/etc):
+$WIND_BASE/target/config/comps/src
+
+The CDF that define build options:
+$WIND_BASE/target/config/comps/vxWorks
+
+The CDF files are reloaded everytime the kernel GUI configuration is opened in workbench
+The Makefile in the CDF regenerates the CxrCat file and should be regenerated every time CDF files are updated
+
+If the REQUIRES/MODULES section of the CDF is not satisfied, the parameters will be grayed out (read only)
+
+*** Workbench
+workbench-3.0/wrwb/platform/eclipse/wrwb-x86-win32.exe
+
+*** RAMFS
+By default RAMFS is created as rawfs, no option to format it, need to format it manually "/ram0"
+
+IPCOM has an option that does formatting via INCLUDE_IPCOM_USE_RAM_DISK "/ram"
+

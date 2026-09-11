@@ -1,0 +1,110 @@
+File Locations
+------
+/etc/bluetooth
+main.conf
+input.conf
+network.conf
+
+Smart Phone
+-----
+To test the GATT services running on the computer via smart phone,
+need to install some apps for this, since default android doesn't have it
+
+https://www.nordicsemi.com/Software-and-tools/Development-Tools/nRF-Connect-for-desktop
+https://play.google.com/store/apps/details?id=no.nordicsemi.android.mcp&hl=en_US
+https://play.google.com/store/apps/details?id=com.renesas.ble.gattbrowser&hl=en_US
+
+Discoverable
+-----
+By default, discoverability is off, to enable, we can use several commands
+to do so. For BLE gatt services, we do not need this to be on, we can run example-advertisement
+script inside bluez/test for it to be seen by the programs above (nRF connect and renasas gatt browser)
+
+dbus-send --system --dest=org.bluez /org/bluez/hci0 org.bluez.Adapter.SetMode string:discoverable
+
+hciconfig hci0 piscan
+
+After pairing, can make it hidden again
+
+dbus-send --system --dest=org.bluez /org/bluez/hci0 org.bluez.Adapter.SetMode string:off
+hciconfig hci0 noscan
+
+
+Example GATT setup
+-----
+bluez has some sample python scripts for running to test GATT/advertisting, to advertise and then serve
+GATT request on connection
+./example-advertisement &
+./example-gatt-server &
+
+This will run advertising so it can be scanned and the gatt server will serve requests
+
+If you want to clear the GATT entries if the GATT server went down,
+you need to do the following
+
+disconnect <addr>
+remove <addr>
+in bluetoothctl.
+
+The remove will remove all the services registered into dbus,
+
+When disconnecting/reconnecting often, even with discoverable on, the scan won't be effective, as in it won't
+see the device removed, what we need to do is to run example-advertisement, that will increase the rate of the
+scan being seen again
+
+When example-advertising is on, disconnecting/connecting gatt services on the fly will work,
+the bluetooth daemon client will see the updates.
+
+Connecting/Pairing/Bonding
+-----
+https://www.kynetics.com/docs/2018/BLE_Pairing_and_bonding/
+https://medium.com/@kbabcockuf/bridging-the-gap-bluetooth-le-security-aab27232a767
+
+Connecting is the act of establishing a communication link. No pairing or bonding is required to communicate over Bluetooth LE.
+Pairing is the act of exchanging keys after connection, typically to set up and maintain an encrypted connection. Or, in the words of the Bluetooth 4.0 Specification [Vol. 1] Part A sec. 1.4:
+
+A procedure that authenticates two devices and creates a common link key that can be used as a basis for a trusted relationship or a (single) secure connection.
+
+Bonding is the act of storing the exchanged keys after pairing, typically to re-establish an encrypted connection without needing to exchange these keys again. Again, in the words of the Bluetooth 4.0 Specification [Vol. 3] Part C sec. 9.4:
+
+Bonding allows two connected devices to exchange and store security and identity information to create a trusted relationship.
+
+When connecting, make sure both devices are discoverable, not just pairable (so both needs to be on)
+by default, bluez will have a timeout where discoverable turns off, so either configure it to be longer.
+
+If there is alot of disconnection/reconnections, it can lead the bluez state machine to be all wonky and not
+be able to connect anymore without immediate disconnect, if this happens, just try restarting the daemon
+alot, change power off and back on, remove the device and rescan again to find it again, then connect works
+
+Loopback
+------
+There is no loopback support with bluetooth, ie, there is no connecting to yourself, will get an error
+"no route to host"
+
+Ping
+-----
+For some devices, they will ignore pings (l2ping) unless the devices have paired with each other.
+
+DBUS Methods to connect to a device
+----
+/org/bluez/hciX:StartDiscovery()
+
+This will scan devices and add them as
+/org/bluez/hci0/dev_mac_address
+
+If we already have an entry for them, we can skip discovery,
+we can list all the device existing by calling Introspect()
+
+Then we can connect to it by opening
+/org/bluez/hci0/dev_mac_address:Connect()
+
+We can use org.freedesktop.DBus.Properties method GetAll with arguments
+"org.bluez.Adapter1"
+"org.bluez.GattManager1"
+to get all the properties of that interface
+
+Storage
+----
+STORAGEDIR macro is defined inside config.h
+expands to /var/lib/bluetooth, stores all the addresses/cache of device
+that was scanned

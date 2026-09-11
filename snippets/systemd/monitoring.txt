@@ -1,0 +1,18 @@
+# Real time status of services
+journalctl --follow -u named.service
+
+# Get status of service
+systemctl status named
+
+# Enable a service
+systemctl enable named
+
+# Disable a service
+systemctl disable named
+
+# Start a service
+systemctl start named
+
+# Stops a service
+systemctl stop named
+

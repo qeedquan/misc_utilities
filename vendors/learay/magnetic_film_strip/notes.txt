@@ -1,0 +1,3 @@
+Magnetic field generate a pattern on the strip, place the magnet under the strip
+Uses brown magnetic nanoparticles
+

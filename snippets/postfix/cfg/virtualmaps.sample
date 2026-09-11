@@ -1,0 +1,7 @@
+# If the / is at the end, this mean uses maildir, otherwise use mbox format
+# The folders generated will be inside the folder defined by "virtual_mailbox_base"
+user1@domain-name.com domain-name.com/user1/
+user2@domain-name.com domain-name.com/user2/
+support@domain-name.com domain-name.com/support/
+kxp@domain-name.com kxp/
+

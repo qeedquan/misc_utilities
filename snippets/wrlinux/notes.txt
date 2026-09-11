@@ -1,0 +1,45 @@
+*** Versions
+
+https://github.com/WindRiverLinux24/wrlinux-x
+
+*** QEMU Setup
+
+git clone --branch WRLINUX_10_24_LTS https://github.com/WindRiverLinux24/wrlinux-x
+
+# Build for QEMU x86 BSP and also download layers 
+./wrlinux-x/setup.sh --machines qemux86-64 --dl-layers
+
+# Setup yocto build environment
+. ./environment-setup-x86_64-wrlinuxsdk-linux
+. ./oe-init-build-env
+
+# Customize the build
+vi build/conf/local.conf
+
+* Need to set this parameter to 0, by default the packages are not there, so the build system needs to be able to download it
+* Otherwise, build will fail
+BB_NO_NETWORK ?= '0'
+
+# Build the Linux image
+bitbake wrlinux-image-small
+
+# Run QEMU with the built image
+runqemu qemux86-64
+runqemu qemux86-64 kvm
+runqemu qemux86-64 kvm nographic
+
+# Use slirp for user networking, this doesn't make TUN/TAP device so no need for superuser access
+runqemu qemux86-64 kvm slirp nographic
+
+
+*** Commands
+
+# List all BSP supported
+setup.sh --list-machines
+
+# Download layers for offline build
+setup.sh --dl-layers
+
+*** Builds
+tmp-glibc/deploy/images/qemux86-64
+tmp-glibc/work/qemux86_64-wrs-linux/wrlinux-image-small/1.0-r1/rootfs

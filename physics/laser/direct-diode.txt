@@ -1,0 +1,27 @@
+https://www.repairfaq.org/sam/lasersam.htm
+https://www.youtube.com/watch?v=n43qd64TGow
+
+Direct Diodes
+Diode-Pumped Solid State (DPSS)
+
+These are closely related types of lasers
+Direct Diodes directly convert electric energy into light.
+The choice of semiconductor determines the wavelength (color of emitted light, from ultraviolet to infrared)
+
+DPSS lasers uses a Diode Laser that pumps lights into crystals (like Nd:YVO4 KTP crystals) (gain media) to get the final wavelength
+More temperature dependent, more inefficient, more usage means weaker output, low efficiency (2-5% meaning 1 W in, could get 20 mW out)
+Tighter more circular beam vs direct diode which is more rectangular output.
+
+The reason why DPSS is used even though it seems worse than Diode is because not all wavelengths can be created using Diode lasers easily (like yellow wavelength)
+but using DPSS this is achievable.
+
+These are used in standard cheap laser pointers.
+Typical red laser pointer have the following components:
+Battery -> Laser Diode (LD) Driver -> Laser Diode Module
+
+Typical green laser uses the following components (it is a DPSS)
+Battery -> Pump LD Driver -> DPSS Laser Module
+
+The DPSS laser module consits of:
+Pump Laser Diode -> Pump Focusing Lens -> KTP Crystal -> Expanding Lens -> Collimating Lens -> IR Filter
+

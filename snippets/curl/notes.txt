@@ -1,0 +1,9 @@
+*** Certificates environment variables
+export SSL_CERT_FILE=/path/to/ca.pem
+export SSL_CERT_DIR=/path/to/certs
+
+If SSL_CERT_DIR is specified, the certs in the directory need to follow a naming convention of
+[HASH].0
+
+To generate [HASH] given a .pem file, use 
+openssl x509 -subject_hash -in root.cer

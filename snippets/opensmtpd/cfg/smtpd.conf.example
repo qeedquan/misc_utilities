@@ -1,0 +1,51 @@
+# redirect mail to users home, aliases are dereferenced to the original user
+# maildir format
+action "local" maildir alias <aliases>
+# mbox format
+action "local" mbox alias <aliases>
+
+# maildir format at a specified directory rather than users home
+# usually the directory should be on by the mail group and users with mail support is registed in this group
+# the mail will be delivered using the name rcpt.user but the server does check if the dereferenced user exist
+# before allowing it to be delivered, if the direcotry does not exist it will be created with the credentials of the dereferenced user
+# If used with virtual mapping table with a catch-all user, any invalid rcpt.user will be allowed to be delivered but using their rcpt.user name
+action "local" maildir "/var/spool/mail/%{rcpt.user}" alias <aliases>
+
+# tables can be called any name, they can be refered in the configuration as <name>
+# define an alias table which maps users to other users so we don't have to create more users
+table aliases file:/path/aliases
+
+# define a virtual mapping table, these maps users from different domain names into local users
+table virtuals file:/path/virtuals
+# define a set of domain names that the server is willing to accept to be delivered
+table vdomains file:/path/vdomains
+
+# For any domain names in the file <vdomains>, allow it to be received
+# For example, if an email was sent to me@crawfish.yes and crawfish.yes was in the vdomains,
+# it will go through, otherwise it will get rejected
+match from any for domain <vdomains> action receive
+
+# These allow emails to send out
+action send relay
+match for any action send
+
+# This will forward the mail by making the server act like a relay, for any domain name that is not local to the system,
+# it will perform an MX record lookup and send it through that host
+# These needs to be disabled if all we want to do is receive mail from a given vdomain described above, but we don't care for sending it
+action "relay" relay
+match from local for any action "relay"
+
+# Limit the number of messages to count for each session
+smtp limit max-mails 100
+
+# Limit the number of recipients to count for each transaction
+smtp limit max-rcpt 1000
+
+# Max message size
+smtp max-message-size 35M
+
+# Control string for SSL
+smtp ciphers "HIGH:!aNULL:!MD5"
+
+# When resolving the local part of a local email address, ignore the ASCII character and all characters following it
+smtp sub-addr-delim '+'

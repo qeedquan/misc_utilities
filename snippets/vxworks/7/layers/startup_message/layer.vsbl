@@ -1,0 +1,22 @@
+/*
+
+An example layer for startup hooks
+
+To use in VSB/VIP
+vxprj vsb add STARTUP_MESSAGE
+vxprj vip component add INCLUDE_STARTUP_MESSAGE 
+
+*/
+
+Layer STARTUP_MESSAGE {
+	SYNOPSIS         Startup Message
+	HELP             Includes Startup Message
+	VERSION          0.0.0.1
+	FEATURE          OPEN_SOURCE
+	VENDOR           None
+	LAYER_REQUIRES   LIBC_STD
+	OPTIONAL         YES
+	DEFAULT          NO
+	DOC_BUILD        NO
+	_CHILDREN        FOLDER_UTILITIES
+}

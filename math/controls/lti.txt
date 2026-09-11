@@ -1,0 +1,269 @@
+*** Links
+
+https://edisciplinas.usp.br/pluginfile.php/2351027/mod_resource/content/1/Origin%20of%20Stability%20Analysis.pdf
+https://faculty.washington.edu/chx/teaching/me547/1-8_zohSS_slides.pdf
+https://courses.engr.illinois.edu/ece486/fa2018/lectures/
+https://www.mathworks.com/help/ident/ref/dynamicsystem.c2d.html
+https://www.mathworks.com/help/ident/ug/continuous-discrete-conversion-methods.html
+https://www.mathworks.com/help/control/ug/time-delays-in-linear-systems.html
+https://dsp.stackexchange.com/questions/13605/why-are-fir-filters-still-stable-even-though-they-contain-poles
+
+*** Overview 
+
+Linear Time Invariant (LTI) systems are continuous linear system and don't change over time, so they follow the superposition principle
+f(ax + by) = a*f(x) + b*f(y)
+
+The discrete version of a LTI system is known as a Linear Shift Invariant (LSI) system
+
+There can be linear but time dependent system, for those, we can solve them in a piecewise manner and then combine them
+
+LTI system can be describe completely by this constant coefficient ordinary differential equation:
+
+a[n]*y(n)(t) + .... + a[1]*y'(t) + a[0]*y(t) = b[m]*u(m)(t) + ... + b[1]u'(t) + b[0]*u(t)
+
+For zero initial conditions, the differential equation can be written in Laplace s-domain as a polynomial:
+(a[n]*s^n + ... + a[1]*s + a0)*y(s) = (b[m]*s^m + ... + b[1]*s + b0)*u(s)
+Historically, analysis of functions in the laplace (frequency) domain are usually used for Single-Input Single-Output (SISO) systems
+State space methods are usually used for multiple-input multiple-output (MIMO) and that is usually in the time domain
+
+The transfer function is then defined as H(s) = Y(s)/X(s) (The output ratio divided by the input ratio).
+Normally the following functions are used as input to the system to characterize it: step, impulse, sine, sawtooth, square, triangle
+A Bode plot is usually used to empirically derive the transfer function by subjecting it to a spectrum of sine functions, get the amplitude/phase at each frequency.
+This is useful because linear combinations of these sine waves (fourier series) can represent pretty much all functions when dealing with problems in the physical world to an accuracy we care about
+This implies to a very important of LTI system, that sinusoidal inputs do not change frequency when pass through an LTI system, it can only change the amplitude and phase, that's how we can analyze them separately.
+
+So the entire LTI system can be described by the coefficients, the m roots of b is called the zeros, the n roots of a is called the poles.
+
+If we factor the polynomial above we can get:
+y(s) = K * [(s-z1)*(s-z2)...) / (s-p1)*(s-p2)...] * u(s)
+This form makes it easy to figure out what the poles/zeros are. The K is called the system gain.
+
+We can also write the polynomial as partial fractions
+
+y(s) = e1/(s + r1) + e2/(s + r2) ...
+
+If a and b are real in the equation, then the roots r1..rq is always real or conjugate pairs in the partial fraction expansion
+The complex conjugate pairs in the equation can be combined into a oscillatory term in the time domain A*exp(sigma)*sin(freq*t + phase)
+The sigma term comes from the real part of the complex pole described below and the freq comes from the omega (imaginary) term below:
+
+The partial fraction expansion when taken the inverse laplace transform to get the time domain, we have a series of exponentials:
+y(t) = e1*exp(-r1*t) + e2*exp(-r2*t) ... en*exp(-rn*t) + .... e_(n+1)*exp(-r_(n+1)*t)
+                        transient response                      steady state response
+
+The roots in the above term are complex: sigma + j*omega
+
+This form is useful because it gives us the transient response and the steady state response
+The transient response will go decay to zero if the system is stable, and the steady state is the long term behavior afterwards
+Note that the poles of the transfer function gives us the transient response since it goes up to n terms, the rest of the terms comes from u(s)
+
+Another name for transient/steady response is free/force response, complementary function/particular integral
+
+*** Zero and Poles
+
+The dominant pole is generally considered the pole closest to the imaginary axis when the poles are plotted on a pole-zero plot.
+This is because these poles tend to have the longest transient response times and are often called the slowest poles.
+As such, assuming that the non-dominant poles are significantly far away from the imaginary axis (aka respond significantly faster transiently),
+the system can be sufficiently approximated using a lower order function of the dominant pole.
+This is mostly a concern in higher order systems where classical control techniques cannot be easily applied (3rd order or higher).
+
+*** State space to transfer function representation
+Given an LTI state space equation we can convert it to a transfer function representation:
+G(s) = Y(s)/U(s) = C*(s*I - A)^-1*B + D
+
+The representation in the state space formulation is not unique because you can always use a regular similarity transformation z=Tx on the states such that the corresponding
+state space representation has changed while G(s) and the actual dynamics do not change.
+
+The ABCD Matrix is used to represent a state space
+A - Captures the dynamics of the system (nxn state matrix)
+B - How the system responds to input (nxm input matrix)
+C - (pxn output matrix)
+D - direct transition (pxm feedthrough matrix)
+
+Since the A matrix captures the dynamics of the system, any feedback controller will have to modify the A matrix to change the dynamics
+The eigenvalues of the A matrix is the poles of the system (location of poles dictate stability)
+
+*** Degree of the system and stability
+
+The relative degree are classified as follows:
+
+Strictly Proper if m < n (less zeros than poles; this mean it is stable as frequency goes to infinity (zero amplitude))
+Proper of m <= n (equal zeros and poles; includes strictly proper as a superset)
+Improper of m > n (more zeros than poles; this blows up as frequency goes to infinity)
+
+For an LTI system all the response we can get is increasing/decaying/oscillating exponential sinusoids and this is controlled by the poles/zeros
+
+If we don't know the dynamics we have to build it from the data, this is known as System Identification
+
+*** Common transfer functions
+
+Any LTI system can be described by some transfer function, but common ones are:
+Butterworth filter
+Chebyshev filter
+Bessel filter
+Elliptic filter
+Optimum L filter
+Gaussian filter
+Raised-Cosine filter
+Root-Raised Cosine filter
+
+*** FIR/IIR stability
+FIR filters are always stable, they only have poles centered around the origin (this is why FIR are sometimes called all-zero filters, as the designer only specify the zeros)
+IIR filters are stable if the poles lie in the z-unit circle
+
+*** Discretization
+
+The laplace domain is usually for continuous time system, we can use the z-transform for discrete system
+
+Usually for FIR/IIR filters, they are derived using the z-transform
+For FIR filters only use the input with the weights.
+For IIR filters can use the output along with the input and the weights. This can lead to instability (oscillations) if not careful
+
+To simulate state space on a digital system, we need to discretize it
+The following methods are usually used to transform a continuous time to a discrete time system:
+
+zoh - Zero-order hold. Assumes the control inputs are piecewise constant over the sample time Ts
+foh - Triangle approximation (modified first-order hold). Assumes the control inputs are piecewise linear over the sample time Ts
+impulse - Impulse invariant discretization
+tustin - Bilinear (Tustin) method
+matched - Zero-pole matching method
+least-squares - Least-squares method
+damped-tustin - Damped Tustin approximation based on the TRBDF2 formula for sparss models only.
+
+The discretized ABCD matrix will be different from the continuous one, but they can be simulated and give the same approximate output than the continuous version
+The eigenvalues for the discrete system will also be different from the continous one
+
+*** Special Case: First Order System
+
+Equations of the form:
+
+tau = Time constant of the system, important as this parameter can characterize all equations of this form
+tau*y'(t) + y(t) = u(t)
+
+Transfer function:
+H(s) = y(s)/u(s) = 1/(s*tau + 1)
+y(t) = inverse_laplace_transform(u(s)*H(s))
+
+For unit step input (u(t) = step), the solution is:
+y(t) = 1 - exp(-t/tau)
+
+This equation represents an exponential decay/increase at the rate related to tau (usually known as a one pole filter)
+
+The approximate 10% to 90% exponential rise/fall time is 2.2*tau
+
+*** Special Case: Second order system
+
+Equations of the form:
+
+zeta = damping ratio
+omega = un-damped natural frequency
+y''(t) + 2*zeta*omega*y'(t) + omega^2*y(t) = omega^2*u(t)
+
+Alot of physical systems follow this equation, like mass-spring networks or RLC circuits.
+Second order system exhibits oscillations
+
+Transfer function:
+y(s)/u(s) = omega^2 / (s^2 + 2*zeta*omega*s + omega^2)
+
+The (s^2 + 2*zeta*omega*s + omega^2) is known as the characteristic equation since it describes the pole of the system
+Use quadratic formula to solve for the roots
+
+The values of zeta determines the system classification:
+zeta > 1            over-damped (goes to the set point undershooting, looks like a first order system with exponential increasing/decaying to set point)
+zeta = 1            critically-damped (goes to the set point in the shortest amount of time)
+0 < zeta < 1        under-damped (goes to the set point overshooting)
+zeta = 0            undamped (oscillate forever without decaying)
+
+Use these constants to design physically relevant parameters:
+Resonant Peak, Overshoot delay, Peak overshoot, Decay envelope, Damped frequency, Settling time
+
+How poles/zeros affect the system (modifying the transfer function to add more zeros/poles):
+
+s = -z
+G1(s) = (1 + s/z)*G(s)
+Left half plane zero: add a derivative term to the step response of the system (rise time is decreased and overshoot increased by a LHP zero)
+
+s = z
+Right half plane zero: Stable system with n RHP zeros will cross the starting value at least n times
+Increase rise time (slower response) and undershoot
+
+*** All pass transfer function
+All-pass transfer function passes all frequencies with the same attenuation.
+Has a pole-zero symmetry, ie, if s0 is a zero, -complex_conjugate(s0) is a pole
+Examples:
+(s - 1) / (s + 1)
+(s^2 - s + 2) / (s^2 + s + 2)
+
+*** Minimal phase
+
+For minimal phase system, the following must be satisfied:
+No time delay
+No Right half plane zeros
+No poles on the imaginary (except the origin)
+No unstable poles
+
+Minimal phase system has total phase variation (n-m)*pi/2 over 0 < freq < infinity (smallest phase variation for all frequency)
+Non-minimal phase system has more negative phase
+
+All stable real, rational transfer function G can be expressed as:
+G(s) = G_minimal_phase(s) * G_all_pass(s)
+So we can use the minimal phase system to help design non-minimal phase system
+
+For minimum phase system, the curves on the Bode plot are approximately related through a derivative:
+phase(G(jw)) ~ pi/2 * d*log|G(jw)| / d*log(w)
+
+*** Filter design
+
+For designing filters in the digital domain, we can use the transfer function
+H(s) = Y(s)/X(s) and set zeros/poles, then take the inverse z-transform to obtain the coefficients used for lowpass/highpass/bandpass filter
+
+The ideal filter we want is a brick filter which is a sinc function in the time domain, but it cannot be realize with a finite dimensional LTI filter, so need to approximate
+
+Types of FIR linear phase filter based on zeros/poles:
+Type 1 - Symmetric sequence of odd length (even number or no zeros at z=1 and z=-1)
+Type 2 - Symmetric sequence of even length (even number or no zeros at z=1 and odd number of zeros at z=-1)
+Type 3 - Anti-symmetric sequence of odd length (odd number of zeros at z=1 and z=-1)
+Type 4 - Anti-symmetric sequence of even length (odd number of zeros at z=1 and either even number or no zeros at z=-1)
+
+Due to the characteristics, type 2 cannot be used as high pass, type 4 is not a lowpass, 3 is not a lowpass or highpass. No restriction on type 1
+
+*** Fractional Delay
+Fractional delays are input delays that move the transfer function time response to the right.
+They have transfer functions of the form:
+
+G(s) = some standard transfer function
+H(s) = exp(-delay*s) * G(s)
+
+*** Pole Placement
+
+Pole placement (also known as full state feedback) is a state space method to uses feedback to stabilize the system.
+Need full (critical) state of vector for the model to use this method, so needs to be observable and controllable to get any wins.
+
+In practice alternatives like LQR and H-Infinity control methods are used more, but this is a standard technique so it's good to know.
+
+This technique moves the poles of the system to modify the stability of the system, it can be thought of as a fancy version of root locus.
+Root locus only has one gain K to adjust to move the poles along that locus (it has to move on a line), but with the pole placement, we have a gain matrix that can move the poles anywhere in the complex plane.
+
+The technique can also be though of like a PD controller, since they are introduce 2 gains to adjust, one for the signal and one for its derivative.
+
+*** Controlability Matrix
+Given a state space model
+
+C(A, B) = [ B | A*B | A^2*B | ... | A^(n-1)*B ] (Concatenate the matrices column wise up to the order of the model)
+
+The system is completely controllable if the controlability matrix C(A, B) is invertible (for single input case, for multiple input case it has to be full rank)
+
+*** Observable Canonical Form
+A state space model of A and C matrix is in OCF form if it is the following:
+
+A = [0 0 ... 0 0 *]
+    [1 0 ... 0 0 *]
+	[. . .   . . .]
+	[. .  .  . . .]
+	[. .   . . . .]
+	[0 0 ... 1 0 *]
+	[0 0 ... 0 1 *]
+
+C = [0 0 ... 0 0 1]
+
+Similar to controllability, observability is preserved under invertible coordinate transformations.
+

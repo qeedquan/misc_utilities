@@ -1,0 +1,33 @@
+/*
+
+Example script to load raw binary file
+
+Entry point: 0x80100000
+
+*/
+
+device AM3352
+si JTAG
+speed 4000
+jtagconf -1,-1
+connect
+
+halt
+// Assume the existing firmware entry point is 0x80200000
+// This is needed for devices which has a bootloader that does some initialization beforehand
+// So the idea is to run the until the firmware entry point, after the bootloader is done so setup is done
+setbp 0x80200000 a
+reset
+go
+
+// wait a bit before loading the file, this is allow hardware to finish initializing
+// can fail if we try to load the file too early (memory can't be written to)
+sleep 1000
+halt
+
+// need noreset here if we assume that the hardware must be initialized by the above code
+// If the binary file has some headers that need to be skipped, load it below the entry point so it can be skipped
+loadfile firmware.bin 0x80100000 noreset
+
+setpc 0x80100000
+go

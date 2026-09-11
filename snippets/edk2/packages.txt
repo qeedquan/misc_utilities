@@ -1,0 +1,60 @@
+MdeModulePkg/Core/Dxe/Mem
+	Builds the EFI memory map that passes on through the bootloader
+
+EFI allocates alot of memory so the memory map it passes to the bootloader is alot of entries.
+The bootloader usually will merge the maps into one contiguous blocks where it can.
+
+The following types are mergable into usable memory:
+3, 4, 7
+
+ACPI tables are type 10 usually and they can't get merge
+
+------------------------------------
+EfiReservedMemoryType = 0
+Not used.
+
+EfiLoaderCode = 1
+The code portions of a loaded application.
+
+(Note that UEFI OS loaders are UEFI applications.)
+
+EfiLoaderData = 2
+The data portions of a loaded application and the default data allocation type used by an application to allocate pool memory.
+
+EfiBootServicesCode = 3
+The code portions of a loaded Boot Services Driver.
+
+EfiBootServicesData = 4
+The data portions of a loaded Boot Serves Driver, and the default data allocation type used by a Boot Services Driver to allocate pool memory.
+
+EfiRuntimeServicesCode = 5
+The code portions of a loaded Runtime Services Driver.
+
+EfiRuntimeServicesData = 6
+The data portions of a loaded Runtime Services Driver and the default data allocation type used by a Runtime Services Driver to allocate pool memory.
+
+EfiConventionalMemory = 7
+Free (unallocated) memory.
+
+EfiUnusableMemory = 8
+Memory in which errors have been detected.
+
+EfiACPIReclaimMemory = 9
+Memory that holds the ACPI tables.
+
+EfiACPIMemoryNVS = 10
+Address space reserved for use by the firmware.
+
+EfiMemoryMappedIO = 11
+Used by system firmware to request that a memory-mapped IO region be mapped by the OS to a virtual address so it can be accessed by EFI runtime services.
+
+EfiMemoryMappedIOPortSpace = 12
+System memory-mapped IO region that is used to translate memory cycles to IO cycles by the processor.
+
+EfiPalCode = 13
+Address space reserved by the firmware for code that is part of the processor.
+
+EfiPersistentMemory = 14
+A memory region that operates as EfiConventionalMemory, however it happens to also support byte-addressable non-volatility.
+
+EfiMaxMemoryType

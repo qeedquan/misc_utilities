@@ -1,0 +1,6 @@
+# Some domain name matching
+me@superbass.com local_user
+you@crawfish.yes local_user
+
+# Catch all, this redirects all invalid addresses to local_user
+@ local_user

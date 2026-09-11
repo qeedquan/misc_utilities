@@ -1,0 +1,22 @@
+# Look up DNS record from a custom DNS server
+dig @ns1.example.com example.com
+nslookup @127.0.0.1 stuff.com
+nslookup -port=5053 @127.0.0.1 example.com
+
+# Look up MX record from a custom DNS server
+dig @ns1.example.com example.com -t MX
+
+# Look up SOA record with zone example.com at port 5053 from localhost
+dig @localhost -p 5053 example.com -t SOA
+
+# Look up a registar for a website
+whois example.com
+
+# Monitor DNS traffic on <device>
+dnstop <device>
+
+# Monitor DNS traffic on loopback
+dnstop lo
+
+# Listen on different port
+dnstop -b 'udp port 5053' lo

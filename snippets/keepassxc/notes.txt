@@ -1,0 +1,7 @@
+*** Github 2FA setup
+Github requires 2FA to manage your account, in order not to link it to your phone use this program.
+
+1. Open the program
+2. Add a github entry (https://github.com/username) with proper user/pass to be able to login
+3. When github gives you the OTP key, go to OTP option in the program and paste the OTP key, it will generate a code to connect
+

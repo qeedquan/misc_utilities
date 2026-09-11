@@ -1,0 +1,6 @@
+*** Materials
+
+Wires can be made from alot of different materials, depending on the application
+
+Terzel - Mainly used for aviation and space, has high resistance to radiation and chemical
+Copper - Mainly used in housing for resistance to corrosion and good conductivity

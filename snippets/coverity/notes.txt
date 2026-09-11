@@ -1,0 +1,42 @@
+*** Environment
+Set COVERITY_TOOL_HOME to Coverity installation
+Coverity installation is pretty standalone, it is encapsulated inside directory
+
+*** Configuring for languages
+Coverity needs to scan for the tools used on the system and save configuration for them before usage.
+
+cov-configure is the command to generate the configuration by scanning the system
+
+# generate configuration and save to coverity_config.xml (this appends to the file, not overwrite)
+# need to run one after the other, can't do it in parallel
+cov-configure --gcc
+cov-configure --clang
+cov-configure --go
+cov-configure --java
+
+*** Running Coverity
+cov-build will intercept compiler calls like cc/javac/go/etc and output the analysis of it
+
+cov-build --dir <output_dir> Makefile
+cov-build --dir <output_dir> build.sh
+
+# After building, we can analyze it
+cov-analyze --dir <output_dir> 
+
+# Imports the findings into the Coverity Connect web application for review. That requires a running instance of Coverity Connect to commit to.
+cov-commit-defects 
+
+# Generate static HTML directories, alternative to commit-defects
+cov-format-errors
+
+*** Concepts
+https://community.blackduck.com/s/article/Coverity-Tutorial-Projects-and-Streams
+https://documentation.blackduck.com/bundle/coverity-docs/page/coverity-platform/topics/setting_up_streams.html
+
+Project are specific releases
+Stream is a branch in version control
+Snapshot is a specific build of a branch
+
+Projects can have streams, streams share global namespace so make sure each stream has a unique name.
+Issues that can arise is when one project has a stream but another project tries to make the same stream name, it will fail.
+

@@ -1,0 +1,7 @@
+http://www.icstation.com/step-down-power-supply-module-voltage-current-dual-display-buck-boost-converter-p-13565.html
+
+~5 bucks
+
+USB Input Power 5V, step up/down DC from 1.2V to 24V. Supply it via computer or something that has a USB port.
+Put the load into the Load port on the module to get power.
+

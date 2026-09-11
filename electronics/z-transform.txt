@@ -1,0 +1,36 @@
+*** Links
+
+https://cpjobling.github.io/EG-247-Resources/week8/z-transform.pdf
+
+*** Mapping from s to z domain
+
+Ts = sampling time (1/fs)
+ws = 2*pi/fs
+
+s = σ + jw
+z = exp(σ*Ts + jw*Ts) = exp(σ*Ts)*exp(σ*jwTs) = |z|*exp(j*theta)
+|z| = exp(σ*Ts)
+theta = w*Ts
+
+All of the LHP maps inside the unit circle
+σ < 0
+
+All of the RHP maps outside of the unit circle
+σ > 0
+
+The imaginary axis gets mapped to the circumference of the unit circle
+σ = 0
+
+From this we know that:
+Stable - All poles inside the unit circle
+Marginal Stable - All poles is inside or on the unit circle
+Unstable - Any pole outside of the unit circle
+
+*** Mapping z to s domain
+There is no unique mapping of z to s since
+s = 1/Ts * ln(z)
+ln(z) = ln(z) +- j*2*n*pi
+
+This makes sense because sampling creates an infinite number of spectra, each is centered around +-n*ws
+
+

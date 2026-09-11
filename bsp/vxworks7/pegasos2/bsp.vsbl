@@ -1,0 +1,8 @@
+Layer pegasos2 {
+    SYNOPSIS            Pegasos 2 family board support package (BSP)
+    HELP                This layer provides the board support package (BSP) \
+                        for the Pegasos 2 family.
+    VERSION             1.0.0.0
+    LAYER_REQUIRES      FDT UTILS MV_64360
+    DOC_BUILD           DOXYGEN
+}

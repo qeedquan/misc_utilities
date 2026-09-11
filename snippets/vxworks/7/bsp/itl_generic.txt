@@ -1,0 +1,22 @@
+Parameters described inside CDF files
+
+INCLUDE_STANDALONE_DTB -
+    Build DTB into the image itself
+
+INCLUDE_INIT_DTB -
+    Function to init the DTB
+
+DEFAULT_BOOT_LINE -
+    Default boot parameter passed to VxWorks.
+
+KERNEL_PROXIMITY_HEAP_SIZE
+    Kernel proximity heap size
+    ~16 MB by default
+
+KERNEL_COMMON_HEAP_INIT_SIZE
+    Kernel common heap initial size
+    ~32 MB by default
+
+SYSTEM_RAM_SIZE -
+    Minimum system RAM
+    If -lp64 is set, then the default minimum system ram is ~2 GB, ~256 MB otherwise.

@@ -1,0 +1,75 @@
+*** Manufacturers
+
+https://jlcpcb.com/
+https://oshpark.com/
+
+*** Part libraries
+https://jlcpcb.com/video/jlcsmt_parts_library.xls
+https://gitee.com/JLC_SMT/JLCSMT_LIB.git
+
+*** Files needed for fabrication
+Gerber:
+	Contains PCB info (layers, legend/silk, solder mask, etc)
+
+Drill/Drill Map Files:
+	PCB drilling and routing info
+
+Use program like gerbv to view the gerber/drill files to verify correctness
+
+If we want SMT assembly, also need
+
+BOM:
+	Bill of materials file, contains all parts
+
+CPL:
+	Specifies position/rotation of all parts
+
+*** Standard layers meaning
+https://forum.kicad.info/t/what-is-the-meaning-of-the-layers-in-pcb-new-and-in-the-footprint-editor-kicad-5-and-earlier/9688
+
+    Layers that have a front and back version start with F. (for front) and B. (for back)
+    The F.Cu and B.Cu layers are the copper layers
+        If there are additional copper layers they use the names In[number].Cu by default
+        The names for copper layers can be changed by the designer.
+    F.Silk and B.Silk define artwork on the silkscreen layers.
+        Typically this is the white artwork printed on the board.
+        If there is space then it typically has a body outline, polarity marker and reference designator.
+        Be aware of minimum clearances to exposed copper and minimum line width requirements. (Resulting in minimum text size requirements.)
+        Small surface mount devices should not have silk below them as it can negatively impact the yield of the reflow process.
+    F.Mask and B.Mask define the area free of soldermask 950.
+        It is the negative of the resulting film that covers the board.
+        More details see How does solder mask layer work? 240
+    F.Paste and B.Paste define the area that will be covered with solder paste 499 (In datasheets often called stencil)
+        Used for reflow soldering 154 of surface mounted devices.
+    Edge.cuts: This layer is used to communicate with the manufacturer what the final board shape should look like.
+        The edge-cut must not contain self intersections
+        Polygons on the edge-cut must be continuous and closed.
+        It is allowed to have internal cutouts
+    F.Adhes and B.Adhes are layers to define adhesive (=glue) areas.
+        Only needed if components are on the bottom side during reflow soldering. (And even with components on the bottom it is not always needed. Check with your manufacturer if you need to define it for your board.)
+    F.CrtYd and B.CrtYd are used to define a courtyard area.
+        The courtyard defines where no other component should be placed.
+            The size of this area depends on your manufacturing capabilities.
+            It also depends on your needs. (If you want the possibility to rework the pcb, you might need a larger area compared to when you do not plan to do this.)
+            The rules used in the official lib are defined in the KLC - Rule F5.3 270 and are closely aligned to industry standards.
+        This layer is checked for violations since version 5 of kicad.
+            KiCad requires every drawing on this layer to represent a closed polygon (drawn with the normal line drawing tool.)
+            Internal cutouts are allowed.
+    F.Fab and B.Fab are documentation layers.
+        These are intended to be used for communicating with board assembly houses and for user documentation.
+        It typically has the outline of the part body (nominal or maximum dimensions, depends on your particular needs.)
+        It is common to have a polarity marker on this layer.
+        Reference and value fields are often found on this layer. (This might be the only place where these are found for high density boards as there is not enough space for silkscreen text. Fab text does not come with the same minimum size requirements as silk.)
+    Dwgs.User and Cmts.User are used for user drawings and comments.
+        In the official lib this layer is used to communicate with the user of footprints. (Example to tell them where to place keepout areas as they are not directly supported by KiCad in footprints)
+    Eco1 and Eco2 are layers with no specific defined purpose. (The user can use them for whatever they want. They are not used in footprints supplied by the official lib.)
+    Margin layer: Is there to define a margin relative to the edge cut.
+        There is no DRC check to verify that no copper feature violates the margin definition.
+
+Limitations of the footprint editor
+
+SMD pads in the footprint editor can only be placed on a top or bottom layer.
+THT pads typically use *.Cu to communicate that these interact with all copper layers.
+
+The use of the edge cut layer in footprints can result in problems. As there is no snapping for the drawing tool other then to the grid this might result in polygons that are not closed.
+This layer is unsupported by the footprint editor (KiCad 5 and earlier). There is no way to define drawings on that layer from within it. KiCad 4 even moved drawings on that layer to another layer when opening it in the footprint editor. This non feature has luckily been removed from version 5. More details about edge cut support see this wishlist bug 44

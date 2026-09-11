@@ -1,0 +1,52 @@
+*** Bitbake commands
+
+# Be verbose
+bitbake -vDDD your-recipe
+
+# List recipes
+bitbake -s
+
+# List recipes task
+bitbake -c listtasks recipe
+
+# Run only one task of a recipe
+bitbake -c your-task your-recipe
+
+# Run all tasks for all recipes
+bitbake world
+
+# Build one recipe
+bitbake your-recipe
+
+*** Bitbake-layers command
+# Add New Layer
+bitbake-layers add-layer
+
+# Remove Layer
+bitbake-layers remove-layer
+
+# Show Layers
+bitbake-layers show-layers
+
+# Show Recipes
+bitbake-layers show-recipes
+
+*** Files
+
+* build/conf/local.conf
+
+# IMAGE_BOOT_FILES
+A space-separated list of files installed into the boot partition when preparing an image using the Wic tool with the bootimg-partition source plugin.
+By default, the files are installed under the same name as the source files.
+To change the installed name, separate it from the original name with a semi-colon (;).
+Source files need to be located in DEPLOY_DIR_IMAGE. Here are two examples:
+IMAGE_BOOT_FILES = "u-boot.img uImage;kernel"
+IMAGE_BOOT_FILES = "u-boot.${UBOOT_SUFFIX} ${KERNEL_IMAGETYPE}"
+
+# IMAGE_FSTYPES
+Specifies the formats the OpenEmbedded build system uses during the build when creating the root filesystem. For example, setting IMAGE_FSTYPES as follows causes the build system to create root filesystems using two formats: .ext3 and .tar.bz2:
+IMAGE_FSTYPES = "ext3 tar.bz2"
+
+*** Wic
+$ wic create mkefidisk -e core-image-minimal
+

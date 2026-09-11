@@ -1,0 +1,34 @@
+*** Overview
+
+Plating makes material more resistant to abrasion/corrosion, change its lubrication, reflectivity, conductivity parameters, or make it look nicer.
+
+*** Electrical connectors
+
+Contact plating, usually done at the end of the process (finishing).
+
+Electrical connectors are usually plated one of the following:
+
+Noble Metals (Noble metals are desirable because they lack chemical reactivity and resist oxidation and corrosion.)
+Gold
+Platinum
+Silver
+Palladium
+Rhodium
+
+Transitional Metals
+Tungsten and Molybdenum
+
+Passive Metals (high corrosion resistance. An oxidation layer creates a film on the metal's surface that prevents further corrosion.)
+Tin
+Nickel
+
+Other (These metals will corrode, but they are cheap. A protective layer of another metal can limit corrosion.)
+Copper
+
+Alloys (Combination of materials):
+Bronze
+Palladium Nickel
+Electroless Nickel
+
+*** Techniques
+Electroplating/Electrodeposition: Coating via electric current
