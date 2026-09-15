@@ -1,0 +1,25 @@
+7816 - SIM card
+
+14443, 15693 - Contactless SIM card
+
+9001 - Quality management, most manufacturers follow this standard
+
+13485 - Quality mangement for Medical devices
+
+14001 Environmental management systems - Requirements with guidance for use
+14004 Environmental management systems - General guidelines on implementation
+14005 Environmental management systems - Guidelines for a flexible approach to phased implementation
+14006 Environmental management systems - Guidelines for incorporating ecodesign
+14015 Environmental management - Environmental assessment of sites and organizations (EASO)
+14020 to 14025 Environmental labels and declarations
+14030 Green bonds -- Environmental performance of nominated projects and assets; discusses post-production environmental assessment
+14031 Environmental management - Environmental performance evaluation - Guidelines
+14040 to 14049 Environmental management - Life cycle assessment; discusses pre-production planning and environment goal setting
+14050 Environmental management - Vocabulary; terms and definitions
+14062 Environmental management - Integrating environmental aspects into product design and development
+14063 Environmental management - Environmental communication - Guidelines and examples
+14064 Greenhouse gases; measuring, quantifying, and reducing greenhouse gas emissions
+14090 Adaptation to climate change — Principles, requirements and guidelines
+
+37001 - Antibribery management
+

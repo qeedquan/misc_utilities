@@ -1,0 +1,40 @@
+*** Resources
+
+https://ftp.arin.net/info/asn.txt
+https://account.arin.net/public/member-list
+
+ASN listing of all the registered ASNs
+
+*** Terms
+
+IP Transit is the exchange of Internet IP traffic where one party pays another for access to a network (and the networks connected to it), that is considered as having the highest intrinsic value (based on a combination of geographical and logical assets). This may, for example, involve access to all, or a larger part of the wider Internet, or a subset of larger/unique end-customers. Where one network has a higher value than the other network, so-called ‘upstream’ IP Transit is purchased by the network with the lowest intrinsic value. IP Transit is a wholesale service, available only to Autonomous System (AS) number owners running the Border Gateway Protocol (BGP). Non-AS owners can also get Internet connectivity by acquiring services such as Dedicated Internet Access, DIA – also known as IP Connect within Arelion, without running BGP. The benefits for ISPs are, amongst other things, a reduced capital expenditure risk and lower yearly recurring costs. There is also less administrative overhead and required technical resources.
+
+Peering, on the other hand, is the exchange of IP traffic between networks without the flow of payments (known as settlement-free peering), or for a fee that compensates for any differences in intrinsic network value (known as paid peering). Settlement-free peering agreements are based on two parties having networks of equal intrinsic value and where they are mutually dependent on each other. A peering interconnection requires that routers and other related equipment are installed at the connection points of the peering parties’ respective networks.
+
+Public peering is typically used for smaller regional or international ISPs with a need for interconnections with operators and content providers in specific local/regional markets. There is, in general, one distinct peering location (peering exchange) in each country where many companies providing Internet connectivity meet and interconnect their respective networks. These public interconnects are often public information and built over a common interconnection point.
+Private peering is an arrangement based on common terms which are deemed suitable for both parties. In private peering, both Internet backbone operators agree on a location (or locations) where to interconnect and built using private network connections. All major Tier-1 ISPs use private peering when connecting their networks.
+
+*** Tiers
+
+Tier 1
+https://www.att.com/
+https://www.verizon.com/
+https://www.gtt.net/us-en/
+https://www.arelion.com/
+https://www.t-mobile.com/
+https://www.lumen.com/
+
+Tier 2
+https://he.net
+https://www.chinatelecom-h.com/en/global/home.php
+https://www.sg.gs/
+http://www.ktamerica.com/
+
+*** FCC ISP map
+FCC keeps a track of broadband (fixed/mobile) providers, can download a CSV of all providers in the US.
+They are identified using a provider id, which is described in a downloadable excel sheet.
+
+https://broadbandmap.fcc.gov/
+http://www.fcc.gov/oet/ea/
+https://www.fcc.gov/sites/default/files/ebb.provider.list_.xlsx
+https://www.fcc.gov/sites/default/files/acp_provider_list.xlsx

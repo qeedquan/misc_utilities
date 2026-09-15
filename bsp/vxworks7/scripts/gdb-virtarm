@@ -1,0 +1,10 @@
+# set the DEBUG option in the QEMU script to make QEMU wait for GDB to connect on startup
+file virtarm_vip/default/vxWorks
+#symbol-file
+add-symbol-file virtarm_vip/default/vxWorks 0x40100000
+target remote :1234
+layout src
+
+# Set breakpoints in various places like you would debug a normal program and then run it
+b virtarminit
+c

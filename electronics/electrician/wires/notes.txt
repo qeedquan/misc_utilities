@@ -1,0 +1,10 @@
+*** AWG-Conductors Notation
+Wires are formatted as Gauge-Conductors
+Example:
+14/3 - wire is a 14-gauge, 3-conductor (plus ground)
+14/2 -two 14-gauge copper conductors—a hot (black) and a neutral (white)—plus a ground wire
+
+The first field is how thick the wire is (in terms of AWG), smaller AWG means the wire can hold handle more current (amps)
+The second field is how much conductors are inside when you strip the wire, it also has grounds so the total number of wires is always (conductors + 1) wires.
+If the second field is left blank (ie, 14 AWG or so), it means there's 2 wires, one conductor and one ground inside.
+

@@ -1,0 +1,9 @@
+*** Overview
+BSP for QEMU Virt ARM
+
+qemu-system-arm -cpu cortex-a15 -machine virt -m 2G -serial stdio -display none -kernel vxWorks
+
+*** CPU
+
+Cortex-A15 (32 bit)
+

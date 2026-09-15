@@ -1,0 +1,10 @@
+https://resources.pcb.cadence.com/blog/what-is-oscilloscope-probe-compensation
+
+*** Setup
+The oscilloscope comes with one probe that can be hooked into a channel, first need to do frequency probe compensation.
+To do that hook the probe ground/live to the calibration port and press autosetup. This should take show a square wave on the scope.
+We need to adjust it so that the shape looks as square as possible. To adjust it, use a screw driver that comes with the scope and put it through the hole in the
+probe and turn it to adjust it.
+
+The probe also have a red button which does 10x zoom in/out so 3.3V would read 330mV or vice versa.
+

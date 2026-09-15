@@ -1,0 +1,149 @@
+*** View coredumps from command line
+wrdbg
+target connect vxworks7-coredump -core program.vxcore -logdir logs
+
+*** Syscall Monitoring
+rtp exec test.vxe &
+
+# this will print system calls as it runs
+scm -n
+
+*** Disassemble RTP code
+rtp exec -s program.vxe &
+
+%1 (Change 1 to attachment number shown by rtp exec above)
+
+l <addr> (Dumps disassembly at that location)
+
+lkup <name> (Lookup symbol name)
+
+*** Shell
+When calling commands in the shell, the backtrace will look like:
+
+functionCall
+..
+..
+shellInternalFunctionCall
+
+This call chain functions does not map/unmap any memory unless the functionCall itself maps/unmaps
+
+*** RTPs
+
+# Call chain
+rtpSp/rtpSpawn -> _rtpSpawnInternal -> pgMgrCreate(option=0)
+    // This sequence runs in a task created
+    rtpLoadAndRun ->
+    loadRtpFileLoad -> loadRtpFileProcess -> loadRtpMemAllocate ->
+	pgMgrPageAllocAt(virt=RTP_ADDR, phys=0, attr=MAPPED|NONCONTIG|MMU_ATTR_SUP_DATA) -> loadRtpSegmentsProtect -> pgMgrPageAttrSet()
+	taskAllocStack -> pgMgrPageAlloc(attr=0) ->
+    rtpUserModeSwitch -> run rtp -> taskMemCtxSwitch(kernelId) -> back to kernel cmd shell
+
+Before rtpUserModeSwitch() occurs, we already switched to the RTP context and can dump the RTP memory loaded
+
+RTPs entry is _start which calls into the following code (this is inside the RTP):
+_crtTaskInit()
+__copyArgcArgv
+__copyEnvArr
+__copyAuxvArr
+
+The RTPs uses the VSB definitions so need to recompile the VSB if the source tree is changed
+_crtTaskInit() is shared with the taskLib in user mode changing it affects task management too (kernel mode task management is not affected)
+
+The code is implemented inside crtrtp.c
+
+Upon exit, RTPs will call _exit() which invokes a system call (exit) so the kernel can close the rtp
+_exitSc() -> rtpDelete() -> rtpInvalidate() -> pgMgrPrivateUnmap()
+
+QEMU can set breakpoints on the RTP (use the raw link address of the RTP as a breakpoint), one issue is that the debugging information is not loaded using this method even though the RTP has the info in the binary
+
+# RTP Stack Allocation
+Tasks and RTPs uses the same underlying function to allocate the stack (taskStackAlloc)
+Running an RTP calls taskStackAlloc twice, the first time in _rtpSpawnInternal for the exception stack
+
+The exception stack size is ROUND_UP(taskUsrExcStackSize):
+12288 on PPC32 (rounded up from 8192 aligned to 4096 bytes)
+The second stack allocation is for the RTP itself, usually that is 64k for an RTP
+
+Regular tasks (not RTP) created does allocate a separate exception stack
+The taskOverflowSize/taskUnderflowSize is usually 4096 bytes
+
+Each RTPs in user space will have a unique ID, a task allocated in kernel land is given a special id (kernelId: global variable)
+
+Allocating stack uses the following API depending on which context we are in:
+pgMgrPageAlloc() for kernel/user execution stack
+memalign() + vmStateSet() for user exception stack
+
+The RTP text/data segment are loaded using pgMgrPageAlloc()/pgMgrPageAllocAt()
+
+A launched RTP can be in these states:
+READY - ready to run
+DELAY - running
+SUSPEND - suspended
+STOP - stopped
+DEAD - dead
+
+RTPs only show up as one entry in vmContextShow (for PPC, the default "physical" address it shows is 0x80000000)
+It is normal for RTPs have the same entry address, the loader will handle it
+
+When multiple RTPs are running, if it doesn't get rescheduled (infinite loop, no syscalls, take locks, etc),
+if we are on a single core CPU the other RTPs will have a READY state, since it doesn't get a chance to run yet.
+It needs to be scheduled.
+
+rtpCodeStart and rtpCodeSize are global variables on where the RTPs can start at and the limit of the size of the RTP.
+These variables refer to virtual address space, not physical.
+They are set from the defines RTP_PRIVATE_RGN_BASE and RTP_PRIVATE_RGN_SIZE which is hardcoded in the code.
+
+# RTP VM context and Page Manager
+Each RTP ID has an associated VM context and page manager RTP_PAGE_MGR_GET(rtpId) gets the page manager
+
+*** Page Manager
+The page manager is mostly portable code, it manages a pool of pages
+
+# creates a page manager id as a context to use for all other page manager APIs
+mgrid = pgMgrCreate(opts)
+
+# if the virt/phys addresses are not specified, the page manager is free to choose one
+pgMgrPageAlloc(mgrid, numpages, attr)
+pgMgrPageAllocAt(mgrid, virt, phys, numpages, attr)
+
+# unmaps the private pages we mapped (used by rtps)
+pgMgrPrivateUnmap(mgrid)
+
+On PPC, pgMgrPrivateUnmap will eventually call:
+pgMgrRangeUnmap -> pgMgrPageUnmap -> vmPageUnmap -> mmuPpcUnmap -> mmuPgTblUnMap -> ... -> aimCacheVirtFlush -> cacheAim60xFlushD
+
+pgMgrPageFree -> pgMgrPageUnmap
+
+*** Dependencies
+pgMgr: pool manager for rtps/tasks
+  PAGE_MGR_ID
+  pgPool (pgPoolVirtLib)
+  adrSpaceLib
+  vxAtomic
+  vmLib
+  poolLib (error codes)
+
+pgPool: manage page pools
+  PAGE_POOL_ID
+  avlLib
+
+vmLib: architecture-independent interface to MMU, most level higher libraries use this instead of mmuLib
+  VM_CONTEXT_ID
+  semLib
+  objLib
+
+mmuLib: provide MMU functions to manage MMU
+
+memPartLib: provide memory partitions (general purpose pools)
+
+*** Cache
+Improper cache management (L1/L2/L3/etc) can cause real systems to crash, make sure that the driver is written for the CPU in mind.
+Since subtle differences between CPU models can cause the driver to not work (Ex: A L2 cache driver for the PPC750 can cause the PPC7448 to crash)
+Easiest workaround is to disable the cache driver for the misbehaving CPU models.
+
+*** Network drivers
+Network drivers are registered via
+
+muxDevLoad() on driver attach
+muxShow() shows the drivers attached
+endFindByName() can be used to find the driver

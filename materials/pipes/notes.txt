@@ -1,0 +1,9 @@
+*** Home pipes
+
+Common materials for piping are:
+
+Polyvinyl Chloride (PVC)
+Cross-Linked Polyethylene (PEX)
+Copper (Deprecated by above materials)
+Polybutylene Pipe (Deprecated by the above materials)
+

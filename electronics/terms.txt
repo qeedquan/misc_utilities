@@ -1,0 +1,92 @@
+*** Mott Voltage
+Mott voltage is related to the Mott transition, which is the transition between a metallic state and an insulating state in a material.
+The Mott transition can be triggered by a number of factors, including temperature and carrier density.
+
+Mott insulators are a class of materials that are expected to conduct electricity according to conventional band theories, but turn out to be insulators (particularly at low temperatures).
+
+Mott criterion
+The Mott criterion is a measure of whether a material will be conductive or insulating. If the density of electrons is high enough, the material will be conductive, or metallic.
+If the density is not high enough, the material will be insulating.
+
+Mott insulator to metal transition
+The Mott-insulating state occurs when the repulsive Coulomb potential is large enough to open an energy gap.
+The Mott transition occurs when the Mott-insulating state transitions to the metallic state. 
+
+One of the simplest models that can capture Mott transition is the Hubbard model.
+
+*** Filters and Transducers
+If	the	input	and	output	have: a	same unit, the system is categorized as a “filter”
+-	electrical	filter	(V->V,	A->A),
+-	mechanical	filter	(m->m),	optical	filter	(E->E),
+-	digital	filter	(number	->	number)
+
+different	units,	the	system	is	categorized	as	a	“transducer”
+-	force-to-displacement	actuator	(m/s^2->m),
+-	electro-magnetic	actuator	(V->m/s^2),
+-	displacement	sensors	(m->V)
+-	electrostatic	transducer	(C	(charge)	->	N/m^2	(sound))
+-	transimpedance	amplifier	(A->V),	current	driver	(V->A)
+-	gravitational	wave	detector	(“gravito-optic	modulator”)
+
+*** DFM/DFA/DFT/CMM
+
+Design for manufacturing - product made with ease of manufacturing in mind
+Design for assembly - product made with ease of assembly in mind
+Design for testing - design techniques that add testability features to a hardware product design.
+Coordinate Measuring Machines (CMMs) to measure and inspect parts, ensuring accurate and repeatable measurements throughout the manufacturing process. 
+
+*** Ground Potential Rise (GPR)
+A phenomenon that occurs when large amounts of electricity enter the earth.
+This is typically caused when lightning strikes at Cell towers.
+Dangerous for living things near by, one way to mitigate is to install electrodes 
+
+Earth Potential = Soil Resistivity x Current / (2 x PI x Distance)
+
+
+The grounding engineer needs three (3) pieces of information to properly conduct a Ground Potential Rise Study:
+1. Soil resistivity data from a Soil resistivity Test
+2. Site drawings with the proposed construction
+3. Electrical data from the power company
+
+*** Filters
+# Moving average / FIR
+y[n] = b0 x[n] + b1 x[n−1] + … + bq x[n − q]
+then time series analysis would call this a moving average (MA) model of order q, provided b0 = 1. Note that this might not really be an average, i.e. the b‘s are not necessarily positive and don’t necessarily sum to 1.
+
+Digital signal processing would call this a finite impulse response (FIR) filter of order q.
+
+# Autoregressive / IIR
+If each output depends on a linear combination of a finite number of previous outputs
+
+y[n] = a1 y[n −1] + … + ap y[n − p]
+
+then time series analysis would call this an autoregressive (AR) model of order p.
+
+Digital signal processing would call this an infinite impulse response (IIR) filter of order p.
+
+Sometimes you’ll see the opposite sign convention on the a‘s.
+
+# ARMA / IIR
+If each output depends on a linear combination of a finite number of previous inputs and outputs
+
+y[n] = b0 x[n] + b1 x[n-1] + … + bq x[n − q] + a1 y[n − 1] + … + ap y[n − p]
+
+then time series analysis would call this an autoregressive moving average (ARMA) model of order (p, q), i.e. p AR terms and q MA terms.
+
+Digital signal processing would call this an infinite impulse response (IIR) filter with q feedforward coefficients and p feedback coefficients. Also, as above, you may see the opposite sign convention on the a‘s.
+
+# ARMA notation
+Box and Jenkins use a‘s for input and z‘s for output. We’ll stick with x‘s and y’s to make the comparison to DSP easier.
+
+Using the backward shift operator B that takes a sample at n to the sample at n-1, the ARMA system can be written
+
+φ(B) y[n] = θ(B) x[n]
+
+where φ and θ are polynomials
+
+φ(B) = 1 − φ1B − φ2B² − … φpBp
+
+and
+
+θ(B) = 1 − θ1B − θ2B² − … θqBq.
+

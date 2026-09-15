@@ -1,0 +1,83 @@
+*** Starting/Stopping using systemd
+
+sudo systemctl enable jenkins
+sudo systemctl start jenkins
+sudo systemctl stop jenkins
+sudo systemctl status jenkins
+
+service jenkins start
+service jenkins restart
+service jenkins stop
+
+*** Ports
+By default jenkins listens on port 8080.
+On initial load it wants you to enter a password from /var/lib/jenkins/secrets/initialAdminPassword
+
+*** Plugins
+Jenkins has alot of external plugins you install to add functionality like what kind of version control it supports (bitbucket/cvs/svn/git/etc) or code coverage tools
+
+Jenkins has a global repository for plugins, Jenkins can install this automatically if we are able to connect to the internet.
+If we can't access the internet, download the .hpi installer and then install it manually.
+
+.hpi files are zip files
+
+# install hpi form command line
+java -jar jenkins-cli.jar -s http://localhost:8080/ install-plugin SOURCE
+
+# from webui
+Manage Jenkins > Plugins > Advanced -> Choose File -> HPI Plugin -> Deploy
+
+*** Users
+If you don't create a user, an 'admin' user is used with the password of the initial admin password
+A 'jenkins' user will also be created on a Linux system for running jobs
+
+*** Jobs
+Adding jobs/commands to run can be done from the UI on the dashboard
+
+*** Logs
+# uses logrotate to rotate logs
+/var/log/jenkins
+
+*** Pipeline
+Pipeline can use jenkinfiles (groovy) files where you can write code to execute jobs
+
+You can either write a copy and paste jenkinfiles code into a pipeline project on the web ui or you can let jenkins check it out from a SCM and run it against that repo
+
+*** Environment Variables/Tool Properties
+New environment variables/tool properties can be added in Manage Jenkins -> System -> Global Properties
+
+*** Command Line access
+Allows command line access for users/admins
+Add SSH keys for credentials and then you can ssh into it
+
+# Another way to access the console
+Dashboard -> Manage Jenkins -> Script Console
+
+# Download a JAR that can be used to execute command line from Java
+http://localhost:8080/jnlpJars/jenkins-cli.jar
+
+# Execute the JAR to asks for various request
+java -jar jenkins-cli.jar -s http://127.0.0.1:8080/ who-am-i
+
+*** Dashboard
+
+Dashboards can have:
+Folders - Folders that store subprojects/subfolders
+Projects - Builds
+Custom Views - Custom views are a a way to group different builds together
+
+If the user is not logged in with proper permission, they can only see jobs, maybe start them, they can't add new jobs/views/etc
+
+*** Home directory
+Jenkins store all of its configuration in $JENKINS_HOME, this is the home directory for the jenkins user
+Usually this is stored at /var/lib/jenkins on Linux
+
+*** Keystore
+Jenkins uses the default Java keystore at /etc/ssl/certs/java/cacerts to store certificates, use the command line tool 'keytool' to manage it
+The keystore is password protected by default, the default password is changeit
+
+*** URLs
+
+# Create a new job, a job can be copied from an existing one
+http://jenkins-instance/newJob
+

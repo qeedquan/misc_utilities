@@ -1,0 +1,55 @@
+https://www.digikey.com/en/blog/what-are-multimeter-cat-safety-ratings
+
+CAT I
+Electronic Devices
+Anything from a small circuit board to larger device with high-voltage but low-energy
+
+CAT II
+Single-Phase AC Loads
+Appliances or portable tools
+
+CAT III
+Three-Phase Distribution
+Some large building lighting systems and polyphase motors
+
+CAT IV
+Three-Phase Utility Connections or Outdoor Conductors
+Electrical meters, outdoor connections, any low-voltage and high-energy connection
+
+Within these four levels, the IEC has setup transient test guidelines for each category.
+Measurement Category	Working Voltage	Transient Voltage	Test Source (Impedance)
+CAT I	150 V	800 V	30 Ohms
+CAT I	300 V	1500 V	30 Ohms
+CAT I	600 V	2500 V	30 Ohms
+CAT I	1000 V	4000 V	30 Ohms
+CAT II	150 V	1500 V	12 Ohms
+CAT II	300 V	2500 V	12 Ohms
+CAT II	600 V	4000 V	12 Ohms
+CAT II	1000 V	6000 V	12 Ohms
+CAT III	150 V	2500 V	2 Ohms
+CAT III	300 V	4000 V	2 Ohms
+CAT III	600 V	6000 V	2 Ohms
+CAT III	1000 V	8000 V	2 Ohms
+CAT IV	150 V	4000 V	2 Ohms
+CAT IV	300 V	6000 V	2 Ohms
+CAT IV	600 V	8000 V	2 Ohms
+CAT IV	1000 V	12000 V	2 Ohms
+
+Measurement Category	Working Voltage	Transient Voltage	Test Source (Impedance)	Working Current	Transient Current
+CAT I	150V	800V	30 Ohms	5A	26.6A
+CAT I	300V	1500V	30 Ohms	10A	50A
+CAT I	600V	2500V	30 Ohms	20A	83.3A
+CAT I	1000V	4000V	30 Ohms	33.3A	133.3A
+CAT II	150V	1500V	12 Ohms	12.5A	125A
+CAT II	300V	2500V	12 Ohms	25A	208.3A
+CAT II	600V	4000V	12 Ohms	50A	333.3A
+CAT II	1000V	6000V	12 Ohms	83.3A	500A
+CAT III	150V	2500V	2 Ohms	75A	1250A
+CAT III	300V	4000V	2 Ohms	150A	2000A
+CAT III	600V	6000V	2 Ohms	300A	3000A
+CAT III	1000V	8000V	2 Ohms	500A	4000A
+CAT IV	150V	4000V	2 Ohms	75A	2000A
+CAT IV	300V	6000V	2 Ohms	150A	3000A
+CAT IV	600V	8000V	2 Ohms	300A	4000A
+CAT IV	1000V	12000V	2 Ohms	500A	6000A
+

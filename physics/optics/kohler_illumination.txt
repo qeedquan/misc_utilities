@@ -1,0 +1,34 @@
+https://bitesizebio.com/13394/how-kohler-illumination-can-help-you-see-the-light/
+
+Although the microscope is probably the most commonly used biological instrument, it is frequently used improperly. The rate-limiting step to getting high quality microscopic images is illumination of your specimen. When you examine a specimen under the microscope, the intensity and distribution of light must be clear and equal to enable you to evaluate all aspects of it. Shadows and other artifacts such as a yellow sheen due to substandard illumination can only hinder this analysis.
+
+Poor understanding of how to correctly set up the microscope for optimum illumination is the main obstacle for any microscopist who wants to see his specimen as well as the microscope will allow.
+
+Köhler (“ko-ler”) alignment is a method of illumination that was first developed in 1893 by August Köhler. He devised this to optimize the microscope’s optical system, aligning and focusing the beam of light to produce homogenously bright light.
+
+Advantages Of Köhler Illumination
+Even illumination of the specimen
+High contrast and resolution
+Reduced specimen heating
+Eliminates reflection and glare
+
+10 Simple Steps To Köhler Illumination
+1) You will need a specimen to perform this, so grab a slide. Any regular H&E stained tissue section is ideal.
+2) Switch on the microscope.
+3) Use the 10x objective lens (20x if necessary). Click this into place on the nosepiece.
+4) Place your slide on the microscope stage. Secure it in place using the spring-loaded slide holder. Bring the specimen into focus. See How To Focus The Light Microscope.
+5) Close down the condenser diaphragm (rotate it fully anti-clockwise).
+6) Stop down the field diaphragm: When your specimen is in focus, start to close the diaphragm by rotating it to produce the smallest diameter field of light.
+7) Focus the condenser: Locate the condenser adjustment  dial that moves the condenser up and down – turn it slowly until the edge of the field diaphragm appears in sharp definition against the light. As you do this, there may be a red fringe on one side, and a blue fringe on the other. Go for something in the middle.
+8) Re-open the field diaphragm: Gradually rotate the diaphragm to open it so that its edges lie just beyond the field of view. If necessary, center it using the condenser centering screws.
+9) Adjust the substage condenser: Remove one ocular lens and look down the eyepiece tube. Turn the dial of the condenser diaphragm and you will see a polygon of light inside the dark circle formed by the eyepiece tube. Adjust the diaphragm so that the polygon occupies two thirds to three quarters the diameter of the circle.
+10) Replace the ocular lens. The focus should now be in alignment and you will now be able to view an evenly illuminated whole microscopic field.
+
+How Often Should You Do This?
+There’s no single answer for this, but once you know the routine, this process takes only a minute to complete. So it’s not exactly time-consuming to routinely do this every day that you use the microscope. Even if you choose not to do it daily, however, I’d advise going through the process at times when focus is most likely to be out of alignment, such as when you:
+
+First acquire a microscope (new or used).
+Are using a microscope that other people also use.
+Need to use the microscope to take photomicrographs.
+While Köhler alignment is a frequently neglected concept in microscopy, it is a critical step in configuring your microscope. This is important not only for optimal microscopic viewing, but also for even illumination of the microscope field for photomicrography. This lack of understanding has consequently also resulted in many journals accepting poor quality images. So learning to set Köhler illumination will go a long way toward preventing your images falling into this category.
+

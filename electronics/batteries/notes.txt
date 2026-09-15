@@ -1,0 +1,32 @@
+*** Common battery usage
+
+# Phones
+IPhone and Android phones ~3000 mAh (3 AH) lithium ion
+
+# Electric cars
+Measured around 100 to 300 AH
+
+# Gaming
+Steam Deck ~5,000 mAh (5 AH) Lithium Ion
+
+# Coin batteries
+For little toys ~200-300 mAh
+
+*** Conversions
+To convert into kWh, we also need the additional information of voltage usage
+
+P = I*V
+1 kWH - 83.33 Ah at 12 V, 41.67 Ah at 24 V
+
+*** Types of batteries
+
+https://en.wikipedia.org/wiki/List_of_battery_types
+
+# These are common ones that consumers would know about
+Primary Cells (Non-rechargable)
+Alkaline
+
+Secondary Cells (Rechargable)
+Lithium Ion
+Lead Acid
+Nickel Cadmium

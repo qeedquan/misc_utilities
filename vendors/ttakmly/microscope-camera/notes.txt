@@ -1,0 +1,11 @@
+*** Microscope (50-1000x) magnification
+
+https://ttakmly.com/product/wireless-digital-wifi-usb-microscope-endoscope-inspection-camera
+
+USB uvcvideo interface, Linux can capture directly (use opencv).
+Windows has an app on site to view the camera.
+
+Lens on the camera is for covering the eye when not using it, it makes everything under focus quite blurry.
+To use the microscope, need to remove the lense on the outside and then hold the object to magnify as closely to the eyepiece.
+The quality is ok, we can use it to view PCB traces/text on chips.
+
