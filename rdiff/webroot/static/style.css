@@ -1,0 +1,26 @@
+body {
+    background: #DDDDDD;
+}
+
+.header {  
+    background: #959793;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    margin: 0px auto;
+	text-justify: auto;
+	text-align: center;
+}
+
+.select {
+	display: block;
+	margin: 0 auto;
+}
+
+.content {
+    width: 960px;
+    padding:10px;
+    padding-bottom: 100px;
+    padding-top: 50px;
+    margin-left: 100px;
+}

@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://bgiqlv2kr3ftq"]
+
+[ext_resource type="PackedScene" uid="uid://67jxy4pol1iy" path="res://2d/portal/portal4.tscn" id="1_0hol4"]
+[ext_resource type="PackedScene" uid="uid://dm2k7k5hi6vsf" path="res://2d/portal/portal3.tscn" id="1_epypp"]
+[ext_resource type="PackedScene" uid="uid://dna0b10cybbc7" path="res://2d/portal/portal.tscn" id="1_wtcfe"]
+[ext_resource type="PackedScene" uid="uid://i6rvmlvlspx1" path="res://2d/portal/portal2.tscn" id="2_0e48y"]
+
+[node name="Node2D" type="Node2D" unique_id=291303140]
+position = Vector2(78, 11)
+
+[node name="Portal4" parent="." unique_id=434655366 instance=ExtResource("1_0hol4")]
+
+[node name="Portal3" parent="." unique_id=457120044 instance=ExtResource("1_epypp")]
+position = Vector2(46, 287)
+
+[node name="Portal" parent="." unique_id=580090357 instance=ExtResource("1_wtcfe")]
+position = Vector2(-211, -25)
+
+[node name="Portal2" parent="." unique_id=1220362695 instance=ExtResource("2_0e48y")]
+position = Vector2(-232, 278)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1345755953]

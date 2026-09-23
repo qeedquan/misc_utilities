@@ -1,0 +1,6 @@
+# FDT file to use
+fdtfile=file.dtb
+
+# Load address of the kernel
+loadaddr
+

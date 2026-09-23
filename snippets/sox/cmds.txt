@@ -1,0 +1,4 @@
+# Play a pure tone
+play -n -c1 synth 1 sin 440
+play -q -n synth 0.1 sin 880 vol 5
+

@@ -1,0 +1,12 @@
+*** Types
+Substances can be diamagnetic, paramagnetic, or ferromagnetic.
+
+Paramagnetic
+    It is very weakly attracted to a magnet.
+
+Diamagnetic
+    Materials are weakly repelled.
+
+Ferromagnetic
+    Iron, cobalt, nickel, their alloys (such as the many kinds of steel) probably a few others are ferromagnetic.
+    They are very strongly attracted to magnets and greatly amplify magnetic fields that pass through them. 

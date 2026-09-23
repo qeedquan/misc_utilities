@@ -1,0 +1,23 @@
+If the systemd resolver is used, /etc/resolv.conf will have a line that says
+nameserver 127.0.0.53 (The IP is a special IP where systemd listens on and process DNS queries)
+
+systemd-resolved does not expose how it pick which DNS servers to use for querying, it might be different for each query.
+
+***
+
+# Show the DNS servers currently in use
+resolvectl status
+
+# restart the resolver (reload config changes/etc)
+systemctl restart systemd-resolved
+
+# File or folder that contains the configuration of the resolver, modify this instead of /etc/resolv.conf
+# and reload it for systems using systemd to do resolvers
+/etc/systemd/resolved.conf
+
+***
+
+# Specify a custom DNS server and domain
+DNS=192.168.1.5
+Domains=example_domain.xyz
+

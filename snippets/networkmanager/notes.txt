@@ -1,0 +1,24 @@
+*** Overview
+
+Set of programs to configure networks, this is a an alternative to using systemd and is default on alot of Linux distros
+
+*** Commands
+
+# Command line interface
+nmcli
+
+# Text user interface
+nmtui
+
+# List nearby wifi access points
+nmcli device wifi list
+
+# Show connection
+nmcli connection show
+
+# Reload DNS cache
+nmcli general reload dns-full
+
+# Show network manager configuration
+NetworkManager --print-config
+

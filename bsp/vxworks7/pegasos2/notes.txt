@@ -1,0 +1,122 @@
+*** Overview
+BSP for QEMU Pegasos 2
+
+qemu-system-ppc -machine pegasos2 -serial stdio -display none -kernel vxWorks
+
+*** Architecture
+CPU: PPC7447
+SOC: MV64361
+SB:  VT8231
+RAM: 512MB
+
+The northbridge (PCI Controller/Interrupts) are controlled by the SOC.
+The QEMU implementation does not implement timers/ethernet/watchdog/serial/i2c for the MV64361 SOC.
+Instead, it uses the southbridge (VT8231) for these functions.
+
+* VT8231
+ISA southbridge
+Contains serial/floppy disk controller/rtc/etc
+Exposed as a PCI device
+The register locations are a little different than the VT8231 datasheet
+
+The firmware programs the PCI window mappings so the OS does not need to do it.
+
+If QEMU is used with -kernel and no -bios, the standard reboot where the code jumps back to the bootrom does not work.
+Solve this by using the warm boot option in VxWorks so the code can just jump to sysInit.
+
+*** PPC7447 CPU Quirks
+VxWorks 7 does not officially support this architecture, only the PPC750 is supported.
+There are some instructions used by the PPC750 architecture that is used in VxWorks that can
+cause a real board with this CPU to crash (various atomic instructions), but this works fine in QEMU.
+
+To fix this on the real board, we need to modify the atomics implementation in the core code not to use those instructions.
+
+*** Timers
+The real MV64361 have timers that can be used to implement periodic timer interrupts.
+The MV64361 QEMU version does not implement timers, so use the 8254 and DS1385 chip on the VT8231 southbridge for timers.
+
+*** PCI
+MV64361 has two PCI controllers, each PCI controller has the standard 4 interrupt pins.
+
+PPC is big endian while PCI is little endian so any writes over the PCI bus has to be swapped.
+VxWorks has a feature to do automatic swapping on reads/writes and it is applied to a resource.
+Enable this swapping feature in the PCI controller driver when it allocates a resource for Memory/IO.
+The wrong way to do this is to enable the swapping feature in each individual PCI driver instead of letting the controller code handle it.
+PCI drivers should be written in a way that is agnostic so it can work on both Little/Big endian CPUs.
+
+*** Interrupts
+The Pegasos 2 has 1 CPU so it has no interprocessor interrupts (IPI).
+It has two interrupt controllers, one for northbridge, and one for southbridge.
+
+* MV64361 interrupt controller (northbridge) registers:
+CAUSE | Stores which interrupt triggered as a bitmask
+MASK  | Interrupt masking register, enables/disables interrupts
+
+* VT8231 I8259 interrupt controller (southbridge)
+The interrupts for RTC/KBD/SIO inside the VT8231 are defined relative to the standard I8259 IRQ lines (0 for clock, 4 for serial, etc).
+The VT8231 deliver interrupts to the MV64361 interrupt controller through the GPP (31) pin.
+To figure out which devices generate that interrupt, read the 8259 register.
+
+*** IDE
+There are two exposed IDE controllers over PCI.
+Each IDE controller has two IDE drives connected to it.
+The first controller uses ATA commands (Hard Drives).
+The second controller uses ATAPI commands (CDs).
+
+If there are no drive inserted by QEMU, the status check bits will fail so that can be used to see if a drive is available.
+
+*** I2C
+Use the VT8235 south bridge for I2C over PCI (1106:8235).
+Main use is for getting SPD data over SMBUS in a EEPROM.
+
+The SMBUS is disabled on startup, need to enable it by writing to the PCI config registers.
+
+*** SIO
+The SIO enable/disable functions can be accessed at IOBASE 0x3f0 of the VT8231.
+However, on startup, the firmware disable this access and maps 0x3f0 to the floppy controller.
+
+To enable access to the Super IO:
+PCI_CFG_WRITE(DEVICE=VT8231, ADDR=0x50, VALUE=BIT(2))
+
+After configuring the VT8231, we need to disable it to use the other devices again: 
+PCI_CFG_WRITE(DEVICE=VT8231, ADDR=0x50, VALUE=~BIT(2))
+
+*** NVRAM
+Use AT24C EEPROM device for NVRAM (Note: This device is not originally in the Pegasos 2).
+The EEPROM interfaces over I2C and can also be written to.
+
+*** Ethernet
+The MV Ethernet controller is not implemented in QEMU, need to add some PCI devices such as E1000 for a network card.
+
+The E1000 ethernet controller uses the VT8231 I8259 interrupt line 9 by default.
+We need to add the interrupt-map information to device tree to assign it the interrupt line for it to be usable.
+
+One note is that the E1000 ethernet controller gets scanned first by PCI and initialized before the VT8231 device.
+This is not an issue because if even the interrupt mapping does not succeed the first time, it will put the interrupt map into a defer list to be called whenever a new interrupt controller is registered.
+This allows the ethernet controller to get initialized properly later when the VT8231 device registers itself as a interrupt controller.
+
+The way a device maps to an interrupt controller from interrupt-map information is through the phandle, so we need to point that phandle correctly to the VT8231 device.
+
+#address-cells/#size-cells/#interrupt-cells need to be specified correctly for interrupt-map to use it.
+
+*** L2 Cache
+VxWorks 7 comes with a PPC 750 L2 cache driver, this has issues on the real 7448/7447 CPUs where RTPs would crash since it uses the page pool manager to allocate memory.
+RTPs run at the same virtual address where the L2 cache driver would touch memory to invalidate data.
+
+Since this is QEMU, there is no cache invalidation issues so keep the driver in the build for posterity.
+On a real system this driver would have to be disabled for RTPs to work.
+
+*** RTC
+DS1385 RTC is provided by default via the southbridge.
+
+The M48T37/M48T59 RTC can also be added as an addon in QEMU for use.
+This device needs sysRtcSet to be run at least once before it starts counting on real hardware (this seems to be the way to tell the RTC to start running).
+Otherwise the values returned will be the same every time (the RTC is not counting).
+
+*** Serial
+The southbridge provides the 16550 UART for use as a serial interface.
+
+*** USB
+VT82C686 UHCI USB Controller exposed over PCI (1106:3038).
+The standard VxWorks UHCI PCI probe function does not match this controller and requires modification.
+

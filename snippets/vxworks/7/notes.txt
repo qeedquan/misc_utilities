@@ -1,0 +1,78 @@
+*** Run installer in text mode
+
+For unsupported Linux environment, the installer GUI can't run.
+To run in text mode:
+
+./setup_linux -installPath /path/to/install
+
+If the installer fails with not being able to allocate enough file descriptors, use ulimit to adjust it to make it work.
+
+*** VxWorks Version
+Look for the installer file called wriversion.txt inside the installer/ folder
+
+It should contain something like
+wrirelease=WRINSTALLER_VERSION
+
+*** Setting system clock rate
+Clock rate corresponds to how many ticks per second.
+sysClkRateSet can be called from the VxWorks shell (it will fail if set too high)
+By default it's set to a default value in the BSP that can be configured.
+
+*** Spylib
+VxWorks includes a routine called spy, by default it is compiled in.
+We can use it from the shell like so:
+
+spy freq, ticks_per_second
+
+Data is gathered ticks_per_second and then printed out every freq seconds.
+It spawns a spyTask to do the printing
+
+*** Importing FTP as a filesystem in QEMU
+Need to install pyftdlib to act as a quick and dirty FTP server
+
+sudo pip install pyftpdlib
+sudo python -m pyftpdlib -p 21 -u target -P vxTarget -d <serve_dir>
+
+inside of vxworks, do:
+
+netDevCreate ("wrs", "10.0.2.2", 1)
+wrs/ will now be mounted as a ftp filesystem that can be used now.
+
+*** Logging in the kernel
+Kernel code uses logMsg() to log
+
+logMsg("message here\n", 0,0,0,0,0,0));
+
+kprintf is also used for printing in context where locks cannot be used (regular printf can't be used here)
+
+*** Function addresses
+The VxWorks image has symbol information so nm can dump all the address
+For any function address printed as a pointer, look it up in the nm output to trace it.
+
+
+*** VxBus
+vxbResourceAlloc looks up the parent method vxbResourceAlloc and calls that for the child device to allocate memory.
+This is defined by the parent driver in its method table. So calling vxbResourceAlloc on a child i2c device will
+have a different method called than calling vxbResourceAlloc on a soc or pci child device.
+
+The addresses specified in the device tree (using <reg> needs to be aligned properly or else the vxbResourceAlloc can succeed but fail to write the register properly)
+If a device is on a non-aligned address, use an aligned address as a base to map at and the <reg-offset> field to specify the offset to the device
+
+The default PCI match code for PCI table entries cannot not match PCI devices that have a vendor id of 0, since it uses that as a stop sentinel,
+though devices in practice should never have a vendor id of 0
+
+*** Tools
+makeStatTbl:
+
+The VxWorks build system runs this as part of making the kernel image, it generates the statTbl.c file using the tool.
+This generates the statTbl for symbol lookup for mainly printing error strings out of status codes.
+The tool parses the header files with S_* and M_* prefixes and generate an SYMBOL entry for them.
+
+To make the tool ignore symbols with S_* and M_* prefixes, suffix them with:
+/* NOSTATTBL */
+
+makeSymTbl:
+
+The VxWorks build system runs this as part of making the kernel image, it generates the symTbl.c file using the tool.
+This generates the standTbl for symbol lookup by commands like lkup.
+

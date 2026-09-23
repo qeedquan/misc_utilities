@@ -1,0 +1,113 @@
+# Include files from other directories, syntax supports globbing
+!include dir/*.conf
+
+# Log to stderr when running in foreground
+log_path = /dev/stderr
+
+# Log to file
+log_path = /var/log/dovecot.log
+# If not set, use the value from log_path
+info_log_path = /var/log/dovecot-info.log
+# If not set, use the value from info_log_path
+debug_log_path = /var/log/dovecot-debug.log
+
+# Set authentication mechanism
+auth_mechanisms = plain
+
+# Logging verbosity
+# Enables logging all failed auth attempt
+auth_verbose=yes
+
+# Enable all auth debug logging (password is hidden)
+auth_debug=yes
+
+# Specify ssl certificate and private key
+ssl = yes
+# Alternative to .pem files are .crt files (signed certificates)
+ssl_cert = </etc/dovecot/private/dovecot.pem
+ssl_key = </etc/dovecot/private/dovecot.key
+
+# If we want certificates to be per protocol
+protocol imap {
+  ssl_cert = </etc/ssl/certs/imap.pem
+  ssl_key = </etc/ssl/private/imap.pem
+}
+
+protocol pop3 {
+  ssl_cert = </etc/ssl/certs/pop3.pem
+  ssl_key = </etc/ssl/private/pop3.pem
+}
+
+# If we want certificates to be per IP and per protocol
+local 192.0.2.10 { # instead of IP you can also use hostname, which will be resolved
+  protocol imap {
+    ssl_cert = </etc/ssl/dovecot/imap-01.example.com.cert.pem
+    ssl_key = </etc/ssl/dovecot/imap-01.example.com.key.pem
+  }
+
+  protocol pop3 {
+   ssl_cert = </etc/ssl/dovecot/pop-01.example.com.cert.pem
+   ssl_key = </etc/ssl/dovecot/pop-01.example.com.key.pem
+  }
+}
+
+local 192.0.2.20 {
+  protocol imap {
+    ssl_cert = </etc/ssl/dovecot/imap-02.example.com.cert.pem
+    ssl_key = </etc/ssl/dovecot/imap-02.example.com.key.pem
+  }
+
+  protocol pop3 {
+    ssl_cert = </etc/ssl/dovecot/pop-02.example.com.cert.pem
+    ssl_key = </etc/ssl/dovecot/pop-02.example.com.key.pem
+  }
+}
+
+# IMAP login information
+service imap-login {
+	# set the port = 0 to disable the service on the port
+	inet_listener imap {
+		port = 143
+	}
+	inet_listener_imaps {
+		port = 993
+		ssl = yes
+	}
+}
+
+# If the key file is password protected, specify the password here
+ssl_key_password =
+
+# Set protocols supported
+protocols = imap
+# Variables can be concatenated
+protocols = $protocols pop3
+# LMTP is a protocol used to communicate between other mail daemons like postfix
+protocols = $protocols lmtp
+
+# Define accepted ciphers
+ssl_cipher_list = ALL:!kRSA:!SRP:!kDHd:!DSS:!aNULL:!eNULL:!EXPORT:!DES:!3DES:!MD5:!PSK:!RC4:!ADH:!LOW@STRENGTH
+
+# Use the server prefer ciphers
+ssl_prefer_server_ciphers = yes
+
+# Disable plaintext authentication (it will use SSL/TLS)
+# This will make the server respond with LOGINDISABLED
+disable_plaintext_auth = yes
+
+# Specify home directory
+mail_home = /var/vmail/%d/%n
+# Specify mail location using maildir format
+mail_location = maildir:~/Maildir
+
+# Example deny passdb using passwd-file. You can use any passdb though.
+# Put this before other passdb
+passdb {
+  driver = passwd-file
+  deny = yes
+
+  # File contains a list of usernames, one per line
+  # File needs to be absolute path
+  args = /etc/dovecot/deny-users
+}
+

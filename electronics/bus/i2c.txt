@@ -1,0 +1,6 @@
+*** Types
+Standard I2C signals:
+
+SCL: clock
+SDA: data
+

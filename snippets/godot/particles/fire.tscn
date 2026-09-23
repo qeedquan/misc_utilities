@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://cfqj6dopjj27t"]
+
+[sub_resource type="Curve" id="Curve_ufe0f"]
+_data = [Vector2(0.031914897, 1), 0.0, 0.0, 0, 0, Vector2(0.9946809, 0.4044944), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_2pqqt"]
+interpolation_mode = 2
+interpolation_color_space = 2
+offsets = PackedFloat32Array(0.15432096, 0.24691355, 0.37654322, 0.5, 0.6111111, 0.69753087, 1)
+colors = PackedColorArray(0.8, 0.15686275, 0.24705882, 0.38039216, 0.8009335, 0.15679707, 0.24645998, 1, 0.8862745, 0.6039216, 0.627451, 0.5058824, 0.7764706, 0.23529412, 0.28235295, 1, 0.16466668, 0, 0.76, 1, 0.81205297, 0.12111657, 0.23014498, 1, 1, 1, 1, 0.34117648)
+
+[node name="Fire" type="Node2D" unique_id=806071126]
+position = Vector2(1, 0)
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="." unique_id=1085423050]
+amount = 2000
+lifetime = 0.5
+emission_shape = 1
+emission_sphere_radius = 10.0
+gravity = Vector2(0, -600)
+radial_accel_min = -50.0
+radial_accel_max = -40.0
+scale_amount_min = 0.5
+scale_amount_max = 2.0
+scale_amount_curve = SubResource("Curve_ufe0f")
+color_ramp = SubResource("Gradient_2pqqt")
+
+[node name="CPUParticles2D2" type="CPUParticles2D" parent="." unique_id=995283298]
+position = Vector2(-66, -1)
+amount = 2000
+lifetime = 0.5
+emission_shape = 2
+emission_sphere_radius = 10.0
+spread = 105.59
+gravity = Vector2(0, -600)
+initial_velocity_min = 69.31
+initial_velocity_max = 277.23
+angular_velocity_min = -342.18
+angular_velocity_max = -342.18
+orbit_velocity_min = -267.33
+orbit_velocity_max = 168.32
+radial_accel_min = -50.0
+radial_accel_max = -40.0
+scale_amount_min = 0.5
+scale_amount_max = 2.0
+scale_amount_curve = SubResource("Curve_ufe0f")
+color = Color(0.25520003, 0.2656135, 0.88, 0.69411767)
+color_ramp = SubResource("Gradient_2pqqt")
+
+[node name="CPUParticles2D3" type="CPUParticles2D" parent="." unique_id=548919331]
+position = Vector2(74, -21)
+amount = 2000
+lifetime = 0.5
+explosiveness = 0.28
+randomness = 0.59
+emission_shape = 2
+emission_sphere_radius = 35.34
+spread = 65.94
+gravity = Vector2(0, -600)
+radial_accel_min = -32.67
+radial_accel_max = -32.67
+tangential_accel_min = 9.9
+tangential_accel_max = 45.54
+damping_min = 26.733
+damping_max = 49.425
+scale_amount_min = 0.5
+scale_amount_max = 2.0
+scale_amount_curve = SubResource("Curve_ufe0f")
+color = Color(0.21209751, 0.5952235, 0.9452769, 1)
+color_ramp = SubResource("Gradient_2pqqt")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=231867851]
+zoom = Vector2(4, 4)

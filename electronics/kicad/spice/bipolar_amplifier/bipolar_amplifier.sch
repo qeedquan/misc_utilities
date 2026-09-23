@@ -1,0 +1,229 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title "Bipolar Amplifier"
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L pspice:R R1
+U 1 1 5E935D15
+P 3850 3100
+F 0 "R1" H 3918 3146 50  0000 L CNN
+F 1 "68K" H 3918 3055 50  0000 L CNN
+F 2 "" H 3850 3100 50  0001 C CNN
+F 3 "~" H 3850 3100 50  0001 C CNN
+	1    3850 3100
+	1    0    0    -1  
+$EndComp
+$Comp
+L pspice:R R3
+U 1 1 5E9366F5
+P 5150 3100
+F 0 "R3" H 5218 3146 50  0000 L CNN
+F 1 "10k" H 5218 3055 50  0000 L CNN
+F 2 "" H 5150 3100 50  0001 C CNN
+F 3 "~" H 5150 3100 50  0001 C CNN
+	1    5150 3100
+	1    0    0    -1  
+$EndComp
+$Comp
+L pspice:R R2
+U 1 1 5E936985
+P 3850 4250
+F 0 "R2" H 3918 4296 50  0000 L CNN
+F 1 "10K" H 3918 4205 50  0000 L CNN
+F 2 "" H 3850 4250 50  0001 C CNN
+F 3 "~" H 3850 4250 50  0001 C CNN
+	1    3850 4250
+	1    0    0    -1  
+$EndComp
+$Comp
+L pspice:R Rload
+U 1 1 5E936C63
+P 6250 4200
+F 0 "Rload" H 6318 4246 50  0000 L CNN
+F 1 "100K" H 6318 4155 50  0000 L CNN
+F 2 "" H 6250 4200 50  0001 C CNN
+F 3 "~" H 6250 4200 50  0001 C CNN
+	1    6250 4200
+	1    0    0    -1  
+$EndComp
+$Comp
+L pspice:VSOURCE Vcc
+U 1 1 5E9380D5
+P 7400 4400
+F 0 "Vcc" H 7628 4446 50  0000 L CNN
+F 1 "5" H 7628 4355 50  0000 L CNN
+F 2 "" H 7400 4400 50  0001 C CNN
+F 3 "~" H 7400 4400 50  0001 C CNN
+	1    7400 4400
+	1    0    0    -1  
+$EndComp
+$Comp
+L pspice:VSOURCE Vin
+U 1 1 5E938592
+P 8450 4400
+F 0 "Vin" H 8678 4446 50  0000 L CNN
+F 1 "sin(0 1m 500)" H 8678 4355 50  0000 L CNN
+F 2 "" H 8450 4400 50  0001 C CNN
+F 3 "~" H 8450 4400 50  0001 C CNN
+	1    8450 4400
+	1    0    0    -1  
+$EndComp
+$Comp
+L Transistor_BJT:BC546 Q1
+U 1 1 5E938BB8
+P 5050 3950
+F 0 "Q1" H 5241 3996 50  0000 L CNN
+F 1 "BC546" H 5241 3905 50  0000 L CNN
+F 2 "Package_TO_SOT_THT:TO-92_Inline" H 5250 3875 50  0001 L CIN
+F 3 "http://www.fairchildsemi.com/ds/BC/BC547.pdf" H 5050 3950 50  0001 L CNN
+F 4 "Q" H 5050 3950 50  0001 C CNN "Spice_Primitive"
+F 5 "BC546B" H 5050 3950 50  0001 C CNN "Spice_Model"
+F 6 "Y" H 5050 3950 50  0001 C CNN "Spice_Netlist_Enabled"
+F 7 "BC546.lib" H 5050 3950 50  0001 C CNN "Spice_Lib_File"
+	1    5050 3950
+	1    0    0    -1  
+$EndComp
+$Comp
+L pspice:C Cin
+U 1 1 5E946B4D
+P 3100 3950
+F 0 "Cin" V 3415 3950 50  0000 C CNN
+F 1 "10u" V 3324 3950 50  0000 C CNN
+F 2 "" H 3100 3950 50  0001 C CNN
+F 3 "~" H 3100 3950 50  0001 C CNN
+	1    3100 3950
+	0    1    -1   0   
+$EndComp
+$Comp
+L pspice:C Cout
+U 1 1 5E94723A
+P 6000 3700
+F 0 "Cout" V 6315 3700 50  0000 C CNN
+F 1 "10u" V 6224 3700 50  0000 C CNN
+F 2 "" H 6000 3700 50  0001 C CNN
+F 3 "~" H 6000 3700 50  0001 C CNN
+	1    6000 3700
+	0    1    -1   0   
+$EndComp
+Wire Wire Line
+	3850 3350 3850 3950
+$Comp
+L pspice:0 #GND?
+U 1 1 5E94964C
+P 3850 4700
+F 0 "#GND?" H 3850 4600 50  0001 C CNN
+F 1 "0" H 3850 4789 50  0000 C CNN
+F 2 "" H 3850 4700 50  0001 C CNN
+F 3 "~" H 3850 4700 50  0001 C CNN
+	1    3850 4700
+	1    0    0    -1  
+$EndComp
+$Comp
+L pspice:0 #GND?
+U 1 1 5E94A24B
+P 5150 4500
+F 0 "#GND?" H 5150 4400 50  0001 C CNN
+F 1 "0" H 5150 4589 50  0000 C CNN
+F 2 "" H 5150 4500 50  0001 C CNN
+F 3 "~" H 5150 4500 50  0001 C CNN
+	1    5150 4500
+	1    0    0    -1  
+$EndComp
+$Comp
+L pspice:0 #GND?
+U 1 1 5E94A78C
+P 6250 4750
+F 0 "#GND?" H 6250 4650 50  0001 C CNN
+F 1 "0" H 6250 4839 50  0000 C CNN
+F 2 "" H 6250 4750 50  0001 C CNN
+F 3 "~" H 6250 4750 50  0001 C CNN
+	1    6250 4750
+	1    0    0    -1  
+$EndComp
+$Comp
+L pspice:0 #GND?
+U 1 1 5E94ABB0
+P 7400 4950
+F 0 "#GND?" H 7400 4850 50  0001 C CNN
+F 1 "0" H 7400 5039 50  0000 C CNN
+F 2 "" H 7400 4950 50  0001 C CNN
+F 3 "~" H 7400 4950 50  0001 C CNN
+	1    7400 4950
+	1    0    0    -1  
+$EndComp
+$Comp
+L pspice:0 #GND?
+U 1 1 5E94AE78
+P 8450 4950
+F 0 "#GND?" H 8450 4850 50  0001 C CNN
+F 1 "0" H 8450 5039 50  0000 C CNN
+F 2 "" H 8450 4950 50  0001 C CNN
+F 3 "~" H 8450 4950 50  0001 C CNN
+	1    8450 4950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3850 4500 3850 4700
+Wire Wire Line
+	5150 4150 5150 4500
+Wire Wire Line
+	6250 4450 6250 4750
+Wire Wire Line
+	7400 4700 7400 4950
+Wire Wire Line
+	8450 4700 8450 4950
+Wire Wire Line
+	5150 3350 5150 3700
+Wire Wire Line
+	5750 3700 5150 3700
+Connection ~ 5150 3700
+Wire Wire Line
+	5150 3700 5150 3750
+Wire Wire Line
+	6250 3700 6250 3950
+Wire Wire Line
+	4850 3950 3850 3950
+Connection ~ 3850 3950
+Wire Wire Line
+	3850 3950 3850 4000
+Wire Wire Line
+	3350 3950 3850 3950
+Text GLabel 5150 2700 1    50   Input ~ 0
+Vcc
+Text GLabel 3850 2700 1    50   Input ~ 0
+Vcc
+Text GLabel 7400 3900 1    50   Input ~ 0
+Vcc
+Text GLabel 8450 3850 1    50   Input ~ 0
+in
+Text GLabel 2700 3950 0    50   Input ~ 0
+in
+Text GLabel 6550 3700 2    50   Input ~ 0
+out
+Wire Wire Line
+	3850 2850 3850 2700
+Wire Wire Line
+	5150 2700 5150 2850
+Wire Wire Line
+	6250 3700 6550 3700
+Connection ~ 6250 3700
+Wire Wire Line
+	7400 3900 7400 4100
+Wire Wire Line
+	8450 3850 8450 4100
+Text Notes 2950 5050 0    50   ~ 0
+.tran 100u 10m
+Wire Wire Line
+	2700 3950 2850 3950
+$EndSCHEMATC

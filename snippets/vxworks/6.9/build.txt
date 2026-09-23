@@ -1,0 +1,224 @@
+*** Variables
+
+$WRVX_COMPBASE path to the components
+
+*** VxWorks image type
+
+vxWorks.st:  standalone VxWorks with symbol table built in
+vxWorks:     normal VxWorks image
+vxWorks.sym: symbol table of vxWorks, this file can be loaded over the network later to get debugging symbols
+
+The version string is embedded inside the vxWorks image, you can use tools like strings to get the version number, search for strings like 6.9.x.x
+
+*** VSB and VIP
+
+6.9 ships with many BSPs prebuilt for the user.
+
+$TGT_DIR is the top level folder for all the VSB/VIP stored, it is stored inside a windriver install
+$TGT_DIR/config/$BSP contains the specific BSP code for that particular board
+$TGT_DIR/lib contains all the prebuilt libraries for all targets (x86, arm, etc). This is a repo of prebuilt VSBs
+$TGT_DIR/proj/$BSP contains all the prebuilt vxworks image for the bsp, this is a repo of prebuilt VIPs
+
+$TGT_DIR/config/comps/vxWorks contains the profile such as development/bootapp/etc
+
+*** Building custom VSB/VIP outside of the windriver install folder
+vxprj is used to build custom VSB/VIP
+
+$TOOL is diab/gnu
+$TARGET is default/default_romCompress/etc
+
+vxprj vsb create -bsp $BSP -S
+cd $VSBDIR
+make
+
+vxprj vip create -vsb $VSBDIR -bsp $BSP $TOOL $VIPDIR
+cd $VIPDIR
+vxprj build $TARGET
+
+The -bsp flag looks at the name of the directories inside config/ as a source of a valid BSP
+It does not parse the CDF Bsp { ... } block during the VSB build so if CDF has some expansion that can lead to errors, it won't be resolved at this time.
+It will error out at a later build stage.
+
+*** Modifying files in VIP
+vxprj file add [projectFile] sourceFile
+vxprj file remove [projectFile] sourceFile
+
+If no projectFile is specified, the tool will look for .wpj in the current directory
+
+*** Bootrom
+
+All of the BSP have a Makefile rule to build a bootrom, since it is quite a common operation the rule is defined in
+Some BSP have a customized PROFILE_BOOTROM to build the bootrom, those are defined inside the BSP directory.
+There is a global PROFILE_BOOTROM that is global, it is defined inside the bootapp profile, but it is only enabled for 64 bit builds.
+The customized PROFILE_BOOTROM builds vxWorks image and a vxWorks_rom image, the vxWorks_rom image has romInit() in it, but it links against ROM_TEXT_ADRS rather RAM_LOW_ADRS
+The bootrom however usually link the binary at RAM_LOW_ADRS so PROFILE_BOOTROM is not exactly equivalent to the bootrom makefile rule
+
+$TGT_DIR/h/make
+
+Makefile rules -
+bootrom            compressed bootrom
+bootrom.bin        raw binary of bootrom (without the elf headers)
+bootrom.hex        compressed bootrom in hex format
+bootrom_uncmp      noncompressed bootrom
+bootrom_uncmp.hex  noncompressed bootrom in hex format
+bootrom.pxe        bootrom.bin with PXE firmware inside of it for PXE booting (this is optional and not present in all BSP)
+bootrom_res        bootrom that copies data segment to RAM on startup, but the text segment is executed on non-volatie storage, useful for boards with little RAM
+
+Do make bootrom inside $TGT_DIR/config/$BSP to build a bootrom for that BSP
+
+bootrom pulls code from $TGT/config/all
+configAll.h defines the configuration when building bootrom, define your own custom stuff inside
+
+bootrom is closely related to bootapp in terms of functionality, but bootapp is a profile that you can use to build a separate VIP project, while bootrom is built using the Makefile in the BSP.
+bootrom differs from bootapp since it has romInit() functionality inside the image that initialize the system, so we can't use flash bootapp into the system as bootrom.
+
+While building bootrom, the file generates depend.$BSP inside the $BSP directory that describe all of the files used during compilation.
+
+The Makefile inside $BSP directory controls some of the parameters for the bootrom.
+RAM_LOW_ADRS
+RAM_HIGH_ADRS
+BOOT_EXTRA - add extra source code to be linked when building the bootrom
+
+The config.h inside $BSP directory controls what dependencies get added when bootrom/vxworks image gets built
+
+To generate bootrom.bin from bootrom:
+objcopyppc -O binary --binary-without-bss bootrom bootrom.bin
+objcopypentium -O binary --binary-without-bss bootrom bootrom.bin
+
+By default, bootrom links against the prebuilt libraries shipped with the VxWorks installation.
+Bootrom also by defaults links against the basic version of the librariies, which is a strippped down version of the library, it is defined with IPBASIC
+If you customize the base library code, need to rebuild it.
+
+The general way is to rebuild the package you changed:
+
+Example:
+make -C $WIND_BASE/target/src/util CPU=PPC32 TOOL=diab rclean
+make -C $WIND_BASE/target/src/util CPU=PPC32 TOOL=diab
+
+Example:
+make -C $WIND_BASE/target/src/boot CPU=PPC32 TOOL=diab rclean
+make -C $WIND_BASE/target/src/boot CPU=PPC32 TOOL=diab
+
+Example of passing custom parameters to affect the build:
+make -C $WIND_BASE/target/src/ipnet CPU=PPC32 TOOL=diab rclean
+make -C $WIND_BASE/target/src/ipnet CPU=PPC32 TOOL=diab COMPONENT_IPMCRYPTO=false COMPONENT_IPCRYPTO=true COMPONENT_IPXINC=true COMPONENT_IPSSL=true COMPONENT_IPSSH=true IPFTP_TLS=true ADDED_CFLAGS='-DIPCOM_USE_FILE=2 -DIPCRYPTO -D_WRS_CONFIG_CUSTOM_THING=y'
+
+There is another way to compile against our own custom VSB:
+make bootrom VSB_DIR=/path/to/vsb LIB_EXTRA='-lipssh -lipcom_vxworks -lipcom'
+
+Variables that control the building of the bootrom:
+
+VX_OS_LIBS LIBS LIB_EXTRA LD_LINK_PATH LD_LINK_PATH_EXTRA
+Defined in $TGT_DIR/h/make/defs.link
+$LIBS is the variable that stores all libs to be linked
+$LIB_EXTRA is a user defined variable to add custom libraries to be linked
+$VX_OS_LIBS is the base VxWorks OS libraries, it is concatenated with $LIBS
+$LD_LINK_PATH is the search path used by $VX_OS_LIBS
+$LD_LINK_PATH_EXTRA is a user defined variable to add custom link paths
+
+EXTRA_CFLAGS
+$EXTRA_CFLAGS is user defined variable to add custom CFLAGS
+
+The libraries are generated by looking into the prebuilt libs and generating a list of all the .a files existing.
+
+OPT_DEFINE
+$TGT_DIR/make/defs.option
+Optional defines
+
+COMMON_BASIC_SUBDIRS
+$TGT_DIR/src/Makefile
+
+*** Bootapp
+When developing boot changes, bootapp can be used to test booting changes quickly.
+The bootrom or the simulator can load the bootapp, and bootapp can load vxworks, this way, no flashing of the bootrom is needed.
+One gotcha is that the bootapp loaded this way must have a different loading address than the vxworks image and not overlap at all.
+This is because when loading the image, bootapp will overwrite the physical ram with the vxworks image and jump to it.
+If the ranges overlap, bootapp will overwrite its own code and can lead to unexpected resets, freezing up, etc.
+
+Use readelf to view the entry point of the bootapp/vxworks addresses to make sure they don't overlap.
+
+Commands:
+devs - calls iosDevShow to show all the IOS drivers installed (drvnum field is a unique ID that iosDrvInstall assigns)
+
+*** RTPs
+
+The default rules for building RTP is inside $TGT_DIR/usr/make/rules.rtp
+There is a standard Makefile template that uses that rule file to build RTP binaries.
+
+*** DKMs
+The default rules for building DKM is inside $(TGT_DIR)/h/make/rules.dkm.mk
+There is a standard Makefile template that uses that rule to build the DKM libraries for loading.
+
+Some kernel images are built with SDA disabled (small data access). DKMs built with SDA will not be able to be loaded by this kernel, we need to disable it when building.
+Add SDA_DISABLE=1 to the Makefile before the include rules.dkm.mk line to disable building it with SDA
+
+The default build rules for DKM only builds for a CPU target and not a BSP, so it doesn't see the BSP custom code definitions in a DKM unless you forcefully include paths to the BSP.
+This makes the DKM tied to the BSP however because of the path knowledge (unless you hide it via macro definitions). It is easier to just add code to the VIP via 'vxprj vip file add' and link it there.
+
+*** Compiler flags
+itl_x86 - ATOM, PENTIUM4
+
+CPU=ATOM
+CPU=PENTIUM4
+CPU=ARMARCH7
+CPU=PPC32
+
+TOOL=gnu
+TOOL=diab
+TOOL=icc
+
+*** Networking
+For some BSP, this is on by default
+INCLUDE_NET_INIT_SKIP
+which skips network initialization on startup, either disable the component or call usrNetWorkInit somehwere else to enable networking
+this option also makes it that all of the shell 'cmd' won't have the networking commands like ifconfig/netstat/sockperf/etc since it skips the code that registers the commands
+
+The network protocol stack is called ipnet, IPPRODS is the variable that control what package gets built inside ipcom/
+
+IPMCRYPTO is the native ipnet crypto stack, it's more lightweight than IPCRYPTO (OpenSSL) but not as feature complete
+
+*** Adding VSB parameters
+Modify an existing common.vxconfig file for a subsystem.
+
+Syntax is:
+config CUSTOM_BOOL_PARAM
+	bool "custom boolean parameter"
+	default n
+	help
+	   This option hides the bootloader printing sensitive parameters such as user/password.
+
+After adding the VSB parameter, we can use
+vxprj vsb config -add _WRS_CONFIG_CUSTOM_BOOL_PARAM=y
+
+to set it during a VSB build
+
+*** NVRAM
+By default, if the BSP does not have a sysNvRamGet/sysNvRamSet implementation a nullNvRam implementation is used where the functions just return error on any input
+
+INCLUDE_USR_NVRAM_IMPLEMENTATION
+BOOTROM_DIR
+NV_RAM_SIZE
+
+needs to be set to use a software NVRAM implementation where it stores the contents in a file inside BOOTROM_DIR
+
+For NVRAM implementation where the NVRAM is a fixed memory location, we can use byteNvRam implementation which uses macros define by the sysLib code
+
+*** Tools
+cpuGen - Program to generate source code relevant to a CPU
+scgen - Script to generate system call stubs (call scgen.tcl script)
+scgen_done - A stub file with the word "Done" in it to signify that the library has been built, this is placed in every $ARCH build libraries
+startinfo/stopinfo - echo replacement, does not exist
+
+*** Profiles
+If no profile is given during VIP build, it uses some standard profile
+
+PROFILE_STANDALONE_DEVELOPMENT
+PROFILE_DEVELOPMENT
+PROFILE_BOOTAPP
+PROFILE_COMPATIBLE
+PROFILE_SMALL_FOOTPRINT
+
+*** Debugging
+Add these flags to the VSB build to enable debugging, this will make the VxWorks image alot bigger so make sure the image can fit into the board
+_WRS_CONFIG_DEBUG_FLAG=y
+

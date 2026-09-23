@@ -1,0 +1,46 @@
+*** Projects
+Projects need to end in _prj suffix
+Projects are for linking multiple schematics together, you can create subcircuits and import them in different schematics
+
+*** File Extensions
+# Schematic file
+.sch 
+
+# Simulation data
+.dat         - Qucsator
+.dat.ngspice - Ngspice
+.dat.xyce    - Xyce
+.dat.spopus  - Spice OPUS
+
+*** Algorithms
+https://qucs.sourceforge.net/tech/technical.html
+
+DC simulation uses Modified Nodal Analysis (MNA)
+
+AC simulation is small signal analysis in frequency domain, use Linear Modified Nodal Analysis (LMNA)
+Non-linear components have to be linearized at the DC bias point. That is, before an AC simulation with non-linear components can be performed, a DC simulation must be completed successfully
+
+Algorithms of these kind do not need to be iterative to solve the equations
+
+The transient simulation is the calculation of a networks response on arbitrary excitations.
+The results are network quantities (branch currents and node voltages) as a function of time.
+Transient analysis is important for energy storing components, i.e. inductors and capacitors.
+
+The MNA algorithm solves the equation of the following form:
+A*x = z where A consists of 4 smaller matrices
+A = [G B; C D]
+
+*** External SPICE interface
+External SPICE simulators can be used; to interact with it, use labels such as .PARAM or .IC
+
+# .PARAM sections define new variables
+y=5 # now we can use the variable y in the schematic
+
+# .IC sections define initial conditions
+v(out)=2.3 # initial voltage value is 2.3
+
+*** Measurements
+
+By default, simulating in SPICE does not automatically export all variables.
+Need to add voltage/current probes to the schematic to see it in the diagrams.
+

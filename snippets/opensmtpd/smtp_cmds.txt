@@ -1,0 +1,56 @@
+*** Overview
+SMTP are plain text commands for the most part, so you can connect using telnet and issue commands
+
+*** HELO/EHLO
+HELO/EHLO <identifier> (identifier can be any valid name to identify the connection)
+This returns the list of features the SMTP server supports
+
+Sample listing:
+250-8BITMIME
+250-ENHANCEDSTATUSCODES
+250-SIZE <size>
+250-DSN
+250 HELP
+
+*** MAIL FROM
+MAIL FROM "test@client.net"
+Initiates a mail transfer
+
+*** RCPT TO
+RCPT TO "user@recipient.net
+The RCPT TO command specifies the recipient. As an argument, RCPT TO includes a destination mailbox (forward-path).
+In case of multiple recipients, RCPT TO will be used to specify each recipient separately."
+
+*** DATA
+With the DATA command, the client asks the server for permission to transfer the mail data.
+The response code 354 grants permission, and the client launches the delivery of the email contents line by line.
+This includes the date, from header, subject line, to header, attachments, and body text.
+A final line containing a period (“.”) terminates the mail data transfer. The server responses to the final line.
+
+Example:
+DATA
+354 (server response code)
+Date: Wed, 30 July 2019 06:04:34
+From: test@client.net
+Subject: How SMTP works
+To: user@recipient.net
+Body text
+.
+
+*** NOOP
+The NOOP command is used only to check whether the server can respond. “250 OK” reply in response
+
+*** VRFY and EXPN (OpenSMTP server disables this by default)
+VRFY is used to verify whether a mailbox in the argument exists on the local host. The server response includes the user’s mailbox and may include the user’s full name. 
+
+VRFY user2
+
+*** RSET
+Reset connection state
+
+*** QUIT
+Quit the session
+
+*** STARTTLS
+Setups TLS session
+

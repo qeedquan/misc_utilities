@@ -1,0 +1,64 @@
+*** Port Forwarding
+A normal configuration is as follows:
+
+Computer -> Router -> Modem -> Internet
+
+The modem is provided by the ISP, the router can be bought such as netgear/cisco/etc.
+The router by default assigns an internal network IP (Ex: 192.168.x.x) to the computer and uses the WAN IP from the modem (the public IP that internet will use to route to us)
+If we want to be able to let computers from the internet to connect to us through a port, enable port forwarding for the port so that all requests from the public internet will route to the internal ip at that port, otherwise it will be blocked.
+
+*** ReadySHARE
+Readyshare is a Netgear Product
+
+Readyshare was created by Netgear to share services through their various products.
+
+One of it's purposes is to advertise storage from their line of routers and/or wifi access points. It allows you to use a USB device in the router or other Netgear product to share it to other users within your private network. Files can be written to and/or read from the device.
+
+Attributes of Readyshare
+Network Storage
+Streaming multimedia files within your LAN
+File Sharing
+Print Sharing
+TCP port 20,005
+Shares over wireless and wired connections within the LAN
+
+*** UPnP
+https://nordvpn.com/blog/what-is-upnp/
+
+UPnP (Universal Plug and Play) is a network protocol that allows apps and devices to open and close ports automatically in order to connect with each other.
+UPnP requires zero configuration — you can add a new device to your network and have it automatically connect with your other devices.
+
+UPnP is a way to make port forwarding automated and easier than a manual process.
+For example, if you want to connect a printer to everyone in your household without UPnP, you would need to connect the printer to every single device. UPnP automates this.
+
+*** NTP
+Routers can use NTP to sync time, it usually has a default NTP server it talks to or you can specify a custom one for it to use.
+
+*** Blocking
+Routers has the feature of blocking things based on:
+
+Keyword blocking - match domain names and block them
+Service blocking - block a specific type of service
+
+They can be blocked on a per schedule basis (days to block, start and end time of the day)
+They can also be overriden by specifying a trusted IP
+
+Upon blocking, the router can notify by sending an email to a specified server.
+The router can periodically send an email at a set interval with the log.
+
+*** Traffic meter
+Routers can have an option for traffic metering where it can restart/warn/etc if a limit set (in number of bytes downloaded/uploaded) is hit
+
+*** DDNS
+Routers can setup to use a DDNS service
+
+*** VPN
+Routers can be setup to use VPN (usually it uses OpenVPN)
+
+*** Ping heatmap
+Given a set of servers IPs, a router can generate a map of latencies of how long it takes to ping hosts, this is useful for figuring which server has the lowest latency
+
+Normal latencies:
+16-20 ms for within a big country
+100-200 ms for country to country with good infrastructure
+200-500 ms for country to country with bad infrastructure

@@ -1,0 +1,318 @@
+options:
+  parameters:
+    author: ''
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: complex_cosine_combination
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: Complex Cosine Combination
+    window_size: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: 100e3
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [184, 12]
+    rotation: 0
+    state: enabled
+- name: analog_sig_source_x_0
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '1'
+    comment: ''
+    freq: '3500'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    phase: '0'
+    samp_rate: samp_rate
+    type: complex
+    waveform: analog.GR_COS_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [360, 60.0]
+    rotation: 0
+    state: true
+- name: analog_sig_source_x_0_0
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '1'
+    comment: ''
+    freq: 20e3
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    phase: '0'
+    samp_rate: samp_rate
+    type: complex
+    waveform: analog.GR_COS_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [352, 236.0]
+    rotation: 0
+    state: true
+- name: analog_sig_source_x_0_0_0
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '1'
+    comment: ''
+    freq: 8.2e3
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    phase: '0'
+    samp_rate: samp_rate
+    type: complex
+    waveform: analog.GR_COS_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [344, 380.0]
+    rotation: 0
+    state: true
+- name: band_pass_filter_0
+  id: band_pass_filter
+  parameters:
+    affinity: ''
+    alias: ''
+    beta: '6.76'
+    comment: ''
+    decim: '1'
+    gain: '1'
+    high_cutoff_freq: 34e3
+    interp: '1'
+    low_cutoff_freq: 30e3
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: samp_rate
+    type: fir_filter_ccf
+    width: 1e3
+    win: firdes.WIN_HAMMING
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [864, 380.0]
+    rotation: 0
+    state: true
+- name: blocks_add_xx_0
+  id: blocks_add_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '3'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [736, 72.0]
+    rotation: 0
+    state: disabled
+- name: blocks_multiply_xx_0
+  id: blocks_multiply_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '3'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [704, 256.0]
+    rotation: 0
+    state: enabled
+- name: note_0
+  id: note
+  parameters:
+    alias: ''
+    comment: 'If all cosine waves are summed together, the frequency spectrum shows
+      spike at each of the cosine waves.
+
+      If all cosine waves are multiplied together, the frequency spectrum is not as
+      clean separation, see noise at some db below spectrum but there is a large spike
+      at the sum of all the frequencies.
+
+
+      Example:
+
+      cos(A) + cos(B) + cos(C) = A, B, C spikes in frequency spectrum
+
+      cos(A) * cos(B) * cos(C) = spike at A+B+C inside the frequency spectrum, but
+      there is some noise in the spectrum. So filtering is needed in practice to suppress
+      the noise.
+
+
+      The GUI sinks display both I and Q samples even though cosine is I only, this
+      is due to the fact  the fourier transform is a complex exponential so it encodes
+      both cosine and sines.
+
+      Displaying it shows both of the waves after the fourier transform, we can just
+      display the real part in the time domain if we don''t want to see the sine portion.
+
+      The constellation diagram of cosine waves and their combinations is a unit circle.
+
+      If sampling rate is not fast enough, get aliasing which can show up as negative
+      frequencies in the FFT plot.
+
+
+      Note:
+
+      This is a complex cosine output, if this is a pure real cosine output, the behavior
+      described above would change.
+
+      The complex output of a cosine/sine wave is:
+
+      cos(t) + i*sin(t)
+
+      This means that complex output of cos/sine are the same.'
+    note: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [80, 524.0]
+    rotation: 0
+    state: true
+- name: qtgui_freq_sink_x_0
+  id: qtgui_freq_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'False'
+    average: '1.0'
+    axislabels: 'True'
+    bw: samp_rate
+    color1: '"blue"'
+    color10: '"dark blue"'
+    color2: '"red"'
+    color3: '"green"'
+    color4: '"black"'
+    color5: '"cyan"'
+    color6: '"magenta"'
+    color7: '"yellow"'
+    color8: '"dark red"'
+    color9: '"dark green"'
+    comment: ''
+    ctrlpanel: 'False'
+    fc: '0'
+    fftsize: '1024'
+    freqhalf: 'True'
+    grid: 'False'
+    gui_hint: ''
+    label: Relative Gain
+    label1: ''
+    label10: ''''''
+    label2: ''''''
+    label3: ''''''
+    label4: ''''''
+    label5: ''''''
+    label6: ''''''
+    label7: ''''''
+    label8: ''''''
+    label9: ''''''
+    legend: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '""'
+    nconnections: '2'
+    showports: 'False'
+    tr_chan: '0'
+    tr_level: '0.0'
+    tr_mode: qtgui.TRIG_MODE_FREE
+    tr_tag: '""'
+    type: complex
+    units: dB
+    update_time: '0.10'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    wintype: firdes.WIN_BLACKMAN_hARRIS
+    ymax: '10'
+    ymin: '-140'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1120, 288.0]
+    rotation: 0
+    state: true
+
+connections:
+- [analog_sig_source_x_0, '0', blocks_add_xx_0, '0']
+- [analog_sig_source_x_0, '0', blocks_multiply_xx_0, '0']
+- [analog_sig_source_x_0_0, '0', blocks_add_xx_0, '1']
+- [analog_sig_source_x_0_0, '0', blocks_multiply_xx_0, '1']
+- [analog_sig_source_x_0_0_0, '0', blocks_multiply_xx_0, '2']
+- [band_pass_filter_0, '0', qtgui_freq_sink_x_0, '1']
+- [blocks_multiply_xx_0, '0', band_pass_filter_0, '0']
+- [blocks_multiply_xx_0, '0', qtgui_freq_sink_x_0, '0']
+
+metadata:
+  file_format: 1
