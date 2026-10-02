@@ -1,0 +1,20 @@
+*** Makefile attributes in commands
+
+@ suppresses the normal 'echo' of the command that is executed.
+
+- means ignore the exit status of the command that is executed (normally, a non-zero exit status would stop that part of the build).
+
++ means 'execute this command under make -n' (or 'make -t' or 'make -q') when commands are not normally executed. See also the POSIX specification for make and also §9.3 of the GNU Make manual.
+
+The + notation is a (POSIX-standardized) generalization of the de facto (non-standardized) mechanism whereby a command line containing ${MAKE} or $(MAKE) is executed under make -n.
+
+(@ is discussed in §5.2 of the GNU Make manual; - is described in §5.5; and §5.7.1 mentions the use of +.)
+
+*** Recursive Makefiles
+makefiles can call other makefiles recursively.
+If we want different makefiles to be called based on some configuration, use this:
+
+make MAKE="make -f makefile_copy" -f makefile_copy
+
+This will make it recursively call 'makefile_copy' to make
+

@@ -1,0 +1,5 @@
+blkid
+  show the UUIDs associated to each device file for GRUB to use
+
+grub-file --is-x86-multiboot2 <file>
+  returns 0 if the file has a valid multiboot header, 1 otherwise

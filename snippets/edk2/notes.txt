@@ -1,0 +1,142 @@
+*** Docs
+https://www.acpica.org/
+https://wiki.ubuntu.com/UEFI/EDK2
+https://wiki.ubuntu.com/UEFI/OVMF
+https://blog.3mdeb.com/2015/2015-11-21-uefi-application-development-in-ovmf/
+https://raw.githubusercontent.com/pietrushnic/edk2/ovmf-helloworld/ovmf.sh
+https://media.defense.gov/2020/Sep/15/2002497594/-1/-1/0/CTR-UEFI-Secure-Boot-Customization-UOO168873-20.PDF
+https://wiki.ubuntu.com/UEFI/SecureBoot/Testing
+https://docs.amazonaws.cn/en_us/AWSEC2/latest/UserGuide/uefi-secure-boot-create-three-key-pairs.html
+
+OVMF is just a version of EDK2 built for QEMU
+
+*** Compiler
+The compiler versions are defined in
+
+Conf/tool_defs.txt
+
+GCC versions are old there but the commands for GCC are generic so we
+can just specify an old version and use a new version of GCC to compile it.
+
+Conf/target.txt
+
+Specifies the compiler to use, which architecture to compile for, etc.
+
+*** Modules
+MdeModulePkg
+	Contains the base programs and some example programs like hello world.
+
+OVMF
+	Contains the QEMU bootable BIOS image, when built, will create
+	OVMF.fd which is the BIOS image that we can boot using QEMU
+	
+	To build with secure boot, modify the description file to enable it,
+	this will generate OVMF_code.fd and OVMF_vars.fd along with OVMF.fd.
+
+qemu-system-x86_64 -bios OVMF.fd
+
+Press F2 quickly to enter setup menu, we can access the E2DK shell here
+
+*** Build OVMF
+source edksetup.sh
+
+Modify Conf/target.txt and set
+ACTIVE_PLATFORM=OvmfPkg/OvmfPkgX64.dsc
+TARGET_ARCH=X64
+
+Need to do once
+make -C BaseTools
+
+build
+
+*** EFI Shell commands
+date    - Show the date
+help    - Show all commands available
+ver     - List version info
+ls      - List files/directories
+devices - List all devices managed by drivers
+mount   - List all mounted devices
+stall   - Sleep for some microseconds
+mm      - Display/edit memory
+cls     - Clears the screen
+getmtc  - Display current monotonic value
+time    - Display the time
+set     - Sets/Shows shell variables
+	set key value
+reset   - reset the system
+exit    - exit shell, if launched from BIOS menu, goes back to it
+
+*** Partitions
+EFI can read FAT filesystem, to create one usable in QEMU
+
+dd if=/dev/zero of=app.disk bs=1 count=1 seek=$(( (128 * 1024 * 1024) - 1))
+mkfs.vfat app.disk
+mount app.disk mnt_app
+cp app.efi mnt_app
+umount mnt_app
+
+qemu-system-x86_64 -bios OVMF.fd -drive file=app.disk,index=0,media=disk,format=raw"
+
+The UEFI firmware will execute startup.nsh script on startup if the volume it boots from has it.
+The script executes starts in the directory of that script and can call other efi programs from it.
+
+*** Variables
+Upon bootup, linux has a sysfs interface to show EFI variables inside
+/sys/firmware/efi
+
+The EFI variables all have a GUID associated to them and is a raw binary dump of the data.
+The first four bytes of the EFI variable are the attributes about the variable like permission (rwx) and others
+
+GUID
+	8BE4DF61-93CA-11d2: Designates global variables
+
+Inside the E2DK code, these variables are define within modules
+
+MdePkg
+	SecureBoot: Says that the firmware is operating in secure boot mode or not
+	KEK:        Key Exchange signature database
+	dbx:        Default secure boot blacklist signature store
+
+*** Secure Boot
+Linux distros like Fedora supports secure boot by default.
+Just need to install it, the key management is handled for us
+
+virt-install --name secboot_os --ram 8192 --disk size=40 --boot uefi --location Fedora.iso
+
+--- Databases and Keys
+
+pk:  Root of trust key, used to sign the KEK
+kek: Used to add keys to the db, this is a private key to sign the database
+db:  Allow database, hashes of images allowed to load
+dbx: Deny database, hashes of images not allowed to load
+
+--- Utilities
+
+efivar:      Manipulate EFI variables
+efi-readvar: Dump the secure EFI variables such as the DB/DBX table and the KEK
+dbxtool:     Dump the DB/DBX table
+mokutil:     Manipulates the MOK database
+fwts:        Firmware test suite
+sbverify:    Verify the signature of a EFI image
+
+--- Files
+esl: EFI Signature List, contains the certificates/hashes
+
+*** Applications/Libraries
+gnu-efi: https://sourceforge.net/projects/gnu-efi/
+	Provides functions/shims to create EFI applications on Linux
+
+shim: https://github.com/rhboot/shim
+	First stage boot loader to load subsequent stages like GRUB
+
+efitools: https://git.kernel.org/pub/scm/linux/kernel/git/jejb/efitools.git
+	Tools to read/write EFI variables
+
+fwts: https://fwts.ubuntu.com/release/
+	Firmware test suite, can test firmware for bugs, dump EFI variables and more
+
+iasl: https://github.com/acpica/acpica
+	AML compiler for ACPI
+
+*** Dump signature from EFI binary
+sbverify --list file.efi

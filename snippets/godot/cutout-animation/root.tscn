@@ -1,0 +1,115 @@
+[gd_scene format=3 uid="uid://cfcnm8rny7r4p"]
+
+[ext_resource type="Texture2D" uid="uid://cnvvk2a77cvmq" path="res://gbot/gBot_hip.png" id="1_pq8q7"]
+[ext_resource type="Texture2D" uid="uid://c1g1qdrqhmjc8" path="res://gbot/gBot_body.png" id="2_pyidc"]
+[ext_resource type="Texture2D" uid="uid://duxi5xq7i275n" path="res://gbot/gBot_arm_r.png" id="3_28aoi"]
+[ext_resource type="Texture2D" uid="uid://c3g63jim0sb3t" path="res://gbot/gBot_forearm_r.png" id="4_jnlp7"]
+[ext_resource type="Texture2D" uid="uid://dxsxrb2qb4v0d" path="res://gbot/gBot_arm_l.png" id="5_l8v81"]
+[ext_resource type="Texture2D" uid="uid://bbcvvuywq25iw" path="res://gbot/gBot_forearm_l.png" id="6_vyht1"]
+[ext_resource type="Texture2D" uid="uid://c13b77ir08dso" path="res://gbot/gBot_head.png" id="7_bf3um"]
+[ext_resource type="Texture2D" uid="uid://df3pc67op3du7" path="res://gbot/gBot_jaw.png" id="8_huihk"]
+[ext_resource type="Texture2D" uid="uid://c4erue4d4sebn" path="res://gbot/gBot_leg_l.png" id="9_gd4vy"]
+[ext_resource type="Texture2D" uid="uid://yg77go5ycee2" path="res://gbot/gBot_shin_l.png" id="10_qw60f"]
+[ext_resource type="Texture2D" uid="uid://f47jknhg3dtv" path="res://gbot/gBot_foot_l.png" id="11_eji0w"]
+[ext_resource type="Texture2D" uid="uid://co562rqet7crc" path="res://gbot/gBot_foot_r.png" id="12_qw60f"]
+[ext_resource type="Texture2D" uid="uid://c0rcxke8a31yr" path="res://gbot/gBot_leg_r.png" id="13_qwhpj"]
+[ext_resource type="Texture2D" uid="uid://uxoatp2xs1hb" path="res://gbot/gBot_shin_r.png" id="14_qt76e"]
+
+[node name="root" type="Node2D" unique_id=1815528996]
+
+[node name="body" type="Node2D" parent="." unique_id=2071755442]
+
+[node name="arm_l" type="Sprite2D" parent="body" unique_id=408045715]
+position = Vector2(36, -88)
+texture = ExtResource("5_l8v81")
+
+[node name="hand_l" type="Sprite2D" parent="body" unique_id=2042407158]
+position = Vector2(45, 51)
+texture = ExtResource("6_vyht1")
+
+[node name="leg_l" type="Sprite2D" parent="body" unique_id=1680664166]
+position = Vector2(-19, 142)
+texture = ExtResource("9_gd4vy")
+
+[node name="foot_l" type="Sprite2D" parent="body" unique_id=915201549]
+show_behind_parent = true
+position = Vector2(7, 307)
+texture = ExtResource("11_eji0w")
+
+[node name="shin_l" type="Sprite2D" parent="body" unique_id=970919396]
+show_behind_parent = true
+position = Vector2(-19, 228)
+texture = ExtResource("10_qw60f")
+
+[node name="hip" type="Sprite2D" parent="body" unique_id=1588080815]
+position = Vector2(-34, 51)
+texture = ExtResource("1_pq8q7")
+
+[node name="leg_r" type="Sprite2D" parent="body/hip" unique_id=1128112017]
+position = Vector2(-41, 91)
+texture = ExtResource("13_qwhpj")
+
+[node name="shin_r" type="Sprite2D" parent="body/hip/leg_r" unique_id=1128776844]
+position = Vector2(6, 85)
+texture = ExtResource("14_qt76e")
+
+[node name="foot_r" type="Sprite2D" parent="body/hip/leg_r/shin_r" unique_id=162856177]
+position = Vector2(21, 97)
+texture = ExtResource("12_qw60f")
+
+[node name="torso" type="Sprite2D" parent="body/hip" unique_id=88125424]
+position = Vector2(0, -153)
+texture = ExtResource("2_pyidc")
+
+[node name="remote_arm_l" type="RemoteTransform2D" parent="body/hip/torso" unique_id=448007371]
+position = Vector2(70, 14)
+remote_path = NodePath("../../../arm_l")
+
+[node name="remote_hand_l" type="RemoteTransform2D" parent="body/hip/torso/remote_arm_l" unique_id=425723410]
+position = Vector2(9, 139)
+remote_path = NodePath("../../../../hand_l")
+
+[node name="head" type="Sprite2D" parent="body/hip/torso/remote_arm_l" unique_id=528237431]
+position = Vector2(-70, -272)
+texture = ExtResource("7_bf3um")
+
+[node name="jaw" type="Sprite2D" parent="body/hip/torso/remote_arm_l/head" unique_id=1215618070]
+position = Vector2(11, 140)
+texture = ExtResource("8_huihk")
+
+[node name="arm_r" type="Sprite2D" parent="body/hip/torso" unique_id=118125302]
+position = Vector2(-87, 21)
+texture = ExtResource("3_28aoi")
+
+[node name="hand_r" type="Sprite2D" parent="body/hip/torso/arm_r" unique_id=1870722579]
+position = Vector2(-7, 149)
+texture = ExtResource("4_jnlp7")
+
+[node name="remote_leg_l" type="RemoteTransform2D" parent="body/hip" unique_id=67820133]
+show_behind_parent = true
+position = Vector2(15, 91)
+remote_path = NodePath("../../leg_l")
+
+[node name="remote_shin_l" type="RemoteTransform2D" parent="body/hip/remote_leg_l" unique_id=731685076]
+show_behind_parent = true
+position = Vector2(0, 86)
+remote_path = NodePath("../../../shin_l")
+
+[node name="remote_foot_l" type="RemoteTransform2D" parent="body/hip/remote_leg_l/remote_shin_l" unique_id=272257075]
+show_behind_parent = true
+position = Vector2(26, 79)
+remote_path = NodePath("../../../../foot_l")
+
+[node name="bones" type="Node2D" parent="." unique_id=1793593125]
+
+[node name="top" type="Skeleton2D" parent="bones" unique_id=779062899]
+
+[node name="hip" type="Bone2D" parent="bones/top" unique_id=2107819172]
+position = Vector2(-34, 51)
+rest = Transform2D(1, 0, 0, 1, -34, 51)
+auto_calculate_length_and_angle = false
+length = 69.842
+bone_angle = 0.0
+
+[node name="remote_hip" type="RemoteTransform2D" parent="bones/top/hip" unique_id=1870137838]
+remote_path = NodePath("../../../../body/hip")

@@ -1,0 +1,36 @@
+*** Description
+CDF are a way to add configuration parameters to the build process.
+
+The CDF only gets a cursory syntax check when building the VSB, only in the VIP that all of the parameters are really expanded out
+
+*** Quirks
+There are some variations of CDF that seems to work in some VxWorks 6.9 version but not in others.
+The CDF is passed through a C preprocessor so you can use
+
+#ifdef/#define/#endif/#if/#error/etc
+
+Some version of 6.9 allows you to use the macros at the top of a CDF file (outside of any blocks), but some versions do not allow this.
+The versions that don't only allows you to use them inside a block like so:
+
+Folder FOLDER_FOO {
+#if defined(_WRS_CONFIG_SMP)
+	...
+#endif
+}
+
+Component INCLUDE_FOO {
+#ifdef BLAH
+	...
+#endif
+}
+
+Parameter MY_PARAM {
+#ifdef BAZ
+	...
+#else
+	#error need baz defined
+#endif
+}
+
+This is uniform in 7 where you can use the macros anywhere in the cdf file
+

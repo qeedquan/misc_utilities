@@ -1,0 +1,21 @@
+/*
+
+An example layer for custom profile
+
+To use in VSB/VIP
+vxprj vsb add PROFILE_CUSTOM
+vxprj create -profile PROFILE_CUSTOM
+
+*/
+
+Layer PROFILE_CUSTOM {
+	SYNOPSIS         Custom profile
+	HELP             Includes custom profile
+	VERSION          0.0.0.1
+	FEATURE          OPEN_SOURCE
+	VENDOR           None
+	LAYER_REQUIRES   BOOTAPP
+	OPTIONAL         YES
+	DEFAULT          NO
+	DOC_BUILD        NO
+}

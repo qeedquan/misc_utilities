@@ -1,0 +1,45 @@
+#!/bin/rc
+
+# toggle gpio at a constant rate, usually to blink an led
+
+rfork e
+
+blink=0.5
+
+fn sigint {
+	if (~ $#pin 1)
+		echo 0 > $pin
+	exit
+}
+
+fn usage {
+	echo 'usage: [options] pin'
+	echo '  -b: blink time (default:' $blink 's)'
+	exit 'usage'
+}
+
+while (! ~ $#* 0 && ~ $1 -* && ! ~ $1 --) {
+	switch ($1) {
+	case -b
+		shift
+		blink=$1
+		shift
+	}
+}
+
+if (~ $#* 0)
+	usage
+
+pin=$1
+
+cd '#G/gpio'
+
+echo 'blinking pin' $pin 'at' $blink 's'
+echo scheme board > ctl
+echo function out $pin > ctl
+while () {
+	echo 1 > $pin
+	sleep $blink
+	echo 0 > $pin
+	sleep $blink
+}

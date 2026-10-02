@@ -1,0 +1,35 @@
+CC=$(WIND_LLVM_PATH)/$(WIND_LLVM_HOST_TYPE)/bin/clang
+LD=$(WIND_LLVM_PATH)/$(WIND_LLVM_HOST_TYPE)/bin/ldppc
+
+ARCH=--target=ppc32 -mcpu=604 -mlong-double-64 -mno-spe -mhard-float
+CFLAGS=$(ARCH) \
+	   -nostdlibinc \
+	   -nostdinc++
+DEFS=
+
+INC=-I$(WIND_CC_SYSROOT)/share/h \
+	-isystem$(WIND_CC_SYSROOT)/usr/h/public
+
+LDFLAGS=-m elf32ppc \
+		--defsym __wrs_rtp_base=0x80000000 \
+		-u __wr_need_frame_add \
+		-u __tls__ \
+		-T$(WIND_CC_SYSROOT)/usr/ldscripts/rtp.ld
+
+LDPATH=-L$(WIND_CC_SYSROOT)/usr/lib/common
+
+LIB=-static --start-group -lc -lc_internal -lllvm --end-group
+
+all: c asm
+
+c:
+	$(CC) $(CFLAGS) $(DEFS) $(INC) -c hello.c -o hello_ppc.o
+	$(LD) $(LDFLAGS) $(WIND_CC_SYSROOT)/usr/lib/common/crt0.o hello_ppc.o $(LDPATH) $(LIB) -o hello_ppc.vxe
+
+asm:
+	$(CC) $(CFLAGS) $(DEFS) $(INC) -c ppc.s -o ppc.o
+	$(LD) $(LDFLAGS) ppc.o $(LDPATH) -o ppc.vxe
+
+clean:
+	rm -f *.o *.vxe
+

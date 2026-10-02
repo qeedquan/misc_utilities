@@ -1,0 +1,2 @@
+*** Dump a database as SQL statements
+sqlite3 sqlite.db .dump

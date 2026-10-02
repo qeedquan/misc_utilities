@@ -1,0 +1,5 @@
+# Virtual users credentials and mail directory can be set here
+# The user, domain, and maildir can be defined to be anything (we can make up users here),
+# but in practice should be equivalent to where the SMTP server stores stuff so we can get mail
+john@playground:{PLAIN}pass::::::userdb_mail=maildir:/var/mail/vmail/playground/john
+
