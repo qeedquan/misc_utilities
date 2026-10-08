@@ -1,0 +1,23 @@
+*** Barcode Scanner
+
+4100B cost around 120 bucks
+https://www.adesso.com/UploadFiles/20160816003104.pdf
+
+Uses bluetooth, sets it up as a keyboard device that copies the the text it scans to the clipboard when it scans the 1D barcode.
+If notepad/text editor is opened, it copies and pastes that scanned number to the editor.
+
+Usually that code is underneath the barcode in text print, the barcode scanner is just a fast way to get that number from the barcode.
+Sometimes the text code underneath is not the whole code though, so the barcode has more information.
+
+Around 30 feet range
+
+Can't put the barcode too close or else it can't detect it
+
+Uses red light ~630 nm
+
+*** LED states
+Paired:     top light is orange
+Not Paired: top light is off
+
+There is no USB cable on it, bluetooth is the only connection you can do.
+

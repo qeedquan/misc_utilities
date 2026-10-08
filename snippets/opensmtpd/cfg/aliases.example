@@ -1,0 +1,8 @@
+ftp: my_user
+web: my_user
+
+postmaster: other_user
+
+my_user: real_user
+other_user: real_user
+

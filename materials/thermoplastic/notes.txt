@@ -1,0 +1,19 @@
+*** Definition
+Substances (especially synthetic resins) that become plastic on heating and harden on cooling, and are able to repeat these processes.
+
+A thermoplastic is a class of polymer that can be softened through heating and then processed using methods such as extrusion, injection molding, thermoforming and blow molding.
+Thermoplastics harden once cooled and do not show any changes in chemical properties after being heated and cooled multiple times, making them easily recyclable.
+
+The opposite of these types of material are thermosets which are resin, that hardens permanently after one application of heat and pressure.
+
+*** Materials
+Polycarbonate
+Polyoxymethylene Acetal Copolymers
+Acetal Polyoxymethylene Homopolymer
+Acrylic
+Nylon
+Polyethylene
+Polypropylene
+Polystyrene
+Polyethylene terephthalate (PVC)
+Teflon

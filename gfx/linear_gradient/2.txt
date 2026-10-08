@@ -1,0 +1,9 @@
+# angle
+90
+
+# stops
+s 0.2 red
+s 0.4 orange
+s 0.6 yellow
+s 0.8 green
+s 1.0 blue

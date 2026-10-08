@@ -1,0 +1,356 @@
+#!/bin/bash
+
+set -e
+set -x
+
+BOOTAPP=""
+SIGNED=""
+ENCRYPT=""
+DEBUG=""
+MINIMAL=""
+TEST=""
+TPM=""
+
+GFX=""
+SSH="1"
+
+# specify a directory here to be built into romfs
+ROMFS=""
+
+# specify a custom private key for signing binaries
+# the public key will be generated using this private key as part of the build
+SIGNED_PRIVATE_KEY=""
+SIGNED_PUBLIC_CERT=""
+
+# specify the id and key to access the secrets vault to store encryption keys
+KEP_TPM=""
+KEP_ID=""
+KEP_SECRET=""
+
+CPU="CORE"
+SMP="-smp"
+BSP="itl_generic"
+DATA_MODEL="-lp64"
+EXTRA_BUILD_FLAGS=""
+PROFILE="PROFILE_INTEL_GENERIC"
+
+VSB_LAYERS="TPM2_TSS FBDEV SMBIOS CAMERA WEBCLI HTTP SIM CAN PYTHON"
+VSB_COMPONENTS=""
+VSB_CONFIGURATION="_WRS_CONFIG_DEBUG_FLAG=y _WRS_CONFIG_RTP_CLONE=y _WRS_CONFIG_TCF_GDB_RSP=y"
+VSB_BUILD_OPTIONS="-j 16"
+
+VIP_BUILD_OPTIONS=""
+VIP_COMPONENTS="INCLUDE_DRV_STORAGE_NVME \
+	INCLUDE_SHL INCLUDE_SHL_SHOW INCLUDE_SHL_SHELL_CMD \
+	PCI_DRV_STORAGE_AHCI \
+	INCLUDE_HRFS INCLUDE_HRFS_FORMAT INCLUDE_HRFS_CHKDSK \
+	INCLUDE_XBD_PART_LIB \
+	INCLUDE_RAM_DISK INCLUDE_RAM_DISK_FORMAT_HRFS \
+	INCLUDE_ROMFS \
+	INCLUDE_IO_BASIC \
+	INCLUDE_PMAP_LIB \
+	INCLUDE_DEVMEM \
+	INCLUDE_RTP \
+	INCLUDE_IPD_CMD INCLUDE_IPCOM_SYSLOGD_CMD INCLUDE_IPCOM_SYSVAR_CMD INCLUDE_ARP_API \
+	INCLUDE_VXBUS_SHOW INCLUDE_VXBUS_IOCTL_SHOW \
+	INCLUDE_IPTRACE_ROUTE_CMD INCLUDE_IPSOCKPERF_CMD INCLUDE_IPTCP_TEST_CMD INCLUDE_IPSOCKTEST_CMD INCLUDE_IPNSLOOKUP_CMD \
+	INCLUDE_PCI_SHOW \
+	INCLUDE_ISR_SHOW \
+	INCLUDE_ISR_HANDLER_SHOW \
+	INCLUDE_ISR_OBJECTS \
+	INCLUDE_AUX_CLK \
+	INCLUDE_USB_SHOW \
+	INCLUDE_RTP_CPU_USAGE_CTRL \
+	INCLUDE_RTP_RESOURCE_GROUP \
+	INCLUDE_RTP_MEM_ALLOC_CTRL \
+	INCLUDE_RTP_RESOURCE_GROUP_SHOW \
+	INCLUDE_RTP_APPL_USER \
+	INCLUDE_RTP_APPL_INIT_STRING \
+	INCLUDE_CORE_DUMP_RTP \
+	INCLUDE_CORE_DUMP_RTP_FS \
+	INCLUDE_FDT_SHOW \
+	INCLUDE_ACPI_SHOW \
+	INCLUDE_PINMUX_SYS \
+	INCLUDE_TIMER_SYS_SHOW \
+	INCLUDE_DEBUG_KPRINTF \
+	INCLUDE_WATCHDOGDRV \
+	INCLUDE_GPIO_SYS \
+	INCLUDE_VXBUS_RTC_LIB \
+	DRV_I2C_RTC \
+	INCLUDE_SPI_BUS \
+	INCLUDE_IPFTP_CMD \
+	INCLUDE_IPFTPC \
+	INCLUDE_FTP6 \
+	INCLUDE_IPFTPS \
+	INCLUDE_IPTFTP_CLIENT_CMD \
+	INCLUDE_TFTP_CLIENT \
+	INCLUDE_IPTFTP_COMMON \
+	INCLUDE_IPTFTPS \
+	INCLUDE_IPSSH_CLIENT_CMD \
+	INCLUDE_TELNET_CLIENT \
+	INCLUDE_CRC \
+	INCLUDE_REGMAP_SYS \
+	INCLUDE_MAILBOX_SYS \
+	INCLUDE_REGULATOR_SYS \
+	DRV_SYS_CON \
+	DRV_SYS_CON_POWEROFF \
+	INCLUDE_POWER_OFF_HOOKS \
+	INCLUDE_POWERDOMAIN_SYS \
+	INCLUDE_SMBIOS_LIB \
+	INCLUDE_SMBIOS_TABLE_HELPER_LIB \
+	INCLUDE_SMBIOS_SHOW \
+	INCLUDE_CAMERA_LIB_CORE \
+	INCLUDE_LOOPFS \
+	INCLUDE_WEBCLI_HTTP \
+	INCLUDE_MEMDRV \
+	INCLUDE_ERF_SHOW_ROUTINES \
+	INCLUDE_FTL \
+	INCLUDE_FTL_SHOW \
+	INCLUDE_FTL_FORMAT \
+	INCLUDE_FLASH_SIM \
+	INCLUDE_FLASH_SIM_FTL \
+	INCLUDE_FLASH_SIM_TFFS \
+	INCLUDE_TFFS \
+	INCLUDE_TFFS_SHOW \
+	INCLUDE_TFFS_MOUNT \
+	INCLUDE_MTD \
+	INCLUDE_MTD_SHOW \
+	INCLUDE_FSINFO_SHOW \
+	INCLUDE_SOCKETCAN \
+	INCLUDE_CANLIB \
+	INCLUDE_DEV_RANDOM \
+	INCLUDE_DEV_URANDOM \
+	INCLUDE_DEV_ZERO \
+	INCLUDE_USB_GEN2_SERIAL_INIT \
+	INCLUDE_USB_GEN2_SER_FTDI232 \
+	DRV_SMBIOS \
+	DRV_BUS_VIRT \
+	DRV_SIO_IA_NS16550_INSTANCE_1 \
+	INCLUDE_PYTHON_SUPPORT \
+	INCLUDE_DEBUG_AGENT_START \
+	INCLUDE_POSIX_FORK \
+	INCLUDE_NFS_CLIENT_ALL
+	"
+VIP_BUNDLES="BUNDLE_STANDALONE_SHELL BUNDLE_EDR BUNDLE_POSIX BUNDLE_RTP_POSIX_PSE52"
+
+VSB_UNWANTED_CONFIGURATION=""
+VIP_UNWANTED_COMPONENTS=""
+
+VIP_PARAMETERS="
+#LOCAL_MEM_LOCAL_ADRS | 0xffffffff80900000
+#RAM_LOW_ADRS         | 0xffffffff82000000
+#IPCOM_SYSLOGD_DEFAULT_PRIORITY | IPCOM_LOG_DEBUG2
+#IPCOM_SYSLOGD_LOG_FILE | \"/ram0/syslog.txt\"
+CONSOLE_BAUD_RATE | 115200
+DRV_SIO_IA_NS16550_INSTANCE_BAUD_RATE | 115200
+DEFAULT_BOOT_LINE    | \"fs(0,0)host:/vxWorks e=10.0.2.15 h=10.0.2.2 g=10.0.2.2 u=target pw=vxTarget o=gei\"
+#DEFAULT_BOOT_LINE    | \"fs(0,0)host:/vxWorks e=192.168.1.122 h=192.168.1.221 g=192.168.1.254 u=target pw=vxTarget o=gei\"
+#RTP_APPL_INIT_STRING | \"#startup.vxe^args#\"
+SEC_VAULT_KEY_ENCRYPTING_PW | \"test\"
+#SEC_VAULT_FILE_ROOT | \"\"
+RAM_DISK_SIZE | 0x8000000
+RTP_SHELL_CMD_STACK_SIZE | 0x1000000
+FILESYSTEM_SYMLINK_CONFIG_STR | \"<def>=/romfs/deploy;/bin=<def>/bin;/usr=<def>/usr;/etc=<def>/etc;/lib=<def>/lib;\"
+NFS_USER_ID | 0
+NFS_GROUP_ID | 0
+#NFS_DEBUG_LEVEL | 4
+"
+
+VIP_BOOTAPP_PARAMETERS="
+#DEFAULT_BOOT_LINE    | \"gei(0,0)host:/vxWorks e=10.0.2.15 h=10.0.2.2 g=10.0.2.2 u=target pw=vxTarget\"
+DEFAULT_BOOT_LINE    | \"fs(0,0)host:/bd0a/vxWorks e=10.0.2.15 h=10.0.2.2 g=10.0.2.2 u=target pw=vxTarget o=gei\"
+"
+
+VIP_FILES=""
+
+VSB="${PWD}/${BSP}_vsb"
+VIP="${PWD}/${BSP}_vip"
+
+init_variables() {
+	if [ "$BOOTAPP" != "" ]; then
+		SMP="-up"
+		PROFILE="PROFILE_BOOTAPP"
+		VIP="${BSP}_bootapp_vip"
+		VIP_COMPONENTS="INCLUDE_BOOT_FILESYSTEMS INCLUDE_BOOT_USB_FS_LOADER INCLUDE_BOOT_USB_SHOW \
+			INCLUDE_UHCI_INIT INCLUDE_OHCI INCLUDE_OHCI_INIT \
+			INCLUDE_DRV_STORAGE_NVME INCLUDE_XBD_PART_LIB \
+			INCLUDE_USB_XHCI_HCD INCLUDE_USB_XHCI_HCD_INIT \
+			INCLUDE_USB_GEN2_KEYBOARD_INIT INCLUDE_USB_GEN2_KEYBOARD \
+			DRV_KBD_USB \
+			DRV_SIO_IA_NS16550_INSTANCE_1 \
+			INCLUDE_DOSFS"		
+		VIP_BUNDLES=""
+		VIP_PARAMETERS="$VIP_BOOTAPP_PARAMETERS"
+	fi
+
+	BUILD_FLAGS="-bsp $BSP -cpu $CPU $SMP $DATA_MODEL $EXTRA_BUILD_FLAGS"
+	if [ "$DEBUG" != "" ]; then
+		BUILD_FLAGS="$BUILD_FLAGS -debug"
+	fi
+
+	# kernel size can get too big that some bios can't load it
+	# build with minimal set of layers for smaller size
+	# the other way to fix this is manually look at the memory map of uefi on bootup
+	# and find a region is big enough that is usable then set
+	# LOCAL_MEM_LOCAL_ADRS
+	# RAM_LOW_ADRS
+	# to that region so the vxworks can relocate there.
+	# the bootloader also has to be updated to point to that place so they can share data
+	if [ "$MINIMAL" != "" ]; then
+		BUILD_FLAGS="$BUILD_FLAGS -minimal"
+	fi
+
+	# binaries needs to be signed in order to be loaded
+	# the signtool program is used to sign binaries
+	if [ "$SIGNED" != "" ]; then
+		VSB_COMPONENTS="$VSB_COMPONENTS SECURE_LOADER"
+		VIP_COMPONENTS="$VIP_COMPONENTS INCLUDE_BOOT_LOADER INCLUDE_SECURE_LOADER INCLUDE_SECURE_LOADER_DECRYPTION"
+		if [ "$ENCRYPT" != "" ]; then
+			VSB_CONFIGURATION="$VSB_CONFIGURATION _WRS_CONFIG_SECURE_LOADER_ENCRYPTION=y"
+			VSB_CONFIGURATION="$VSB_CONFIGURATION _WRS_CONFIG_SECURE_LOADER_KEP_ID=$KEP_ID"
+			VSB_CONFIGURATION="$VSB_CONFIGURATION _WRS_CONFIG_SECURE_LOADER_KEP_SECRET=$KEP_SECRET"
+			VIP_COMPONENTS="$VIP_COMPONENTS INCLUDE_SEC_SECRET_CMD"
+			if [ "$KEP_TPM" != ""]; then
+				VIP_COMPONENTS="$VIP_COMPONENTS INCLUDE_SEC_VAULT_KEP_TPM"
+			fi
+		fi
+		if [ "$SIGNED_PRIVATE_KEY" != "" ]; then
+			VSB_CONFIGURATION="$VSB_CONFIGURATION _WRS_CONFIG_SECURE_LOADER_PRIVATE_SIGNING_KEY_FILE=$SIGNED_PRIVATE_KEY"
+		fi
+		if [ "$SIGNED_PUBLIC_CERT" != "" ]; then
+			 VSB_CONFIGURATION="$VSB_CONFIGURATION _WRS_CONFIG_SECURE_LOADER_PUBLIC_SIGNING_CERT_FILE=$SIGNED_PUBLIC_CERT"
+		fi
+	fi
+
+	if [ "$SSH" != "" ]; then
+		VSB_COMPONENTS="$VSB_COMPONENTS IPNET_SSH USER_MANAGEMENT"
+	fi
+
+	if [ "$TEST" != "" ]; then
+		VSB_CONFIGURATION="$VSB_CONFIGURATION _WRS_CONFIG_VXTEST_BUILD=y"
+		VIP_COMPONENTS="$VIP_COMPONENTS INCLUDE_TM_RTPSTRESSTEST \
+			INCLUDE_TM_HEAPSTRESSTEST \
+			INCLUDE_TM_ADRSPACELIB \
+			INCLUDE_TM_VMCTXTEST \
+			INCLUDE_TM_VMTEST \
+			INCLUDE_TM_TASKSTRESSTEST \
+			INCLUDE_TM_RTPSTRESSTEST \
+			INCLUDE_TM_SCHEDSTRESSTEST \
+			INCLUDE_TM_SEMSTRESSTEST \
+			INCLUDE_TM_WINDSTRESSTEST \
+			INCLUDE_TM_PGMGRLIB \
+			INCLUDE_TM_USERRESERVEDMEM \
+			INCLUDE_TM_POOLLIB \
+			INCLUDE_TM_MEMLIB \
+			INCLUDE_TM_MEMPARTLIB \
+			INCLUDE_VXTEST_SHELL"
+	fi
+
+	if [ "$GFX" != "" ]; then
+		VSB_LAYERS="$VSB_LAYERS RASTER RASTER_MESA"
+		VIP_COMPONENTS="$VIP_COMPONENTS DRV_CONSOLE_EFI"
+	else
+		VIP_UNWANTED_COMPONENTS="$VIP_UNWANTED_COMPONENTS DRV_VGA_M6845"
+	fi
+
+	if [ "$TPM" != "" ]; then
+		VIP_COMPONENTS="$VIP_COMPONENTS DRV_IA_TPM INCLUDE_TPM2_OPENSSL_ENGINE"
+	fi
+
+	if [ "$PROFILE" != "" ]; then
+		PROFILE="-profile $PROFILE"
+	fi
+}
+
+copy_romfs() {
+	rm -rf romfs
+	mkdir romfs
+
+	if [ "$ROMFS" != "" ]; then
+		cp -RvfL $ROMFS romfs
+	fi
+
+	if [ -d "$VSB/usr/3pp/deploy" ]; then
+		cp -RvfL "$VSB/usr/3pp/deploy" romfs
+	fi
+}
+
+build_vsb() {
+	if [ -d "$VSB" ]; then
+		return
+	fi
+
+	vxprj vsb create -force $BUILD_FLAGS $VSB -S
+	pushd $VSB
+
+	if [ "$VSB_LAYERS" != "" ]; then
+		vxprj vsb add $VSB_LAYERS
+	fi
+	
+	if [ "$VSB_COMPONENTS" != "" ]; then
+		vxprj vsb add component $VSB_COMPONENTS
+	fi
+
+	if [ "$VSB_CONFIGURATION" != "" ]; then
+		for configuration in $VSB_CONFIGURATION; do
+			vxprj vsb config -add "$configuration" -s
+		done
+	fi
+
+	if [ "$VSB_UNWANTED_CONFIGURATION" != "" ]; then
+		for configuration in $VSB_UNWANTED_CONFIGURATION; do
+			vxprj vsb config -remove "$configuration" -s
+		done
+	fi
+
+	vxprj build $VSB_BUILD_OPTIONS
+	popd
+}
+
+build_vip() {
+	vxprj vip create -force $SMP $PROFILE -vsb $VSB $BSP $COMPILER $VIP
+
+	pushd $VIP
+	copy_romfs
+	
+	if [ "$VIP_BUNDLES" != "" ]; then
+		vxprj vip bundle add $VIP_BUNDLES
+	fi
+
+	if [ "$VIP_COMPONENTS" != "" ]; then
+		vxprj vip component add $VIP_COMPONENTS
+	fi
+
+	if [ "$VIP_UNWANTED_COMPONENTS" != "" ]; then
+		vxprj vip component remove $VIP_UNWANTED_COMPONENTS
+	fi
+
+	IFS=$'\n'
+	for parameter in $VIP_PARAMETERS; do
+		if [[ "$parameter" == "" || "$parameter" =~ ^#.* ]]; then
+			continue
+		fi
+		
+		key=$(echo "$parameter" | cut -d '|' -f1 | awk '{$1=$1};1')
+		val=$(echo "$parameter" | cut -d '|' -f2 | awk '{$1=$1};1')
+		vxprj vip parameter set $key $val
+	done
+
+	if [ "$VIP_FILES" != "" ]; then
+		vxprj vip file add $VIP_FILES
+	fi
+	
+	vxprj build $VIP_BUILD_OPTIONS
+	popd
+}
+
+rebuild_vip() {
+	pushd $VIP
+	vxprj build clean
+	vxprj build $VIP_BUILD_OPTIONS
+	popd
+}
+
+init_variables
+build_vsb
+build_vip

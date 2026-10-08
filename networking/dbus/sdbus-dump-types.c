@@ -1,0 +1,26 @@
+#include <stdio.h>
+#include <systemd/sd-bus.h>
+
+#define P(x) printf("%-32s %c\n", #x, x)
+
+int
+main(void)
+{
+	P(SD_BUS_TYPE_BYTE);
+	P(SD_BUS_TYPE_BOOLEAN);
+	P(SD_BUS_TYPE_INT16);
+	P(SD_BUS_TYPE_UINT16);
+	P(SD_BUS_TYPE_INT32);
+	P(SD_BUS_TYPE_UINT32);
+	P(SD_BUS_TYPE_INT64);
+	P(SD_BUS_TYPE_UINT64);
+	P(SD_BUS_TYPE_DOUBLE);
+	P(SD_BUS_TYPE_STRING);
+	P(SD_BUS_TYPE_OBJECT_PATH);
+	P(SD_BUS_TYPE_SIGNATURE);
+	P(SD_BUS_TYPE_UNIX_FD);
+	P(SD_BUS_TYPE_ARRAY);
+	P(SD_BUS_TYPE_DICT_ENTRY);
+	P(SD_BUS_TYPE_DICT_ENTRY_END);
+	return 0;
+}

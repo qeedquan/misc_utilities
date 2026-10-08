@@ -1,0 +1,161 @@
+*** Resources
+https://www.cloudflare.com/learning/dns/dns-records/
+https://www.cloudflare.com/learning/dns/dns-records/dns-a-record/
+https://www.cloudflare.com/learning/dns/top-level-domain/
+
+*** Records (Zones)
+What is a DNS record?
+DNS records (aka zone files) are instructions that live in authoritative DNS servers and provide information about a domain including what IP address is associated with that domain and how to handle requests for that domain. These records consist of a series of text files written in what is known as DNS syntax. DNS syntax is just a string of characters used as commands that tell the DNS server what to do. All DNS records also have a ‘TTL’, which stands for time-to-live, and indicates how often a DNS server will refresh that record.
+
+You can think of a set of DNS records like a business listing on Yelp. That listing will give you a bunch of useful information about a business such as their location, hours, services offered, etc. All domains are required to have at least a few essential DNS records for a user to be able to access their website using a domain name, and there are several optional records that serve additional purposes.
+
+What are the most common types of DNS record?
+A record - The record that holds the IP address of a domain. Learn more about the A record.
+AAAA record - The record that contains the IPv6 address for a domain (as opposed to A records, which list the IPv4 address). Learn more about the AAAA record.
+CNAME record - Forwards one domain or subdomain to another domain, does NOT provide an IP address. Learn more about the CNAME record.
+MX record - Directs mail to an email server. Learn more about the MX record.
+TXT record - Lets an admin store text notes in the record. These records are often used for email security. Learn more about the TXT record.
+NS record - Stores the name server for a DNS entry. Learn more about the NS record.
+SOA record - Stores admin information about a domain. Learn more about the SOA record.
+SRV record - Specifies a port for specific services. Learn more about the SRV record.
+PTR record - Provides a domain name in reverse-lookups. Learn more about the PTR record.
+
+What are some of the less commonly used DNS records?
+AFSDB record - This record is used for clients of the Andrew File System (AFS) developed by Carnegie Melon. The AFSDB record functions to find other AFS cells.
+APL record - The ‘address prefix list’ is an experiment record that specifies lists of address ranges.
+CAA record - This is the ‘certification authority authorization’ record, it allows domain owners state which certificate authorities can issue certificates for that domain. If no CAA record exists, then anyone can issue a certificate for the domain. These records are also inherited by subdomains.
+DNSKEY record - The ‘DNS Key Record’ contains a public key used to verify Domain Name System Security Extension (DNSSEC) signatures.
+CDNSKEY record - This is a child copy of the DNSKEY record, meant to be transferred to a parent.
+CERT record - The ‘certificate record’ stores public key certificates.
+DCHID record - The ‘DHCP Identifier’ stores info for the Dynamic Host Configuration Protocol (DHCP), a standardized network protocol used on IP networks.
+DNAME record - The ‘delegation name’ record creates a domain alias, just like CNAME, but this alias will redirect all subdomains as well. For instance if the owner of ‘example.com’ bought the domain ‘website.net’ and gave it a DNAME record that points to ‘example.com’, then that pointer would also extend to ‘blog.website.net’ and any other subdomains.
+HIP record - This record uses ‘Host identity protocol’, a way to separate the roles of an IP address; this record is used most often in mobile computing.
+IPSECKEY record - The ‘IPSEC key’ record works with the Internet Protocol Security (IPSEC), an end-to-end security protocol framework and part of the Internet Protocol Suite (TCP/IP).
+LOC record - The ‘location’ record contains geographical information for a domain in the form of longitude and latitude coordinates.
+NAPTR record - The ‘name authority pointer’ record can be combined with an SRV record to dynamically create URI’s to point to based on a regular expression.
+NSEC record - The ‘next secure record’ is part of DNSSEC, and it’s used to prove that a requested DNS resource record does not exist.
+RRSIG record - The ‘resource record signature’ is a record to store digital signatures used to authenticate records in accordance with DNSSEC.
+RP record - This is the ‘responsible person’ record and it stores the email address of the person responsible for the domain.
+SSHFP record - This record stores the ‘SSH public key fingerprints’; SSH stands for Secure Shell and it’s a cryptographic networking protocol for secure communication over an unsecure network.
+
+*** A Records
+What is a DNS A record?
+The "A" stands for "address" and this is the most fundamental type of DNS record: it indicates the IP address of a given domain. For example, if you pull the DNS records of cloudflare.com, the A record currently returns an IP address of: 104.17.210.9.
+
+A records only hold IPv4 addresses. If a website has an IPv6 address, it will instead use an "AAAA" record.
+
+Here is an example of an A record:
+
+example.com	record type:	value:	TTL
+@	A	192.0.2.1	14400
+
+The "@" symbol in this example indicates that this is a record for the root domain, and the "14400" value is the TTL (time to live), listed in seconds. The default TTL for A records is 14,400 seconds. This means that if an A record gets updated, it takes 240 minutes (14,400 seconds) to take effect.
+
+The vast majority of websites only have one A record, but it is possible to have several. Some higher profile websites will have several different A records as part of a technique called round robin load balancing, which can distribute request traffic to one of several IP addresses, each hosting identical content.
+
+When are DNS A records used?
+The most common usage of A records is IP address lookups: matching a domain name (like "cloudflare.com") to an IPv4 address. This enables a user's device to connect with and load a website, without the user memorizing and typing in the actual IP address. The user's web browser automatically carries this out by sending a query to a DNS resolver.
+
+DNS A records are also used for operating a Domain Name System-based Blackhole List (DNSBL). DNSBLs can help mail servers identify and block email messages from known spammer domains.
+
+*** Top Level Domains
+
+What is a top-level domain (TLD)?
+In the DNS hierarchy, a top-level domain (TLD) represents the first stop after the root zone. In simpler terms, a TLD is everything that follows the final dot of a domain name. For example, in the domain name ‘google.com’, ‘.com’ is the TLD. Some other popular TLDs include ‘.org’, ‘.uk’, and ‘.edu’.
+
+TLDs play an important role in the DNS lookup process. For all uncached requests, when a user enters a domain name like ‘google.com’ into their browser window, the DNS resolvers start the search by communicating with the TLD server. In this case, the TLD is ‘.com’, so the resolver will contact the TLD DNS server, which will then provide the resolver with the IP address of Google’s origin server.
+
+The Internet Corporation for Assigned Names and Numbers (ICANN) has authority over all TLDs used on the Internet, and it delegates the responsibility of these TLDs to various organizations. For example, a U.S. company called VeriSign operates all ‘.com’ and ‘.net’ TLDs.
+
+Another purpose of TLDs is to help classify and communicate the purpose of domain names. Every TLD will tell you something about the domain that precedes it; let’s look at some examples:
+
+’.com’ is intended for commercial businesses.
+’.gov’ is for U.S. government entities.
+’.uk’ is for domains from the United Kingdom.
+TLDs themselves are also classified into one of several groups.
+
+What are the different types of TLDs?
+Generic TLDs: Generic TLDs (gTLDs) encompass some of the more common domain names seen on the web, such as ‘.com’, ‘.net’, and ‘.org’. The Internet Corporation for Assigned Names and Numbers (ICANN) used to heavily restrict the creation of new gTLDs, but in 2010 these restrictions were relaxed. Now there are hundreds of lesser-known gTLDs, such as ‘.top’, ‘.xyz’, and ‘.loan’.
+Country-code TLDs: Country-code TLDs (ccTLDs) are reserved for use by countries, sovereign states, and territories. Some examples are ‘.uk’, ‘.au’ (Australia), and ‘.jp’ (Japan). The Internet Assigned Numbers Authority (IANA), which is run by ICANN, is in charge of picking appropriate organizations in each location to manage ccTLDs.
+Sponsored TLDs: These TLDs typically represent professional, ethnic, or geographical communities. Each sponsored TLD (sTLD) has a delegated sponsor that represents that community. For example, ‘.app’ is a TLD intended for the developer community, and it is sponsored by Google. Similarly, ‘.gov’ is intended for use by the U.S. government, and is sponsored by the General Services Administration.
+Infrastructural TLDs: This category only contains a single TLD: ‘.arpa’. Named for DARPA, the U.S. military research organization that helped pioneer the modern Internet, ‘.arpa’ was the first TLD ever created and is now reserved for infrastructural duties, such as facilitating reverse DNS lookups.
+Reserved TLDs: Some TLDs are on a reserved list, which means they are permanently unavailable for use. For example, ‘.localhost’ is reserved for local computer environments, and ‘.example’ is reserved for use in example demonstrations.
+
+Do TLDs Matter?
+There are now so many TLD options available that the choice can be overwhelming for someone trying to register a new domain name. For years ‘.com’ was seen as the only option for businesses that want to be taken seriously. But experts predict that as the supply of ‘.com’ domains dwindles and some of the newer TLDs continue to pick up steam, we will see a major shift in the perception of alternative TLDs. With big companies like Twitter and Apple starting to adopt alternative TLDs for their products (t.co and itun.es, respectively) we are already seeing that shift in action, so it may be better to create a clever and memorable domain name using an alternative TLD, than to insist on a ‘.com’ domain.
+
+*** List of Registars
+Accredited companies can register domain names as something like a broker.
+Here is a list of some of them:
+
+https://internetbs.net/en/index.html
+http://www.markmonitor.com
+https://www.namesilo.com/
+https://www.godaddy.com/
+https://www.gandi.net/en-US
+https://www.name.com/
+
+Usually it takes a few hours to for the updated DNS records to populate to other nameservers on the internet
+
+*** DDNS
+https://aws.amazon.com/what-is/dynamic-dns/
+
+What is DDNS?
+Dynamic DNS (DDNS) is a service that can automatically update DNS records when an IP address changes. Domain names convert network IP addresses to human-readable names for recognition and ease of use. The information mapping the name to the IP address is recorded tabularly on the DNS server. However, network administrators allocate IP addresses dynamically and change them frequently. A DDNS service updates the DNS server records every time IP addresses change. With DDNS, domain name management becomes easier and more efficient.
+
+Why is dynamic DNS important?
+In the past, IP addresses were static and rarely changed. However, there was a shortage of IP addresses due to the expansion of the internet and the massive increase in the number of servers, smart sensors, and end-user devices.
+
+A new system called IPv6 was introduced to increase the number of IP addresses. However, allocating static IP addresses was no longer cost-effective. Instead, network administrators use Dynamic Host Configuration Protocol (DHCP) to assign IP addresses dynamically.
+
+Why IP addresses change
+Network administrators typically maintain a shared pool of IP addresses. They lease or assign IP addresses to users for a predetermined maximum amount of time or until they terminate their connection.
+
+Whenever a machine joins a network, it gets a new dynamic IP address. When a machine logs off the network, DHCP  reassigns IP addresses to all remaining devices. Hence, dynamic IP addresses can change frequently and at irregular intervals.
+
+How dynamic DNS helps
+Developers use domain names to identify application endpoints like APIs or specific server instances in their code. If DNS records are not up-to-date, bugs occur when end users try to access endpoints.
+
+Dynamic DNS ensures that users can continue to access the device or service using the domain name. They don’t need to track and update the IP address manually.
+
+*** Fully Qualified Domain Name
+A fully qualified domain name (FQDN), sometimes also referred to as an absolute domain name, is a domain name that specifies its exact location in the tree hierarchy of the Domain Name System (DNS).
+It specifies all domain levels, including the top-level domain and the root zone.
+
+For instance, in the FQDN somehost.example.com, com is a label directly under the root zone, example is nested under com, and finally somehost is nested under example.com
+
+A relative domain name is a domain name which does not include all labels. It may also be referred to as a partially-qualified domain name
+
+Can specify relative search domain when no domain suffix is supplied
+Linux: /etc/resolv.conf
+
+# search example.com local.test configures the resolver to try additionally somehost.example.com and somehost.local.test.
+search example.com local.test
+
+# It also contains a list of IP addresses of nameservers for resolution.
+# For instance, nameserver 1.1.1.1 configures the resolver to query for the name server with IP 1.1.1.1.
+# Additional nameserver directives after the first are only used when the first or last used server is unavailable. 
+nameserver 10.0.0.17
+nameserver 10.1.0.12
+nameserver 10.16.0.7
+
+*** Authorative vs Recursive Server
+Nameserver functionality can be divided into two main categories: authoritative service and recursive service.
+It could also be configured to be neither, but there would be no reason to run such a server, as it would be unable to provide any answers in response to queries.
+
+An authoritative nameserver is one that is configured to answer queries for a specified set of zones and satisfies queries from its own data without needing to reference another source.
+
+A recursive nameserver is one that answers queries by asking other nameservers for the answer. It will respond queries from cache if possible, but otherwise it traverses the Internet (or private) namespace tree,
+
+Recursive nameservers can be attacked via DNS cache poisoning or amplification
+
+*** Host Files
+
+File that a user can use to manually specify hostname to map to IP addresses.
+Functionality to parse the hosts file during an application execution is done by the libc resolver (glibc/musl in case of Linux).
+If there are several computers and we want to dynamically map IP to hostnames, it is better to run a DNS server rather than updating the host files directly via scripting.
+
+Commands like nslookup/dig will use these files to resolve hosts/ips before trying the internet
+
+Windows: C:\Windows\System32\drivers\etc\hosts
+Linux: /etc/hosts

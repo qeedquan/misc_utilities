@@ -1,0 +1,27 @@
+*** Links
+
+https://www.quora.com/SDRAM-What-does-it-mean-to-precharge-the-banks-to-get-into-the-idle-state
+
+*** Terms
+
+An activate opens a page(row) and a precharge closes it. If and only if the page is open can it be read or written.
+The DRAM bank can have only one page open at a time.
+
+After an Activate command the bank is considered in Active state
+After a Precharge command the bank is in Idle state.
+
+The charge in the physical bitcell decays over time. A refresh will restore that charge by Activating and Precharging row(s). By nature of the refresh operation the intended physical charge in all the bitcells in the rows being refreshed is restored to full value.
+Auto refresh needs to be invoked by a timer/scheduler in the the memory controller of the host.
+Self-refresh is a mode where the system might be in sleep mode and the DRAM enables a timer to ensure the periodic refresh occurs. A DRAM in self-refresh mode must go through a wake-up sequence before the device can be accessed.
+
+----------------
+
+Precharge is used to get rid (charge) the parasitic capacitances so you would not lose any charge (ensuring the full voltage swing) during the read/write cycles.
+
+Parasitic capacitance is the extra capacitance which every conductors possess, which means all of the wires and conductive pathways have those capacitance. Those extra capacitance, in turn, leech up some of the charge that is being sent to a capacitor, which in turn creates a delay to the capacitor getting a full charge.
+
+Without the precharge stage, and ignoring the delay it causes, the cell that is supposed to be ‘written’ will have less charge than it is supposed to be, since the parasitic capacitance took them.
+
+Refresh is used to rewrite data back into the cell, as DRAMs' charge leaks quite quickly, and must be actively maintained. I would assume auto refresh is a similar operation.
+
+This is done by opening up each cell and check whether there is any charge inside. Should there be any charge inside the cell, the circuit will proceed to fully charge the cell again.

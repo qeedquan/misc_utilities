@@ -1,0 +1,15 @@
+*** Linux
+https://pcsc-tools.apdu.fr/
+
+pcsc_scan - scans for USB devices that is a smart card reader and can identify what type of card has been inserted into the reader
+scriptor - sends commands to the smart card device
+
+*** Commands
+The interface to the smart card reader to the smart card is known as APDU
+
+https://en.wikipedia.org/wiki/Smart_card_application_protocol_data_unit
+
+*** Endpoints
+2 mandatory bulk endpoints for sending/receiving data to host/device
+1 optional interrupt endpoints for notification
+

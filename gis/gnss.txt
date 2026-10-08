@@ -1,0 +1,8 @@
+# Global Navigation Satellite System
+
+GPS - America
+BeiDou - China
+GLONASS - Russia
+Galileo - Europe
+NavIC - India
+

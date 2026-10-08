@@ -1,0 +1,122 @@
+*** Commands
+
+# Run in foreground
+dovecot -F
+
+# Show combined configuration
+doveconf -n
+
+# Test SSL configuration by connecting
+openssl s_client -servername mail.sample.com -connect mail.sample.com:pop3s
+openssl s_client -servername mail.sample.com -connect mail.sample.com:imaps
+
+# Get IMAPS/POP3S certificate from server
+openssl s_client -showcerts -servername server -connect example.com:imaps
+openssl s_client -showcerts -servername server -connect example.com:pop3s
+
+# Test auth
+doveadm auth test user@domain password
+
+# Lookup user in DB
+# Local user
+doveadm user user
+# User in a domain
+doveadm user user@domain
+
+# Simulate full login
+doveadm auth login user@domain password
+
+# Generate new certificates for TLS/SSL, the script is usually placed in /usr/share/dovecot
+# The openssl.cnf it depends on is also in /usr/share/dovecot
+mkcert.sh
+
+*** Mail location
+The configuration line
+
+mail_location = maildir:~/Maildir
+mail_location = mbox:~/mail:INBOX=/var/mail/%u
+
+tells Dovecot where to read the mail to serve over IMAP.
+It supports format such as Maildir or mbox (Maildir is used by default by opensmtpd)
+
+MUA clients connected to Dovecot can create/delete/draft new email and Dovecot will store the messages in the mail location directory (SMTPD is not used until the mail is sent)
+
+*** Generate custom SSL certificates
+The ssl-cert package is used in Linux distros to generate a default set of certificates, but a custom one can be used
+
+openssl req -new -x509 -days 1000 -nodes -out "/etc/dovecot/dovecot.pem" -keyout "/etc/dovecot/private/dovecot.pem"
+
+Modify dovecot configuration to specify the custom keys
+ssl_cert = </etc/dovecot/private/dovecot.pem
+ssl_key = </etc/dovecot/private/dovecot.key
+
+*** IMAP Capabilities
+These are sent to the email client upon connection to say what features is supported
+
+# Don't allow plaintext authentication, this means unencrypted protocols like imap and pop3 do not work
+LOGINDISABLED
+
+# IMAP version supported
+IMAP4rev1
+
+# IMAP feature to redirect clients to an different IMAP4 server in case of hardware failures or organizational changes.
+# No client action is needed to invoke the LOGIN-REFERRALS capability: the redirection is triggered by the server and occurs transparently.
+LOGIN-REFERRALS
+
+*** Mail Clients
+Mail clients by default like to send credentials of the form "user@domain"
+If configured with basic user authentication, only "user" will match the from the database, so need to strip the "@domain" portion in mail clients when passing credentials
+
+Mail clients usually reject self-signed certificates by default, the certificate either must be registered with a service that is trusted or stored in a location that the mail client uses to lookup accepted certificates
+This affects protocols like imaps and pop3s
+
+*** User Database
+System users are users that are in /etc/passwd, virtual users are users that are not.
+
+IMAP and POP3 protocols currently have no concept of "domain", so the username is just something that shows up in your logs and maybe in some configuration, but they have no direct functionality.
+Dovecot doesn’t access the users’ mails as the dovecot user! So do not put dovecot into the mail group, and don’t make mails owned by the dovecot user.
+Unless you’re using shared mailboxes and multiple UIDs, it doesn’t really matter what GIDs you use.
+You can, for example, use a single GID for all users, or create a separate GID for each user. See System users used by Dovecot for more information.
+
+Dovecot splits all authentication lookups into two categories: passdb and userdb lookup
+
+userdb lookup retrieves post-login information specific to this user. This may include:
+Mailbox location information
+Quota limit
+Overriding settings for the user (almost any setting can be overridden)
+
+The user database lookup can return these fields: (uid, gid, home, user, mail, quota_rule)
+These overrides the following global settings for the user: (mail_uid, mail_gid, mail_home, mail_location)
+
+Multiple passdb and userdb blocks can be specified in the configuration file, it will try them in order of specification if a user can't be looked up in the current database
+
+*** Home directories
+Home directory is a per-user directory where Dovecot can save user-specific files.
+Dovecot’s home directories have nothing to do with system users’ home directories.
+
+It’s irrelevant if it’s under /home/ or /var/mail/ or wherever.
+If you have trouble understanding this, mentally replace all occurrences of “home directory” with “mail user’s private state directory”.
+
+And in particular:
+
+Never configure your userdb to return the same home directory for multiple users, this will break things.
+Home directory must be an absolute path, don’t even try to use relative paths, these do not work.
+
+Some uses for home directory are:
+By default Sieve scripts are in a user’s home directory.
+The Duplicate mail check database is in a user’s home directory. Suppression of duplicate rejects/vacations won’t work if home directory isn’t specified.
+Debugging: If an imap or pop3 process crashes, the core file is written to the user’s home directory.
+
+*** Home vs. mail directory
+Home directory shouldn’t be the same as mail directory with mbox or Maildir formats (but with dbox/obox it’s fine). It’s possible to do that, but you might run into trouble with it sooner or later. Some problems with this are:
+
+Non-mailbox files may show up as mailboxes.
+If you see this with Maildir, maildir_stat_dirs=yes hides them.
+Or a user might not be able to create mailbox with some wanted name, because there already exists a conflicting file or directory.
+e.g. with Maildir if you have .dovecot.sieve file, user can’t create a mailbox called “dovecot.sieve” (i.e. “dovecot” mailbox that has a “sieve” child)
+And vice versa: If user creates “dovecot.sieve” mailbox, Dovecot will probably start logging all kinds of errors because the mailbox directory isn’t a valid Sieve script.
+If you ever intend to migrate to another mailbox format, it’s much easier to do if you can have both old and new mail directories under the user’s home directory.
+
+*** Mail location
+If your users have varying locations for mail location, which cannot be represented by templating, userdb can return the mail field to override the default mail_location setting. Normally this is not needed, and it is sufficient to have the setting in config file.
+

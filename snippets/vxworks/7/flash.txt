@@ -1,0 +1,58 @@
+*** Terminology
+
+CFI   - Common Flash Interface
+ONFI  - Open NAND Flash Interface
+MTD   - Memory Technology Device
+FTL   - Flash Translation Layer
+NFTL  - NAND Flash Translation Layer
+SSFDC - Smartmedia cards 
+
+*** Layers
+The flash layer comprises of several sub layers:
+
+MTD      - Flash controller drivers
+NFTL     - Flash IO layer mainly for NAND flash
+TFFS     - The TFFS Filesystem
+TFFS_DRV - Collection of MTD flash drivers for raw flash ops TFFS
+
+NFTL is a base library
+MTD includes NFTL by through the attach function mtdAttach()
+MTD drivers can use this library to make it look like a disk drive
+TFFS implements a small library for FTL and does not use NFTL (FTLLITE)
+
+TFFS uses XBD to present a block device to the higher level system
+FTLLITE implements translation layers for SSFDC and MTD
+
+TFFS has its own collection of MTD drivers inside TFFS_DRV, but it can use drivers from MTD layer with INCLUDE_MTD_VXBFLASH
+
+*** Identification
+MTD Devices uses JEDEC IDs to identify itself
+CFI is the open standard that all flash controllers should implement to have a uniform command api.
+
+*** FLAPI
+The FLAPI is the flash API used internally by TFFS to do various tasks
+To bridge the gap between VXBUS and FLAPI, a vxbFlashStub driver is there to provide a translation for the FLAPI to VXBUS methods
+
+The API is initialized by tffsDrv() which is added to prjConfig.c when compiled with TFFS, this function is ran after VXBUS is ran
+This means functions like flIdentifyRegister() has to run after VXBUS
+
+flMount(volno, tl, flash) {
+	flIdentifyFlash()
+}
+
+flFormat(volno, params) {
+	flIdentifyFlash() // uses the flIdentifyRegister() table to figure out which MTD to map to
+}
+
+// represents one flash device
+FLFlash {
+	// represent a socket in a flash
+	FLSocket *socket;
+}
+
+*** TFFS Automount
+Add VIP component INCLUDE_TFFS_MOUNT, this calls usrTffsConfig() internally to detect and mount a drive.
+If the above option is not set, the drive won't mount on startup.
+
+VIP parameter TFFS_MOUNT_POINT specify the mount point (default is /tffs0)
+

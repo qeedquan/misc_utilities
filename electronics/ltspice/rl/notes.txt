@@ -1,0 +1,26 @@
+https://courses.lumenlearning.com/physics/chapter/23-10-rl-circuits/
+
+An inductor acts to impede the current flow, slowing it down on, providing
+a ramp time to start and stop. This is governed by the equation
+
+I = I0 * (1 - exp(-t / tau))
+tau = L / R
+
+Inductors can be added using formula
+series:
+Lt = L1 + L2 + L3 ...
+
+parallel:
+1/Lt = 1/L1 + 1/L2 + 1/L3 ...
+
+In a simple inductive circuit (circuit with just V, I, and L elements)
+V = I/Xl
+Xl = 2pifL
+
+Where Xl is the reactance and its units is in ohms, following ohm's law
+
+For phase calculations of simple inductive circuits, voltage is always at 90 degree from current
+
+Q Factor - The quality factor to quantify how effective resistance in an inductor is
+Q = Xl/R, higher Q is better than lower Q because it is easier to add additional resistance if needed,
+but it is harder to add more reactance

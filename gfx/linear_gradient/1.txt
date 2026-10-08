@@ -1,0 +1,6 @@
+# angle
+180
+
+# stops
+c 0.5 white
+c 1 red

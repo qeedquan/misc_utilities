@@ -1,0 +1,30 @@
+*** Compilers
+
+VxWorks provides 2 main compilers for use, diab and gcc.
+
+*** Diab Compiler
+
+The drivers call other programs like ctoa/etoa to compile code, it handle passing options, generating arguments, etc.
+dcc: the c compiler driver
+dplus: the c++ compiler driver
+
+dctrl: configurator for dcc
+  -t: generate target compiler flag for dcc to use, if no target is specified, it will ask for the target info to generate.
+      pass in an unknown name to get a full listing of processors.
+
+ctoa: c compiler
+etoa: c++ compiler
+das: assembler
+dld: linker
+
+icc: the intel c compiler
+icpc: the intel c++ compiler
+
+cderror.dat: file that contains error codes that the compiler uses to print messages
+
+*** dctrl targets
+PPC7400FV:vxworks69
+
+*** Configuration
+$WIND_TARGET/diab/$DIAB_VERSION/conf/dtools.conf is the default configuration that diab uses. Pass standard command flags in here
+

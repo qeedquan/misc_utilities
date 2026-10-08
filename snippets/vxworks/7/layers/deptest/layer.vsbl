@@ -1,0 +1,17 @@
+/*
+
+An example layer that has multiple submodules that shares a common dependency.
+
+*/
+
+Layer DEPTEST {
+	SYNOPSIS         Dependency test
+	HELP             Dependency test
+	VERSION          1.0
+	FEATURE          OPEN_SOURCE
+	VENDOR           None
+	LAYER_REQUIRES   LIBC_STD
+	OPTIONAL         YES
+	DEFAULT          NO
+	DOC_BUILD        NO
+}
