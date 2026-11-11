@@ -1,0 +1,402 @@
+*** Sending SMS over email
+Various mobile companies has an email address that you can send to to get your message forwarded as a SMS
+
+The email is usually structured as:
+phone_number@mobile-provider-sms-service.com
+
+Recently, this service has been cut by alot of companies because of spam, but some will still work, so just have to try and see
+
+# List of mails for various providers
+  uscellular: 
+    '@email.uscc.net',
+  
+  /* ting: 
+    '@message.ting.com', // Duplicate of Sprint
+   */
+  sprint: 
+    '@messaging.sprintpcs.com',
+  
+  cellone: 
+    '@mobile.celloneusa.com',
+  
+  telus: 
+    '@msg.telus.com',
+  
+  alaskacommunications: 
+    '@paging.acswireless.com',
+  
+  rogers: 
+    '@pcs.rogers.com',
+  
+  cricket: 
+    '@mms.cricketwireless.net',
+  
+  'nex-tech': 
+    '@sms.ntwls.net',
+  
+  tmobile: 
+    '@tmomail.net',
+  
+  att: 
+    '@txt.att.net',
+  
+  westernwireless: 
+    '@cellularonewest.com',
+  
+  freedommobile: 
+    '@txt.freedommobile.ca',
+  
+  verizon: 
+    '@vtext.com',
+  
+  republic: 
+    '@text.republicwireless.com',
+  
+  /* edgewireless: 
+   //'@sms.edgewireless.com',  // slow
+   */
+  bluskyfrog: 
+    '@blueskyfrog.com',
+  
+  loopmobile: 
+    '@bplmobile.com',
+  
+  clearlydigital: 
+    '@clearlydigital.com',
+  
+  comcast: 
+    '@comcastpcs.textmsg.com',
+  
+  corrwireless: 
+    '@corrwireless.net',
+  
+  cellularsouth: 
+    '@csouth1.com',
+  
+  centennialwireless: 
+    '@cwemail.com',
+  
+  carolinawestwireless: 
+    '@cwwsms.com',
+  
+  southwesternbell: 
+    '@email.swbw.com',
+  
+  fido: 
+    '@fido.ca',
+  
+  ideacellular: 
+    '@ideacellular.net',
+  
+  indianapaging: 
+    '@inlandlink.com',
+  
+  illinoisvalleycellular: 
+    '@ivctext.com',
+  
+  alltel: 
+    '@message.alltel.com',
+  
+  centurytel: 
+    '@messaging.centurytel.net',
+  
+  dobson: 
+    '@mobile.dobson.net',
+  
+  surewestcommunications: 
+    '@mobile.surewest.com',
+  
+  mobilcomm: 
+    '@mobilecomm.net',
+  
+  clearnet: 
+    '@msg.clearnet.com',
+  
+  koodomobile: 
+    '@msg.koodomobile.com',
+  
+  metrocall2way: 
+    '@my2way.com',
+  
+  boostmobile: 
+    '@myboostmobile.com',
+  
+  onlinebeep: 
+    '@onlinebeep.net',
+  
+  metrocall: 
+    '@page.metrocall.com',
+  
+  mci: 
+    '@pagemci.com',
+  
+  ameritechpaging: 
+    '@paging.acswireless.com',
+  
+  pcsone: 
+    '@pcsone.net',
+  
+  qwest: 
+    '@qwestmp.com',
+  
+  satellink: 
+    '@satellink.net',
+  
+  threeriverwireless: 
+    '@sms.3rivers.net',
+  
+  bluegrasscellular: 
+    '@sms.bluecell.com',
+  
+  edgewireless: 
+    '@sms.edgewireless.com',
+  
+  goldentelecom: 
+    '@sms.goldentele.com',
+  
+  publicservicecellular: 
+    '@sms.pscel.com',
+  
+  westcentralwireless: 
+    '@sms.wcc.net',
+  
+  houstoncellular: 
+    '@text.houstoncellular.net',
+  
+  mts: 
+    '@text.mtsmobility.com',
+  
+  suncom: 
+    '@tms.suncom.com',
+  
+  bellmobilitycanada: 
+    '@txt.bell.ca',
+  
+  northerntelmobility: 
+    '@txt.northerntelmobility.com',
+  
+  uswest: 
+    '@uswestdatamail.com',
+  
+  unicel: 
+    '@utext.com',
+  
+  virginmobilecanada: 
+    '@vmobile.ca',
+  
+  virginmobile: 
+    '@vmobl.com',
+  
+  airtelchennai: 
+    '@airtelchennai.com',
+  
+  kolkataairtel: 
+    '@airtelkol.com',
+  
+  delhiairtel: 
+    '@airtelmail.com',
+  
+  tsrwireless: 
+    '@alphame.com',
+  
+  swisscom: 
+    '@bluewin.ch',
+  
+  mumbaibplmobile: 
+    '@bplmobile.com',
+  
+  vodafonejapan: 
+    '@c.vodafone.ne.jp',
+    '@h.vodafone.ne.jp',
+    '@t.vodafone.ne.jp',
+  
+  gujaratcelforce: 
+    '@celforce.com',
+  
+  movistar: 
+    '@correo.movistar.net',
+  
+  delhihutch: 
+    '@delhi.hutch.co.in',
+  
+  digitextjamacian: 
+    '@digitextjm.com',
+  
+  jsmtelepage: 
+    '@e-page.net',
+  
+  escotel: 
+    '@escotelmobile.com',
+  
+  sunrisecommunications: 
+    '@freesurf.ch',
+  
+  teliadenmark: 
+    '@gsm1800.telia.dk',
+  
+  itelcel: 
+    '@itelcel.com',
+  
+  mobileone: 
+    '@m1.com.sg',
+  
+  m1bermuda: 
+    '@ml.bm',
+  
+  o2mmail: 
+    '@mmail.co.uk',
+  
+  telenor: 
+    '@mobilpost.no',
+  
+  mobistarbelgium: 
+    '@mobistar.be',
+  
+  mobtelsrbija: 
+    '@mobtel.co.yu',
+  
+  telefonicamovistar: 
+    '@movistar.net',
+  
+  nextelmexico: 
+    '@msgnextel.com.mx',
+  
+  globalstar: 
+    '@msg.globalstarusa.com',
+  
+  iridiumsatellitecommunications: 
+    '@msg.iridium.com',
+  
+  oskar: 
+    '@mujoskar.cz',
+  
+  meteor: 
+    '@mymeteor.ie',
+  
+  smarttelecom: 
+    '@mysmart.mymobile.ph',
+  
+  sunrisemobile: 
+    '@mysunrise.ch',
+    '@swmsg.com',
+  
+  o2: 
+    '@o2.co.uk',
+    '@o2imail.co.uk',
+  
+  oneconnectaustria: 
+    '@onemail.at',
+  
+  optusmobile: 
+    '@optusmobile.com.au',
+  
+  /* orange: 
+    //'@orange.net',
+    //'@orangemail.co.in',
+   */
+  mobilfone: 
+    '@page.mobilfone.com',
+  
+  southernlinc: 
+    '@page.southernlinc.com',
+  
+  teletouch: 
+    '@pageme.teletouch.com',
+  
+  vessotel: 
+    '@pager.irkutsk.ru',
+  
+  ntelos: 
+    '@pcs.ntelos.com',
+  
+  rek2: 
+    '@rek2.com.mx',
+  
+  chennairpgcellular: 
+    '@rpgmail.net',
+  
+  safaricom: 
+    '@safaricomsms.com',
+  
+  satelindogsm: 
+    '@satelindogsm.com',
+  
+  scs900: 
+    '@scs-900.ru',
+  
+  sfrfrance: 
+    '@sfr.fr',
+  
+  mobiteltanzania: 
+    '@sms.co.tz',
+  
+  comviq: 
+    '@sms.comviq.se',
+  
+  emt: 
+    '@sms.emt.ee',
+  
+  geldentelecom: 
+    '@sms.goldentele.com',
+  
+  pandtluxembourg: 
+    '@sms.luxgsm.lu',
+  
+  netcom: 
+    '@sms.netcom.no',
+  
+  /* orangenl: 
+    //'@sms.orange.nl',
+   */
+  primtel: 
+    '@sms.primtel.ru',
+  
+  tmobileaustria: 
+    '@sms.t-mobile.at',
+  
+  tele2lativa: 
+    '@sms.tele2.lv',
+  
+  umc: 
+    '@sms.umc.com.ua',
+  
+  uraltel: 
+    '@sms.uraltel.ru',
+  
+  vodafoneitaly: 
+    '@sms.vodafone.it',
+  
+  lmt: 
+    '@smsmail.lmt.lv',
+  
+  tmobilegermany: 
+    '@t-d1-sms.de',
+  
+  dttmobile: 
+    '@t-mobile-sms.de',
+  
+  tmobileuk: 
+    '@t-mobile.uk.net',
+  
+  simplefreedom: 
+    '@text.simplefreedom.net',
+  
+  tim: 
+    '@timnet.com',
+  
+  vodafone: 
+    '@vodafone.net',
+  
+  wyndtell: 
+    '@wyndtell.com',
+  
+  projectfi: 
+    '@msg.fi.google.com',
+  
+  /* personalcommunication: 
+    //'sms@pcom.ru (put the number in the subject line)',
+   */
+  /* jsmtelepage: 
+    //'pinnumber@jsmtel.com',
+   */
+

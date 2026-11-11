@@ -1,0 +1,174 @@
+*** Sheets
+
+# Indium Tin Oxide
+Clear, conductive liquid/film.
+On a sheet, it can be used by a laser cutter to pattern it.
+It's not possible to solder to this material, but you can use conductive inks, paints, copper tape (with conductive adhesive) and alligator clips to make contact.
+
+*** Wiring
+
+# Ferrules
+Any sort of ring used to either reinforce a shaft or bind together strands of a material.
+In the context of wiring, a ferrule is a small deformable metal tube, generally made out of tin plated copper.
+
+*** Instruments
+# SMU
+A source measure unit (SMU) is a test instrument that combines the functions of a power supply, digital multimeter, current source, electronic load, and pulse generator into a single unit.
+
+# Multimeters
+A multimeters is a test instrument that can measure multiple things (usually an ammeter, voltmeter, ohmmeter all in one).
+Every multimeter has a category rating where it has a maximum voltage/current it can measure, if it exceeds it, it will be damaged.
+
+An ammeter used to be non-inductive, you have to cut open the wire and attach the meter to it to measure.
+Nowadays they come in a clamp where you wrap it around the wire to measure it (inductive measurement).
+
+*** PCB Form Factors
+
+# SOIC
+Surface mounted components, for simpler boards with less layers
+Easier to debug than QFN since you don't need to remove the solder mask to gain access to the PIN
+
+# DIP
+Dual-Inline package, the PINs are sticking out of the chip, can be placed into breadboard/through-holes easily, mainly for prototyping
+Usually the DIP IC connects to something called a DIP-PIN socket, then the PIN connects to the breadboard/etc
+
+# QFN/DFN
+Quad/Dual-flat no-leads
+Surface mounted components, like SOIC but used for more layers (QFN is smaller in size and use less area than SOIC)
+
+# BGA
+Surface mount, harder to inspect each joint vs QFN, the joints are under the components, usually use X-Rays for inspection
+BGA are smaller and compact than QFP
+
+# PCB Test Points
+These things are like hooks that you can solder on to the board, they have a hole that you can connect alligator clips/probes to to measure voltage/current
+
+# Chip On Board
+Chip on board (COB) is a method of circuit board manufacturing in which the integrated circuits (e.g. microprocessors) are attached (wired, bonded directly) to a printed circuit board, and covered by a blob of epoxy
+This shows up as black spots on the board
+
+# PCB Conformal coating
+Conformal coating is a lightweight material applied to PCBs that acts as a protective layer. It protects circuit boards and components against various environmental factors, including heat, humidity, moisture, ultraviolet light, chemical contaminants, and abrasive materials.
+Alternative to PCB potting
+
+# PCB Potting
+Potting, also known as “encapsulation”, is a method to seal the PCB within a thick layer of resin which provides strong protection against physical shock and harmful chemicals, meanwhile, this process will enhance the electrical performance.
+
+*** Tools
+
+# Power Supply/Batteries/Battery eliminators (another name for adjustable power supply)
+Supplies power to the circuit
+
+# Soldering Iron/Solder
+Used to glue together components onto the circuit board
+
+# Solder Cup
+Used for soldering of wires, creating a secure connection, while the contact end allows a pin or lead to engage and disengage repeatedly and consistently.
+
+# Flush Diagonal Cutters
+Use to trim wires and leads off of components after soldering them
+
+# Solder Sucker/Desoldering Pump
+Used to suck solder out for desoldering components off the boards
+Heat up the solder with a soldering gun, then apply the solder sucker to suck the solder out
+
+# Helping Hand/PCB clamp holder
+Holds the PCB in place with a magnifying glass so inspection can be done
+Also helps with soldering components into the PCB
+
+# Perfboard/Stripboard
+Like a breadboard but for easy soldering the components
+
+# Smart Tweezers
+Tweezers with sensors on it so we can measure things more easily than sticking probes to the small components
+
+# Wire Spools
+Wires wrapped in a spool, the wires can be cut off using a wire cutter, useful for custom wire lengths
+
+# IC hook
+Wire strands can connect at the body and then the top side has a hook that allows you to clamp the pins on the board to make a connection
+
+# Sparkgap transmitter
+Old type of radio transmitter by electric sparks. Sparkgap wave forms look like spikes (pulses)
+
+# Pry Tool Kit/Prybars
+Prying toolkits contain various trim tools to pry open cases/etc
+
+# Offset screwdrivers
+Can act like a screwdriver or a prybar
+
+# Rotary tool
+A motor connected to a tip, the tip can be various things on it for different tasks, a generic name for a tool that rotates
+
+# Felt Polishing Tip
+Hook to a rotary tool, it can scrape off materials like epoxy
+
+# Grommet
+Ring or edge strip inserted into a hole through thin material, typically a sheet of textile fabric, sheet metal or composite of carbon fiber, wood or honeycomb.
+Grommets are generally flared or collared on each side to keep them in place, and are often made of metal, plastic, or rubber.
+They may be used to prevent tearing or abrasion of the pierced material or protection from abrasion of the insulation on the wire, cable,
+line being routed through the penetration, and to cover sharp edges of the piercing, or all of the above.
+
+# Heat Gun
+Gun that can output high temperature (200-1400) F
+
+# ESD Mat
+A mat that electronics can be placed on for work
+
+# Vise
+Secure an object to allow work to be performed on it, kind of like clamper.
+
+# Mechanical Integrator
+Integrate functions mechanically, works by have a spinning wheel thats rotates at a rate based on the input, the total rotations it does over time gives the integral of the function
+
+*** Drone terminologies
+ESC: Electronic Stability Control. Stabilizes your system when it begins to veer off your intended path. 
+
+BEC: Battery-eliminating circuit. Basically just allows you to use the ESC to power the controls circuit, servos, etc. (hence eliminating the need for a battery)
+
+SBEC: Switched battery-eliminating circuit. Just an improved version of the BEC which makes it more energy efficient.
+
+UBEC: Similar to SBEC, just more energy-efficient at the expense of being slightly heavier.
+
+Opto: Uses light (optocoupler) to segregate control and motor circuits, to reduce interference. Therefore requires two sources of power, one for the controls and one for the motor.
+
+*** Resonators
+
+# Helical 
+A helical resonator is a passive electrical component that can be used as a filter resonator. (bandpass)
+Physically, a helical resonator is a wire helix surrounded by a square or cylindrical conductive shield. One end of the helix is connected to the shield and the other end is left open
+
+# Cavity
+A cavity resonator is a closed metal structure that confines electromagnetic waves and is used in microwave and optical systems: 
+There is usually holes that the waves go through (cavities) that keeps the waves confined by reflecting them back and forth in the cavity
+
+*** Power Supplies
+
+# Linear
+A linear power supply uses a transformer to reduce the voltage.
+The ratio of primary windings (connected to the mains) to the number of secondary windings (connected to the output) would give the ratio of how much the voltage reduced by.
+For Example: 240 to 12 V is a ratio of 20:1 reduces the 240 volts AC input in to 12 volts AC on the secondary windings.
+
+# Switching
+A switch mode supply works by turning the mains electricity on and off very quickly to reduce the voltage.
+In this case the reduction in voltage depends upon the ratio of the on time and off time. Switching takes place very fast, at 10,000 times a second or quicker.
+Using this technique the bulky transformer found in a linear supply can be replaced with a smaller one.
+
+The AC signal is rectified and regulated to produce a high DC voltage. This is then switched on and off rapidly by a FET.
+Then the switched signal goes through a transformer, although this can reduce the voltage it isolates the output from the mains electricity (for safety reasons).
+Feedback of the output is then used to control the mark space ratio of the switching so that the output stays at the required voltage.
+
+# Transformers used in Linear/Switching
+There are two types of transformer, those used at low frequencies (50Hz) in a linear power supply and the high speed (>10KHz) version used in switch mode supplies.
+The linear power supply transformer typically uses a steel core.
+Because eddy currents would occur in a solid steel core and reduce the efficiency the core is made from insulated steel plates stacked next to each other with the windings wrapped around them.
+
+Ferrite toroid (donut shaped) cores work much better with higher frequencies and are used in switch mode supplies.
+
+*** Rubber Stopper
+
+A rubber enclosure that acts like a sealing for vials/test tubes/electronic ports/etc
+
+*** Thread Taps
+
+Metric Taps are used to cut and restore internal threads precisely. A tap is used to form the female component of the assembly, as in the case of a nut or socket.

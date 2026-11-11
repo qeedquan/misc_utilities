@@ -1,0 +1,4 @@
+List all xfce notification watchers
+-----
+xfconf-query -c xfce4-notifyd -p /applications/known_applications
+

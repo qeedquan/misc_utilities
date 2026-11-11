@@ -1,0 +1,96 @@
+*** Packages
+wrenv.sh -p simicsexpress-6
+
+*** Prebuilt targets
+bin/simics targets/qsp-x86/firststeps.simics
+
+*** QSP
+QSP provides target information that simics use to load the virtual machine
+
+*** Commands
+simics -e '$variable = value' script.simics
+Set variable before running the script
+
+simics -c <cfgfile>
+read configuration file on startup
+
+simics -v
+Shows the simics version
+
+list-objects namespace = board.mb.cpu0 -tree
+List all objects associated with processor
+
+board.mb.cpu0.core[0][0].print-processor-registers
+Print register of that current CPU
+
+run <steps> | stop
+Starts and stops execution
+
+%rax | %rcx
+Prints contents of register
+
+!cmd
+Runs a shell command and print the output
+
+devs
+Lists all of the devices on the system
+
+All mappings in a memory-space can be viewed with the <memory-space>.map command. Example:
+phys_io0.map
+pcimem0.map
+
+# Issue a write to BAR1 register (offset 0x14)
+simics> pciconf0.set address = 0x1814 value = 0xFF000000 size = 4 -l
+
+# Enable memory mappings in Command register (offset 0x4)
+simics> pciconf0.set address = 0x1804 value = 0x0002 size = 2 -l
+
+cpu0.disassemble %pc 32
+
+*** Tracing
+bp.control_register.trace -all
+Trace writes to control register
+
+bp.delete -all
+Delete all traces
+
+si <N>
+Steps N instructions
+
+*** Scripting
+Script files are denoted <file>.simics
+
+simics script.simics
+Runs a script file called "script.simics"
+
+@print("string")
+Prints a string to the console
+
+run-command-file "%script%/file.simics"
+run-python-file "file.py"
+Runs the file
+
+stop
+save-persistent-state -u mysnapshot
+Saves the state of the system, the save format is called craff files
+
+$variable = "value"; echo $variable
+Set variable to have a value and then print it
+
+ls "%simics%/"
+List directory
+
+read-configuration file
+Reads the configuration of a file
+
+*** Environments
+%simics% Translated to the current Simics installation directory
+
+%script% Translated to the directory where the currently running script is located
+
+The variable are translated to absolute paths
+
+The search path can be modified using
+add-directory, clear-directories and list-directories
+
+

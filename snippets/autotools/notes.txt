@@ -1,0 +1,31 @@
+*** Files
+
+Makefile.in -
+Generated from Makefile.am, some projects only check in the .in files for consumption.
+Another way to generate Makefile.in is through autoconf.
+This file can also be made by hand in some cases.
+
+Makefile.am -
+A programmer-defined file and is used by automake to generate the Makefile.in file (the .am stands for automake)
+
+configure.ac -
+Used by autoconf to make a configure script
+
+*** Automake files
+
+Automake sometimes requires helper programs so that the generated Makefile can do its work properly. There are a fairly large number of them, and we list them here.
+
+Although all of these files are distributed and installed with Automake, a couple of them are maintained separately. The Automake copies are updated before each release, but we mention the original source in case you need more recent versions.
+
+config.guess -
+config.sub -
+These two programs compute the canonical triplets for the given build, host, or target architecture.
+These programs are updated regularly to support new architectures and fix probes broken by changes in new kernel versions.
+Each new release of Automake comes with up-to-date copies of these programs.
+If your copy of Automake is getting old, you are encouraged to fetch the latest versions of these files from https://savannah.gnu.org/git/?group=config before making a release.
+
+*** Commands
+# A script provided by autotools
+# It runs autoconf and autoheader as needed, run in the top dir of source tree usually
+autoreconf --verbose
+

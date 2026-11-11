@@ -1,0 +1,10 @@
+# SSH configuration parameters
+
+# By default, SSH server disallows environment variables to be set upon connection
+# This is a whitelist of what is allowed
+# ssh -o SendEnv=MYVAR server.example.com mycommand
+# Another way is modifying /etc/ssh/ssh_config and add the following:
+# SendEnv LANG LC_* COLORTERM NO_COLOR
+# That will make the client send the environment variables to the server
+AcceptEnv LANG LC_* COLORTERM NO_COLOR
+

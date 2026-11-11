@@ -1,0 +1,16 @@
+*** Enable developer options
+Motorola - Settings -> About -> Press Build Number 7 times to activate developer options
+
+Now we can use developer options in the settings to enable debug mode so android studio can connect via adb
+
+*** Logging
+By default println/print goes to logcat console output.
+
+*** Sample code
+https://github.com/android/platform-samples
+
+*** Export contacts
+Contacts -> Select All -> Export to email/etc
+
+vcard is one of the common export format
+https://en.wikipedia.org/wiki/VCard

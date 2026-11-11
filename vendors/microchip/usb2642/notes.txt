@@ -1,0 +1,7 @@
+*** Links
+https://www.microchip.com/en-us/product/usb2642
+
+USB Hub/Flash media card controller
+
+This controler is usually added to a phone/embedded design to read MicroSD/SIM cards
+

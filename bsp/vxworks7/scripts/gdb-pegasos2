@@ -1,0 +1,17 @@
+# set the DEBUG option in the QEMU script to make QEMU wait for GDB to connect on startup
+file pegasos2_vip/default/vxWorks
+target remote :1234
+layout src
+
+# set breakpoints in various places like you would debug a normal program and then run it
+#b pgs2pciintassign
+c
+
+# for rtp debugging (need vxworks to have debug agent running)
+#target extended-remote tcp:127.0.0.1:12345
+#remote put rtp.vxe /ram0/rtp.vxe
+#set remote exec-file /ram0/rtp.vxe
+#file rtp.vxe
+#start
+#b main
+

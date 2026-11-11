@@ -1,0 +1,6 @@
+# Example exports file
+
+# Quick test to see if NFS works, allows all host to connect
+# root UID/GID (0/0) are used to read/write files
+/srv *(rw,sync,insecure,no_root_squash)
+

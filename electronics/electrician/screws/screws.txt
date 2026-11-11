@@ -1,0 +1,19 @@
+*** Screw Thread Notation
+
+Unified National (UN) screws follow the Unified Thread Standard (UTS)
+Unified Thread Standard (UTS) notation defines inch-based screw threads using a standardized format: [Diameter]-[TPI] [Series] [Class]
+
+It specifies thread size, pitch (threads per inch - TPI), and, for instance, coarse (UNC), fine (UNF),
+or extra-fine (UNEF) series, with tolerance classes 1-3 (A=external, B=internal).
+Example: 1/4"-20 UNC-2A indicates a 1/4" diameter, 20 TPI, coarse thread, class 2,
+
+Generally speaking, Unified National screws are available in Number sizes from 0 to 12.
+The Number screw size system is based on a major diameter of .0600 inches being size 0.
+Each size larger than #0 adds .0130 inches to the major diameter (i.e. a #10 screw has a major diameter =10 * .0130 + .0600 = .1900 inches).
+Number sizes 7, 9, and 11 were removed from use in the1920’s leaving sizes #0, #1, #2, #3, #4, #5, #6, #8, #10, and #12 in common service.
+
+Diameter-Threads Per Inch
+8-32
+10-32
+
+

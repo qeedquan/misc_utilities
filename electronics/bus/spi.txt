@@ -1,0 +1,28 @@
+*** Types
+
+Standard SPI is 4-wire
+CLK
+MOSI (Master out slave in)
+MISO (Master in slave out)
+SS/CE (Chip select/enable or Slave select)
+
+3-wire SPI combines MOSI and MISO as one data line so it is half-duplex
+https://www.totalphase.com/support/articles/200350046-interfacing-with-3-wire-spi/
+
+*** Clock phase and polarity
+
+https://dlnware.com/dll/Clock-Phase-and-Polarity
+
+The master configures the clock polarity (CPOL) and clock phase (CPHA) to correspond to slave device requirements. These parameters determine when the data must be stable, when it should be changed according to the clock line and what the clock level is when the clock is not active.
+
+The CPOL parameter assigns the clock level when the clock is not active. The clock (SCK) signal may be inverted (CPOL=1) or non-inverted (CPOL=0). For the inverted clock signal, the first clock edge is falling. For the non-inverted clock signal, the first clock edge is rising.
+
+The CPHA parameter is used to shift the capturing phase. If CPHA=0, the data are captured on the leading (first) clock edge, regardless of whether that clock edge is rising or falling. If CPHA=1, the data are captured on the trailing (second) clock edge; in this case, the data must be stable for a half cycle before the first clock cycle.
+
+There are four possible modes that can be used in an SPI protocol:
+
+For CPOL=0, the base value of the clock is zero. For CPHA=0, data are captured on the clock’s rising edge and data are propagated on a falling edge.
+For CPOL=0, the base value of the clock is zero. For CPHA=1, data are captured on the clock’s falling edge and data are propagated on a rising edge.
+For CPOL=1, the base value of the clock is one. For CPHA=0, data are captured on the clock’s rising edge and data are propagated on a falling edge.
+For CPOL=1, the base value of the clock is one. For CPHA=1, data are captured on the clock’s falling edge and data are propagated on a rising edge.
+

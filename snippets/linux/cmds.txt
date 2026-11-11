@@ -1,0 +1,76 @@
+# Works like ldd but it list the dependency tree instead of a flat list
+lddtree /bin/ls
+/bin/ls (interpreter => /lib64/ld-linux-x86-64.so.2)
+    libselinux.so.1 => /lib/x86_64-linux-gnu/libselinux.so.1
+        libpcre2-8.so.0 => /lib/x86_64-linux-gnu/libpcre2-8.so.0
+    libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6
+
+---------------
+
+# List hardware, combines lspci/lsusb/etc together
+lshw
+
+---------------
+
+# Automatically set parameters using sysctl/etc based on a profile
+# for tuning the system easily and automatically
+tuned-adm
+
+# List all tuning profiles
+tuned-adm list
+
+# Show active tuning profile
+tuned-adm active
+
+# Switch profile
+tuned-adm profile default
+
+---------------
+
+# Disable ctrl-alt-delete combination from rebooting the computer
+sudo systemctl mask ctrl-alt-del.target
+sudo systemctl daemon-reload
+
+---------------
+
+# Add timestamps to command output
+command | ts
+
+---------------
+
+# Read Named Switch Services and output the info for it
+# GLIBC implements this but other Libcs might not
+getent hosts
+getent passwd
+
+---------------
+# Force swap flush
+swapoff -a && swapon -a
+
+---------------
+# Get IP/MAC of neighbors on the same LAN
+ip neigh
+
+---------------
+# arping provides an easy test to see if an IP address is free. It broadcasts its request on the LAN (via link-layer address ff:ff:ff:ff:ff:ff), and listens for a unicast response from a neighbor.
+arping -q -D -c1 -I p2p1 192.168.1.2
+# Use tcpdump to watch who responded to the ARP requests
+tcpdump -q -e -n -t -i p2p1 arp
+
+---------------
+# Mounting img files, img files are raw disk images with partitions embedded inside, need to figure out where the partition starts in the file to mount it
+
+# Get the offsets of the partitions in the image
+fdisk -l /path/to/image
+# Some img files have partitions with partitions and fdisk only sees the first partition, we can use binwalk to get those partition offsets
+binwalk /path/to/image
+
+# With the knowledge of the offset, mount it by specifying the offset
+mount -o loop,offset=65536 Stick.img /mnt/tmp
+
+---------------
+# Get the ports that programs are listening to
+sudo ss -tunlp
+
+# Find which process is using a specific port (e.g., port 80)
+sudo ss -tlnp sport = :80

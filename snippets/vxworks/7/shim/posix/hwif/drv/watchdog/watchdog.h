@@ -1,0 +1,25 @@
+#ifndef _WATCHDOG_H_
+#define _WATCHDOG_H_
+
+enum {
+	WDIOC_GETSUPPORT,
+	WDIOC_GETTIMEOUT,
+	WDIOC_GETSTATUS,
+	WDIOC_GETBOOTSTATUS,
+	WDIOC_GETTIMELEFT,
+	WDIOC_GETPRETIMEOUT,
+	WDIOC_SETOPTIONS,
+	WDIOC_SETTIMEOUT,
+};
+
+enum {
+	WDIOS_FORCERESET,
+};
+
+struct watchdog_info {
+	char name[128];
+	int flags;
+	int version;
+};
+
+#endif

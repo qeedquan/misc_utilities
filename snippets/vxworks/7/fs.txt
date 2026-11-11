@@ -1,0 +1,97 @@
+*** Commands
+# Create a HRFS filesystem for the /tmp folder backed by RAM
+xbdRamDiskDevCreate (512, 0x10000, 0, "/tmp")
+
+hrfsDiskFormat "/tmp", 1000
+
+# Instead of HRFS, use DOSFS
+dosfsDiskFormat "/tmp"
+
+# Format flash with TFFS 
+
+# old
+sysTffsFormat
+usrTffsConfig 0, 0, "/tffs0/"
+
+# new
+sysTffsFormat
+dev = tffsDevCreate 0, 0
+xbdBlkDevCreateSync dev, "/tffs0"
+
+# optional, otherwise it is rawFs 
+dosFsVolFormat "/tffs0"
+
+# Show information about the RAM disk
+xbdRamDiskShow "/ram0"
+
+# Eject a device, this makes the device become rawFs
+# A device being rawfs allows us to open the device and read/write raw bytes to it
+# This is useful for reading/writing raw filesystem metadata
+xbdPartitionFun "/ram0", 2
+
+# Remount a partition
+xbdPartitionFun "/ram0", 3
+
+# Show information about a device such as type, block size, allocated and free blocks
+deviceFsInfoShow "/ram0"
+fsInfoShow "/ram0"
+
+# Show XBD information
+xbdInfoShow "/ram0"
+
+# Show all devices information
+fsShowAll
+
+# Get volume descriptor for a DOS formatted partition, return NULL if the file is not a DOS partition
+dosFsVolDescGet "/ram0"
+# Show information about DOS formatted partition
+dosFsShow "/ram0", 1
+# Unmount a DOS partition
+dosFsVolUnmount "/ram0"
+
+# Show all device_t information
+devInfoShow
+
+# show memory partition info (memory arenas)
+# partId are displayed on memPartAlloc() failures so can that be used for debugging
+memPartShow(partId, verbosity)
+
+*** DOSFS
+
+The boot header is placed at the boot sector for on-disk format
+The boot sector is usually the first sector of the drive
+Usually a sector size is 512 bytes long
+
+The fsmProbe function checks various fields in the struct on the first sector to see if its a DOSFS
+One thing to note is that the DOS_FS_MAGIC is *not* used during this probing
+
+struct {
+	// 8086 Jump Instruction
+	// Usually 0xeb 0x3c 0x90
+	u8 jmp[3];
+
+	// system id string, usually VXDOS16/VXDOS32/etc 
+	u8 sysid[8];
+	
+	...
+
+	// 0x55 0xaa
+	u8 endsig[2];
+}
+
+*** XBD
+XBD is the block layer for filesystems, usually the device layer implements this (ramdisk, flash, etc).
+The function to implement is xbd_strategy which is called when a block transfer needs to happen.
+
+RAMDISK:    xrd_strategy
+NAND FLASH: ftlXbdStrategy
+
+XBD also provides a transparent block layer xbd_strategy for a device:
+xbdBlkDevCreateSync blockdev, "/device"
+This provides block handling while the underlying device only has to implement raw block reads/writes
+without needing to implement higher level logic
+
+RAMDISK:         xrd_strategy
+NANDFLASH:       ftlXbdStrategy
+NORFLASH (TFFS): XBD block layer strategy (internally it calls tffsBlkRd
+

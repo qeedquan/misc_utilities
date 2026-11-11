@@ -1,0 +1,7 @@
+*** PCB Standards
+
+6011: Define PCB types
+Class 1 Electronics: General Electronics Products
+Class 2 Electronics: Dedicated Service Electronics Products
+Class 3 Electronics: High-Reliability Electronics Products
+

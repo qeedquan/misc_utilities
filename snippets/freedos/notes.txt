@@ -1,0 +1,12 @@
+*** Sharing files
+To share files between host and FreeDOS, networking can be used.
+FreeDOS provides a FTP server.
+
+Another way is to make an iso that can be mounted as a cdrom.
+genisoimage -o files.iso -V FILES -R -J /path/to/files/
+
+Use the raw image format in QEMU so the filesystems can be mounted easily.
+
+For the floppy disk, it can be formatted using the 'format' command in freedos and written to.
+The host can mount the floppy image as normal.
+

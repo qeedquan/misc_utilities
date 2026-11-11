@@ -1,0 +1,28 @@
+*** Switches
+3 way toggle switch has 4 screws for 4 wire connections
+1 way toggle switch (single pole) is 3 screws for 3 wire connections
+
+The neutral line is usually not wired on the screw but spliced to another wire
+
+For romex wires:
+Black is hot
+White is Neutral
+The non-colored one is ground
+
+Black (hot) wires connects on the same side of the screws
+
+If the connection is not proper, ie, black on the same screw side as ground, it creates a short.
+If the connection is lose and the wires fall off the screws, it creates electrical arcs
+
+To connect the romex wires onto the screw, strip the wire out to expose the wire, make sure the wire is straight first
+Then use a wire stripper hole opening to twist the wire into a U, then put in on the wire, screw it in, and then complete the U shape into an O to lock it in
+
+*** Coverings
+After the switch is installed, it usually needs something called a faceplate/wallplate to cover it.
+A wall plate is for switches installed in a wall, faceplate are for switches not necessarily installed in the wall.
+
+Depending on the number of switches, a different wall plate must be used to cover them, they are called N-Gang wallplates where N is the number of switches
+Example:
+1-Gang Wall Plate
+2-Gang Wall Plate
+3-Gang Wall Plate

@@ -1,0 +1,26 @@
+*** Description
+https://www.gialer.com/collections/reader
+https://smacarte.com/wp/grsimwrite_download/
+
+Around 60 USD
+Comes with a reader via USB and SIM card adapter that you can insert standard/micro/nano cards into and read from.
+Also come with a few blank SIM cards to try out.
+
+grsimwriter is the program to use on windows to read/write SIM cards.
+
+The reader follows the standard smart card interface so Linux can use it normally.
+pcsc_scan to scan for the card reader
+pysim for reading the SIM card
+
+*** USB interface
+On Linux, this appears as USB block device.
+
+To read the SIM card side use pysim, though this program is limited can't read some SIM cards
+
+https://github.com/osmocom/pysim
+pysim -p0
+
+pcsc_scan detects this device
+
+The device follows the generic USB CCID interface
+

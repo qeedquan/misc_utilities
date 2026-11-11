@@ -1,0 +1,69 @@
+*** Programs
+
+# The DNS server
+named
+
+# Check whether the configuration file is valid
+named-checkconf
+
+# Check whether zones are valid
+named-checkzone
+
+# Lookup DNS information
+dig
+
+*** Configuration
+
+# Global configuration, this include other files to cleanly separate things
+named.conf
+
+# Options parameter regarding the behavior of the program should be in here
+named.conf.options
+
+# Local configuration, things like zones should be in here
+named.conf.local
+
+*** Commands
+
+# Lookup from custom DNS server
+dig @custom_server example.com
+dig @192.168.1.5 example.com
+
+# Show trace what DNS servers it is looking at when performing the lookup
+dig +trace google.com
+
+# Run named in foreground with logging to stdout with debug level 100
+named -f -d 100 -g
+
+*** DNS Records
+Most common records normal servers serve:
+
+SOA - Start of Authority. Defines the zone name, this will be the top level defining the other records as a child of it
+NS - Name Server. Defines the authoritative name server(s) for the domain (defined by the SOA record) or the subdomain.
+
+A - IPV4 address record
+AAAA - IPV6 address record
+
+MX - Mail records
+
+CNAME - Canonical Name. An alias name for a host. Causes redirection for a single RR at the owner-name.
+DNAME - Redirection in DNS. Like CNAME but affects all RRs below the address space of owner-name.
+
+PTR - IP address (IPv4 or IPv6) to host. Used in reverse maps.
+
+TXT - Freeform text to describe the server
+
+*** Delegation
+This refers to the way that the authoritative servers in the DNS namespace are 'found' by recursive servers.
+Delegation is what happens when the administrators for a parent domain (e.g. test.com provides within its zone the details of the nameservers for mytest.test.com -
+although this doesn't mean that the servers so named can actually answer any queries for names in mytest.test.com).
+Having a zone delegated to your server doesn't (by itself) make it an authoritative server - it also needs to be configured to serve that zone.
+
+Conversely, people sometimes are confused into thinking that their servers are not authoritative because there is no delegation to them.
+However, there is nothing preventing a nameserver operator from configuring their server to provide an authoritative answer for a zone for which they have not been delegated authority, and many operators choose to do this for a variety of reasons.
+Those servers are performing an authoritative function.
+
+*** Primary and Secondary Servers
+Secondary servers, even though they receive a copy of their zone data from a primary server, still answer queries authoritatively from locally stored zone data and not by recursing.
+Secondary servers are authoritative servers for the zones they are publishing.
+

@@ -1,0 +1,7 @@
+US: 120 V (Other places in the world uses 220/230V)
+
+Usually the outlet can handle 10-15 A, so use the power formula to find how much power an outlet can deliver
+
+120*10 = 1200W
+120*15 = 1800W
+

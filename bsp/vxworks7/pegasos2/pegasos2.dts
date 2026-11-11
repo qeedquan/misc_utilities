@@ -1,0 +1,333 @@
+// Based on QEMU Pegasos 2 DTB
+
+/dts-v1/;
+
+/ {
+	#address-cells = <0x01>;
+	device_type = "chrp";
+	compatible = "pegasos2";
+	model = "Pegasos2";
+	revision = "2B";
+	CODEGEN,vendor = "bplan GmbH";
+	CODEGEN,board = "Pegasos2";
+	CODEGEN,description = "Pegasos CHRP PowerPC System";
+
+	openprom {
+		model = "Pegasos2,1.1";
+	};
+
+	chosen {
+		bootargs = "fs(0,0)host:/vxWorks e=10.0.2.15 h=10.0.2.2 g=10.0.2.2 u=target pw=vxTarget o=gei";
+	};
+
+	memory@0 {
+		device_type = "memory";
+		reg = <0x00 0x20000000>;
+	};
+
+	cpus {
+		#size-cells = <0x00>;
+		#address-cells = <0x01>;
+		#cpus = <0x01>;
+
+		PowerPC,G4 {
+			device_type = "cpu";
+			reg = <0x00 0x00>;
+			cpu-version = <0x80020102>;
+			clock-frequency = <0x3b9ac9fd>;
+			bus-frequency = <0x7f28155>;
+			timebase-frequency = <0x1fca055>;
+			reservation-granule-size = <0x04>;
+			graphics = [00];
+			performance-monitor = [00];
+			general-purpose = [00];
+			external-control = [00];
+			data-streams = [00];
+			altivec = [00];
+			state = "running";
+			tlb-size = <0x00>;
+			tlb-sets = <0x00>;
+			i-cache-line-size = <0x20>;
+			i-cache-block-size = <0x20>;
+			i-cache-size = <0x8000>;
+			d-cache-line-size = <0x20>;
+			d-cache-block-size = <0x20>;
+			d-cache-size = <0x8000>;
+			l2cr = <0x00>;
+		};
+	};
+
+	l2cache@0 {
+		compatible = "ppc,ppc750-l2-cache";
+		reg = <0 0>;
+		cache-line-size = <32>;
+		cache-size = <0x100000>;
+     };
+
+	rtas {
+		rtas-version = <0x01>;
+		rtas-size = <0x14>;
+		rtas-display-device = <0x00>;
+		rtas-event-scan-rate = <0x00>;
+		rtas-error-log-max = <0x00>;
+		restart-rtas = <0x00>;
+		nvram-fetch = <0x01>;
+		nvram-store = <0x02>;
+		get-time-of-day = <0x03>;
+		set-time-of-day = <0x04>;
+		event-scan = <0x06>;
+		check-execption = <0x07>;
+		read-pci-config = <0x08>;
+		write-pci-config = <0x09>;
+		display-character = <0x0a>;
+		set-indicator = <0x0b>;
+		power-off = <0x11>;
+		suspend = <0x12>;
+		hibernate = <0x13>;
+		system-reboot = <0x14>;
+	};
+
+	failsafe {
+		device_type = "serial";
+	};
+
+	soc {
+		device_type = "soc";
+		compatible = "simple-bus";
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		pic: pic@f1000000 {
+			compatible = "marvell,mv64360-pic";
+			reg = <0xf1000000 0x100>;
+			interrupt-controller;
+			#interrupt-cells = <1>;
+		};
+	};
+
+	pci@80000000 {
+		device_type = "pci";
+		compatible = "pci";
+		#address-cells = <0x03>;
+		#size-cells = <0x02>;
+		#interrupt-cells = <0x01>;
+		ranges = <0x1000000 0x00 0x00 0xfe000000 0x00 0x10000
+				  0x2000000 0x00 0x80000000 0x80000000 0x00 0x40000000>;
+		8259-interrupt-acknowledge = <0xf1000cb4>;
+		reg = <0x80000000 0x40000000
+			   0xf1000000 0x1000>;
+		pci-bridge-number = <0x00>;
+		bus-range = <0x00 0x00>;
+		interrupt-map-mask = <0xfff800 0 0 7>;
+		interrupt-map = <0x1000 0x0 0x0 0x1 &isa 9>;
+
+		host@0 {
+			vendor-id = <0x11ab>;
+			device-id = <0x6460>;
+			revision-id = <0x00>;
+			class-code = <0x60000>;
+			subsystem-id = <0x1af4>;
+			subsystem-vendor-id = <0x1100>;
+			reg = <0x00 0x00 0x00 0x00 0x00>;
+		};
+
+		display@1 {
+			vendor-id = <0x1234>;
+			device-id = <0x1111>;
+			revision-id = <0x02>;
+			class-code = <0x30000>;
+			subsystem-id = <0x1af4>;
+			subsystem-vendor-id = <0x1100>;
+			reg = <0x800 0x00 0x00 0x00 0x00
+				0x42000810 0x00 0x00 0x00 0x1000000
+				0x2000818 0x00 0x00 0x00 0x1000
+				0x2000830 0x00 0x00 0x00 0x10000>;
+		};
+
+		isa: isa@c {
+			vendor-id = <0x1106>;
+			device-id = <0x8231>;
+			revision-id = <0x10>;
+			class-code = <0x60100>;
+			subsystem-id = <0x1af4>;
+			subsystem-vendor-id = <0x1100>;
+			reg = <0x6000 0x00 0x00 0x00 0x00>;
+			device_type = "isa";
+			#address-cells = <0x02>;
+			#size-cells = <0x01>;
+			#interrupt-cells = <0x01>;
+			interrupt-controller;
+
+			serial@i2f8 {
+				device_type = "serial";
+				reg = <0x01 0x2f8 0x08>;
+				interrupts = <0x04 0x00>;
+				clock-frequency = <0x00>;
+			};
+
+			8042@i60 {
+				device_type = [00];
+				reg = <0x01 0x60 0x05>;
+				clock-frequency = <0x00>;
+				interrupt-controller = [00];
+				#address-cells = <0x01>;
+				#size-cells = <0x00>;
+				#interrupt-cells = <0x02>;
+			};
+
+			keyboard@i60 {
+				device_type = "keyboard";
+				reg = <0x01 0x60 0x05>;
+				interrupts = <0x01 0x00>;
+			};
+
+			rtc@i70 {
+				device_type = "rtc";
+				reg = <0x01 0x70 0x02>;
+				interrupts = <0x08 0x00>;
+				clock-frequency = <0x00>;
+				compatible = "ds1385-rtc";
+			};
+
+			timer@i40 {
+				device_type = "timer";
+				reg = <0x01 0x40 0x08>;
+				clock-frequency = <0x00>;
+			};
+
+			fdc@i3f0 {
+				device_type = "fdc";
+				reg = <0x01 0x3f0 0x08>;
+				interrupts = <0x06 0x00>;
+				clock-frequency = <0x00>;
+			};
+
+			lpt@i3bc {
+				device_type = "lpt";
+				reg = <0x01 0x3bc 0x08>;
+				interrupts = <0x07 0x00>;
+				clock-frequency = <0x00>;
+			};
+
+			m48t59@i74 {
+				reg = <0x01 0x74 0x04>;
+			};
+		};
+
+		ide@c,1 {
+			vendor-id = <0x1106>;
+			device-id = <0x571>;
+			revision-id = <0x06>;
+			class-code = <0x1018f>;
+			subsystem-id = <0x1af4>;
+			subsystem-vendor-id = <0x1100>;
+			interrupts = <0x01>;
+			reg = <0x6100 0x00 0x00 0x00 0x00
+					0x1006110 0x00 0x00 0x00 0x08
+					0x1006114 0x00 0x00 0x00 0x04
+					0x1006118 0x00 0x00 0x00 0x08
+					0x100611c 0x00 0x00 0x00 0x04
+					0x1006120 0x00 0x00 0x00 0x10>;
+			device_type = "spi";
+		};
+
+		usb@c,2 {
+			vendor-id = <0x1106>;
+			device-id = <0x3038>;
+			revision-id = <0x01>;
+			class-code = <0xc0300>;
+			subsystem-id = <0x1af4>;
+			subsystem-vendor-id = <0x1100>;
+			interrupts = <0x04>;
+			reg = <0x6200 0x00 0x00 0x00 0x00
+					0x1006220 0x00 0x00 0x00 0x20>;
+			device_type = "usb";
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+		};
+
+		usb@c,3 {
+			vendor-id = <0x1106>;
+			device-id = <0x3038>;
+			revision-id = <0x01>;
+			class-code = <0xc0300>;
+			subsystem-id = <0x1af4>;
+			subsystem-vendor-id = <0x1100>;
+			interrupts = <0x04>;
+			reg = <0x6300 0x00 0x00 0x00 0x00
+					0x1006320 0x00 0x00 0x00 0x20>;
+			device_type = "usb";
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+		};
+
+		i2c@c,4 {
+			vendor-id = <0x1106>;
+			device-id = <0x8235>;
+			revision-id = <0x40>;
+			class-code = <0x68000>;
+			subsystem-id = <0x1af4>;
+			subsystem-vendor-id = <0x1100>;
+			reg = <0x6400 0x00 0x00 0x00 0x00>;
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+			
+			eeprom@50 {
+				compatible = "at24,at24c1024";
+				reg = <0x50>;
+			};
+
+			spd@57 {
+				reg = <0x57>;
+			};
+		};
+
+		sound@c,5 {
+			vendor-id = <0x1106>;
+			device-id = <0x3058>;
+			revision-id = <0x50>;
+			class-code = <0x40100>;
+			subsystem-id = <0x1af4>;
+			subsystem-vendor-id = <0x1100>;
+			interrupts = <0x03>;
+			reg = <0x6500 0x00 0x00 0x00 0x00
+					0x1006510 0x00 0x00 0x00 0x100
+					0x1006514 0x00 0x00 0x00 0x04
+					0x1006518 0x00 0x00 0x00 0x04>;
+		};
+
+		pci1106,3068@c,6 {
+			vendor-id = <0x1106>;
+			device-id = <0x3068>;
+			revision-id = <0x30>;
+			class-code = <0x78000>;
+			subsystem-id = <0x1af4>;
+			subsystem-vendor-id = <0x1100>;
+			interrupts = <0x03>;
+			reg = <0x6600 0x00 0x00 0x00 0x00>;
+		};
+	};
+
+	pci@c0000000 {
+		device_type = "pci";
+		compatible = "pci";
+		#address-cells = <0x03>;
+		#size-cells = <0x02>;
+		ranges = <0x1000000 0x00 0x00 0xf8000000 0x00 0x10000 0x2000000 0x00 0xc0000000 0xc0000000 0x00 0x20000000>;
+		reg = <0xc0000000 0x20000000
+			   0xf1000000 0x1000>;
+		pci-bridge-number = <0x01>;
+		bus-range = <0x00 0x00>;
+
+		host@0 {
+			vendor-id = <0x11ab>;
+			device-id = <0x6460>;
+			revision-id = <0x00>;
+			class-code = <0x60000>;
+			subsystem-id = <0x1af4>;
+			subsystem-vendor-id = <0x1100>;
+			reg = <0x00 0x00 0x00 0x00 0x00>;
+		};
+	};
+};
